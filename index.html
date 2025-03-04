@@ -93,7 +93,60 @@
   <!-- Contact Section -->
   <section class="contact-section" id="Contact">
     <h5 class="section-subtitle">Contact</h5>
-    <!-- Contact form or information can be added here -->
+    
+    <div class="contact-form">
+      <form id="event-contact-form" action="#" method="POST">
+        <div class="form-row">
+          <div class="form-column">
+            <div class="form-group">
+              <label for="first-name">First Name <span class="required">*</span></label>
+              <input type="text" id="first-name" name="first-name" required>
+            </div>
+          </div>
+          
+          <div class="form-column">
+            <div class="form-group">
+              <label for="last-name">Last Name <span class="required">*</span></label>
+              <input type="text" id="last-name" name="last-name" required>
+            </div>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="phone">Phone Number <span class="required">*</span></label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="event-date">Event Date <span class="required">*</span></label>
+          <input type="date" id="event-date" name="event-date" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="event-location">Event Location <span class="required">*</span></label>
+          <input type="text" id="event-location" name="event-location" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="message">Tell us about your event!</label>
+          <textarea id="message" name="message" placeholder="Enter your message..."></textarea>
+        </div>
+        
+        <div class="form-group">
+          <label for="hear-about">How did you hear about us?</label>
+          <input type="text" id="hear-about" name="hear-about">
+        </div>
+        
+        <div class="form-group" style="text-align: center;">
+          <button type="submit" class="submit-btn">Send Message</button>
+        </div>
+      </form>
+    </div>
   </section>
 
   <!-- Footer -->
@@ -103,7 +156,12 @@
     </div>
   </footer>
 
-  <!-- Optional Scripts -->
+  <!-- Back to Top Button -->
+  <a href="#" class="back-to-top" id="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+  </a>
+
+  <!-- Scripts -->
   <script>
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -114,6 +172,26 @@
           behavior: 'smooth'
         });
       });
+    });
+    
+    // Show/Hide back to top button
+    window.addEventListener('scroll', function() {
+      const backToTopButton = document.getElementById('back-to-top');
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add('visible');
+      } else {
+        backToTopButton.classList.remove('visible');
+      }
+    });
+    
+    // Handle form submission
+    document.getElementById('event-contact-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Here you would typically send the form data to your server
+      // For now, we'll just show an alert
+      alert('Thanks for your message! We will get back to you soon.');
+      this.reset();
     });
   </script>
 </body>
