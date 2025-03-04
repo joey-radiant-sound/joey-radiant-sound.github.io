@@ -1,0 +1,16 @@
+title: Radiant Sound
+description: Wedding and Event DJ
+baseurl: ""
+url: ""
+permalink: /:title/
+
+sass:
+  style: compressed
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .sass-cache/
+  - .jekyll-cache/
+  - .jekyll-metadata
