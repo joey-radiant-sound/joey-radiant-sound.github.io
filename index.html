@@ -2,7 +2,9 @@
 <html lang="en-US">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="profile" href="https://gmpg.org/xfn/11">
   <title>Radiant Sound - Wedding and Event DJ</title>
   <meta name="description" content="We make every last effort to ensure your event goes exactly as you imagine it. We guarantee a thorough and organized plan for your event so you don't have to think twice about anything!">
@@ -35,7 +37,9 @@
   <header class="site-header">
     <div class="header-container">
       <div class="site-branding">
-        <!-- No logo in header based on the current design -->
+        <a href="/" class="site-logo">
+          <img src="/assets/img/Radiant-Sound-Logo-White.svg" alt="Radiant Sound Logo">
+        </a>
       </div>
       <nav class="main-navigation">
         <ul>
@@ -169,6 +173,14 @@
         document.querySelector(this.getAttribute('href')).scrollIntoView({
           behavior: 'smooth'
         });
+        
+        // Close mobile menu if open
+        const nav = document.querySelector('.main-navigation');
+        if (nav.classList.contains('active')) {
+          nav.classList.remove('active');
+          mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+          document.body.style.overflow = '';
+        }
       });
     });
     
@@ -180,16 +192,95 @@
       } else {
         backToTopButton.classList.remove('visible');
       }
+      
+      // Add shadow to header on scroll
+      const header = document.querySelector('.site-header');
+      if (window.pageYOffset > 50) {
+        header.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+      } else {
+        header.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+      }
     });
     
-    // Handle form submission
+    // Form validation and submission
     document.getElementById('event-contact-form').addEventListener('submit', function(e) {
       e.preventDefault();
       
-      // Here you would typically send the form data to your server
-      // For now, we'll just show an alert
-      alert('Thanks for your message! We will get back to you soon.');
-      this.reset();
+      // Basic validation
+      let isValid = true;
+      const requiredFields = this.querySelectorAll('[required]');
+      
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          isValid = false;
+          field.style.borderColor = '#e74c3c';
+          field.style.backgroundColor = 'rgba(231, 76, 60, 0.05)';
+        } else {
+          field.style.borderColor = '#e1e1e1';
+          field.style.backgroundColor = '#f8f8f8';
+        }
+      });
+      
+      // Validate email format
+      const emailField = document.getElementById('email');
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailField.value && !emailPattern.test(emailField.value)) {
+        isValid = false;
+        emailField.style.borderColor = '#e74c3c';
+        emailField.style.backgroundColor = 'rgba(231, 76, 60, 0.05)';
+      }
+      
+      if (isValid) {
+        // Here you would typically send the form data to your server
+        // For now, we'll just show an alert
+        alert('Thanks for your message! We will get back to you soon.');
+        this.reset();
+      } else {
+        alert('Please fill in all required fields correctly.');
+      }
+    });
+    
+    // Add mobile menu toggle functionality
+    const mobileMenuButton = document.createElement('button');
+    mobileMenuButton.className = 'mobile-menu-toggle';
+    mobileMenuButton.innerHTML = '<i class="fas fa-bars"></i>';
+    mobileMenuButton.setAttribute('aria-label', 'Toggle Menu');
+    document.querySelector('.header-container').appendChild(mobileMenuButton);
+    
+    mobileMenuButton.addEventListener('click', function() {
+      const nav = document.querySelector('.main-navigation');
+      nav.classList.toggle('active');
+      
+      if (nav.classList.contains('active')) {
+        this.innerHTML = '<i class="fas fa-times"></i>';
+        document.body.style.overflow = 'hidden'; // Prevent body scrolling when menu is open
+      } else {
+        this.innerHTML = '<i class="fas fa-bars"></i>';
+        document.body.style.overflow = ''; // Re-enable scrolling
+      }
+    });
+    
+    // Fix for iOS height issues with vh
+    function setVhProperty() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+    
+    // Set the property on initial load
+    setVhProperty();
+    
+    // Update the property on resize
+    window.addEventListener('resize', setVhProperty);
+    
+    // Fix for iOS input focusing issues
+    const formInputs = document.querySelectorAll('input, textarea, select');
+    formInputs.forEach(input => {
+      input.addEventListener('focus', function() {
+        setTimeout(() => {
+          window.scrollTo(0, window.pageYOffset + 1);
+          window.scrollTo(0, window.pageYOffset - 1);
+        }, 100);
+      });
     });
   </script>
 </body>
