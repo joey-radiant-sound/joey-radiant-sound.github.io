@@ -1,0 +1,55 @@
+# Asset Dump Manifest
+
+This file tracks raw assets as they land in `_assetdump/` and move through the processing pipeline into `public/`.
+
+The `_assetdump/` directory itself is **gitignored** — only this manifest and `.gitkeep` are tracked. Drop raw files directly in here; do not commit them.
+
+---
+
+## Processing Flow
+
+1. **Receive** — Joey drops a file into `_assetdump/` (or a subfolder of it).
+2. **Catalog** — Add a row to the table below with status `received`.
+3. **Process** — Sort, rename, compress, convert as needed.
+   - Photos → `public/images/{weddings|acappella|shared}/` (kebab-case names)
+   - Videos → `public/videos/{weddings|acappella}/` (H.264 MP4, optional WebM)
+   - Logos/icons → `public/images/shared/` or `public/` (favicons)
+4. **Preserve originals** — Move the unmodified original into `_assetdump/originals/` (gitignored, local backup only).
+5. **Update row** — Mark status `processed`, note the final path.
+6. **Deploy** — Once the asset is referenced in code and visible in a preview build, mark status `deployed`.
+
+---
+
+## Asset Table
+
+| # | Original filename | Received | Status | Final path | Notes |
+|---|-------------------|----------|--------|------------|-------|
+| 1 | Radiant-Sound-Logo-White.svg | 2026-04-17 | deployed | `public/images/shared/logo-white.svg` | Restored from legacy Jekyll site |
+| 2 | cropped-Radiant-Sound-Favicon-Feb-2022.png | 2026-04-17 | deployed | `public/favicon-master.png` | Master favicon source |
+| 3 | cropped-Radiant-Sound-Favicon-Feb-2022-32x32.png | 2026-04-17 | deployed | `public/favicon-32x32.png` | Browser tab icon |
+| 4 | cropped-Radiant-Sound-Favicon-Feb-2022-180x180.png | 2026-04-17 | deployed | `public/apple-touch-icon.png` | iOS home screen icon |
+| 5 | cropped-Radiant-Sound-Favicon-Feb-2022-192x192.png | 2026-04-17 | deployed | `public/icon-192.png` | PWA/Android icon |
+
+---
+
+## Naming Conventions
+
+- **Photos:** `{descriptive-subject}-{location-or-event}-{NN}.jpg` — e.g. `first-dance-barn-wedding-01.jpg`
+- **Videos:** `{descriptive-subject}-{audience}-{NN}.mp4` — e.g. `hero-reel-weddings.mp4`, `acappella-show-cornell-01.mp4`
+- **Logos:** `logo-{variant}.{ext}` — e.g. `logo-white.svg`, `logo-dark.svg`
+- All filenames lowercase, kebab-case, ASCII only.
+
+---
+
+## Video Processing Notes
+
+- Target web delivery: MP4 (H.264) main profile, yuv420p, ~5–8 Mbps for 1080p hero footage.
+- Add WebM fallback only if we observe real Safari playback issues — Safari has supported H.264 MP4 for over a decade.
+- Strip audio if video is purely decorative/background (`-an` flag in ffmpeg).
+- Max hero video length: 20s; loop cleanly.
+
+Example ffmpeg recipe for a background hero clip:
+```
+ffmpeg -i input.mov -c:v libx264 -profile:v main -pix_fmt yuv420p \
+  -movflags +faststart -an -vf "scale=-2:1080" -b:v 6M output.mp4
+```
