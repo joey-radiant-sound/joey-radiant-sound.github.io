@@ -1,1 +1,64 @@
 @import "tailwindcss";
+
+/* =============================================================================
+   Radiant Sound — design tokens
+   Tailwind v4 reads @theme and generates utilities (bg-brand-500, text-ink,
+   font-sans, etc). CSS variables are defined alongside so raw CSS can use
+   them too (e.g., inline styles, gradient stops).
+   ========================================================================== */
+
+@theme {
+  /* Brand blue scale — anchored on legacy #64baeb / #3a89c9 */
+  --color-brand-50: #eff7fd;
+  --color-brand-100: #d8ecfa;
+  --color-brand-200: #b4daf4;
+  --color-brand-300: #87c4ec;
+  --color-brand-400: #64baeb;
+  --color-brand-500: #3a89c9;
+  --color-brand-600: #2d6ea5;
+  --color-brand-700: #245784;
+  --color-brand-800: #1c4367;
+  --color-brand-900: #132f49;
+
+  /* Neutrals */
+  --color-ink: #0b1220;
+  --color-ink-soft: #1b2637;
+  --color-muted: #5b6778;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f7f8fa;
+
+  /* Homepage gradient stops (used by HomeChooser background) */
+  --color-gradient-start: #132f49;
+  --color-gradient-mid: #245784;
+  --color-gradient-end: #3a89c9;
+
+  /* Typography — font family vars are set on <body> in layout.tsx via
+     next/font; these tokens just tell Tailwind which variables to read. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Smooth scroll fallback for browsers before Lenis mounts */
+html {
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-ink);
+}
+
+/* Respect user reduced-motion preference globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
