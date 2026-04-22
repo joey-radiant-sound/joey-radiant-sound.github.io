@@ -30,14 +30,12 @@
 ### 1.1 Weddings panel
 
 - **Label:** Weddings
-- **One-liner (shown under label on hover):** Full-service DJ, sound, and lighting for the one night you'll replay for the rest of your life.
-- **CTA (bottom of panel):** Plan your wedding →
 
 ### 1.2 A Cappella panel
 
 - **Label:** A Cappella
-- **One-liner (shown under label on hover):** Professional live sound, lighting, and recording for a cappella groups.
-- **CTA (bottom of panel):** Book your show →
+
+
 
 ---
 
@@ -45,9 +43,7 @@
 
 ### 2.1 Hero
 
-> **Your day. Your sound.**
->
-> We don't just show up with speakers. We build the night around you — your taste, your crowd, your vision.
+- **One-liner:** Full-service DJ, sound, and lighting for the one night you'll replay for the rest of your life.
 
 **CTA:** Get a quote
 
@@ -139,7 +135,7 @@ Can not recommend Joey from Radiant Sound enough. From the start of the process 
 
 Rewritten per Joey's direction — dropped the "collegiate stage" framing. Positioned as specialist, not age-bracketed. Style modeled on the Liquid 5th reference (confident, expertise-forward).
 
-> **A cappella is all we think about.**
+- **One-liner** Professional live sound, lighting, and recording for a cappella groups.
 >
 > Radiant Sound specializes in live sound, lighting, recording, and post-production for a cappella groups. We combine purpose-built equipment with over a decade of a cappella-specific experience to deliver the sound, the show, and the record exactly how you want it to land.
 
@@ -182,8 +178,7 @@ Grouped by institution for a clean logo/name grid. Confirm I have all spellings 
 - Midnight Ramblers
 - Trebellious
 
-**Other**
-- Varsity Vocals (ICCAs)
+- Varsity Vocals (ICCAs) //Put this at the top
 
 ### 3.4 Why groups keep booking us **[v2: confirm — applied your edits]**
 
@@ -193,13 +188,13 @@ Grouped by institution for a clean logo/name grid. Confirm I have all spellings 
 
 ### 3.5 Service area + CTA
 
-> We travel across the Northeast and Midwest for a cappella shows — Ohio, New York, Pennsylvania, West Virginia, and Michigan. **[NOTE: willing to go further for the right show? e.g., a cappella festivals?]**
+> We travel across the United States and even internationally
 
 **CTA:** Tell us about your show →
 
 ### 3.6 Testimonials **[TODO: info needed]**
 
-A cappella-side testimonials. Leave blank for now — if you can pull 2–3 from MD or group-president emails, we'll slot them in. Otherwise we ship without and add later.
+A cappella-side testimonials. Leave blank for now — if you can pull 2–3 from MD or group-president emails, we'll slot them in. Otherwise we ship without and add later. //scratch this
 
 ---
 
@@ -212,6 +207,8 @@ Wedding-specific story. Focuses on the experience side, not the technical side.
 > **About Radiant Sound — Weddings**
 >
 > Radiant Sound is a wedding production company built around three things: meticulous organization, genuine musical expertise, and service that shows up around the clock.
+
+// the following two paragraphs are bad, stick to what was written in the information sheet that I linked below. Keep in concise, not aarogant.
 >
 > Joey Cassata founded Radiant Sound in 2021 after more than a decade behind the mixing board at live shows. He started the company because he saw too many weddings run by DJs who were technically fine but missed the moment — the room not quite read, the volume not quite right, the transitions not quite clean. He built Radiant Sound to get those details right every single time.
 >
@@ -340,20 +337,11 @@ You asked for proposed taglines. Three directions — pick one per sub-site, or 
 ### Weddings
 
 - **[A]** *"The night you'll want to replay forever."* — emotional / keepsake angle
-- **[B]** *"Your day. Your sound. Dialed in."* — echoes the hero, reinforces attention to detail
-- **[C]** *"Meticulous planning. Serious playlists. Unreal nights."* — pulled from your three principles
 
 ### A Cappella
 
-- **[A]** *"A cappella is all we think about."* — specialist signal (matches the hero opener)
-- **[B]** *"Built for voices."* — concise, technical
-- **[C]** *"From downbeat to final master."* — covers live + recording scope
+- **[B]** *"Production built for voices."* — concise, technical
 
-### Company-wide / footer
-
-- **[A]** *"Live sound. Lighting. Built around your event."*
-- **[B]** *"Sound the way you hear it in your head."*
-- **[C]** *"Ten years of sound. One night at a time."*
 
 ---
 
@@ -377,4 +365,3 @@ I'll use placeholders in design v1 and swap these in before launch. You can drop
 
 ---
 
-**When this file has no `[v2: confirm]` or `[TODO: info needed]` tags remaining, design phase begins.**
