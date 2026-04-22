@@ -1,91 +1,133 @@
-# Radiant Sound — Site Content (Draft v1)
+# Radiant Sound — Site Content (Draft v2)
 
-**Status:** First-pass draft for Joey to review, edit, and sign off.
-**Format:** Every block below will render as a section on the new site. Edit copy inline. When you're happy with a block, delete its `[REVIEW]` tag. When the whole file has no remaining `[REVIEW]` tags, we move to design.
+**Status:** v2 reflects all v1 edits. New/rewritten blocks marked `[v2: confirm]`. Items still needing info from Joey marked `[TODO: info needed]`. Delete tags on anything you approve. When no tags remain → design phase begins.
 
-**How to review:** Just edit the lines. Flag anything where you want alternate wording with `[ALT: your idea here]`. Flag anything you need me to write differently with `[REWRITE: direction]`. Flag anything you want removed with `[CUT]`.
+**Review legend:** `[ALT: idea]` for alternate wording · `[CUT]` to remove · `[NOTE: ...]` for side notes · `//` to preface your inline comment.
 
 ---
 
-## 1. Homepage
+## Architecture reference (locked decisions, for your mental model)
 
-The homepage is a **chooser**. No marketing copy here — just a clean pivot into one of two sub-sites.
+- Homepage is a pure chooser: gradient background, two hover panels (Weddings left, A Cappella right). No hero/subhead copy.
+- Two distinct sub-sites: `/weddings` and `/acappella`. **No cross-contamination.**
+- Each sub-site has its own About page, Contact form, and Footer.
+- No standalone `/services` page — services are embedded in each sub-site.
+- A cappella client list uses Joey's provided roster.
+- Wedding testimonials are curated on-site with a "See all reviews on WeddingWire →" link.
+- Joey has 10+ years in a cappella production; Radiant Sound LLC founded 2021.
 
-### 1.1 Hero headline
-**[REVIEW]**
+---
 
-> **Live sound. Lighting. Music that makes the moment.**
+## 1. Homepage (`/`) — Chooser
 
-### 1.2 Subhead
-**[REVIEW]**
+**Design behavior (locked):**
+- Full-viewport gradient background (our brand gradient).
+- Two panels fill the viewport horizontally — left = Weddings, right = A Cappella.
+- Idle state: gradient shows through both panels with just the label.
+- Hover (desktop) / tap-hold (mobile): panel reveals a category photo with the label overlaid.
+- Clicking enters the respective sub-site.
 
-> Choose your path — we tailor everything from the gear down to the playlist to the kind of event you're putting on.
+### 1.1 Weddings panel
 
-### 1.3 Two path cards (the split)
-
-#### Weddings card
 - **Label:** Weddings
-- **One-liner:** Full-service DJ, sound, and lighting for the one night you'll replay for the rest of your life.
-- **CTA:** Plan your wedding →
+- **One-liner (shown under label on hover):** Full-service DJ, sound, and lighting for the one night you'll replay for the rest of your life.
+- **CTA (bottom of panel):** Plan your wedding →
 
-#### A Cappella card
+### 1.2 A Cappella panel
+
 - **Label:** A Cappella
-- **One-liner:** Professional live sound and lighting production for college a cappella shows.
-- **CTA:** Book your show →
+- **One-liner (shown under label on hover):** Professional live sound, lighting, and recording for a cappella groups.
+- **CTA (bottom of panel):** Book your show →
 
 ---
 
 ## 2. Weddings Sub-Site (`/weddings`)
 
 ### 2.1 Hero
-**[REVIEW]**
 
 > **Your day. Your sound.**
 >
-> We don't just show up with speakers. We build the night around you — your taste, your crowd, your story.
+> We don't just show up with speakers. We build the night around you — your taste, your crowd, your vision.
 
 **CTA:** Get a quote
 
-### 2.2 What we do (services overview)
-**[REVIEW]**
+### 2.2 What we offer
 
 Three pillars, each with an icon + short paragraph:
 
 1. **DJ + MC**
-   Curated sets that read the room. Clean mic work for ceremonies, toasts, and introductions. We learn your playlist, your do-not-plays, and everything in between.
+   Curated sets that read the room. We learn your playlist, your do-not-plays, and play right into your vibe.
 
 2. **Sound reinforcement**
-   Professional audio for ceremonies, cocktail hours, and receptions — indoor or outdoor, any size room. We handle wireless lav mics for officiants, wireless handhelds for toasts, and a full main system for the dance floor.
+   Professional audio for ceremonies, cocktail hours, and receptions — indoor or outdoor, any size room. We handle wireless handhelds for toasts and officiants, and give you the right amount of sound for your dance floor.
 
 3. **Lighting design**
-   Uplighting, dance-floor washes, custom gobos, and cold-spark effects on request. Built to your venue, not dragged out of a standard kit.
+   Uplighting, dance-floor party lighting, and cold-spark effects on request. Built to your venue, customized to your taste.
 
-### 2.3 How it works (process)
-**[REVIEW]**
+### 2.3 How we work **[v2: confirm]**
 
-1. **Consultation** — We talk through your venue, timeline, music preferences, and any must-haves.
-2. **Planning** — You fill out a music and timeline worksheet. We build the run-of-show with your planner.
-3. **Day-of** — We arrive early, set up quietly, and run the night so you don't have to think about it.
-4. **After** — A short post-event follow-up and a clean exit.
+Three principles, from Joey's info sheet — replaces the generic "what we value" copy.
 
-### 2.4 Testimonials
-**[REWRITE: need real testimonials from Joey — leave placeholder structure, drop in 3 quotes once available]**
+1. **Meticulous organization.**
+   Your wedding day is a collection of unique moments, and we understand the importance of every detail. We've built a comprehensive planning spreadsheet refined over every wedding we've played. We ask the right questions, nothing gets overlooked, and your day runs the way you pictured it.
 
-Placeholder structure (swap in real quotes):
+2. **Musical expertise.**
+   Sharing our love of music is core to who we are. We've developed eclectic tastes across every genre and invest serious hours curating each reception — a tasteful blend of nostalgia and contemporary that keeps every generation of your guests on the floor.
 
-> "[Quote]"
-> — [Couple names], [Venue], [Month Year]
+3. **Unparalleled professionalism.**
+   Exceptional service sits at the heart of what we do. We make ourselves available around the clock to answer questions, offer recommendations, and guide you through the process. Your peace of mind is our top priority.
 
-> "[Quote]"
-> — [Couple names], [Venue], [Month Year]
+### 2.4 Our simple four-step process **[v2: confirm]**
 
-> "[Quote]"
-> — [Couple names], [Venue], [Month Year]
+Replaces v1 §2.3 — lifted directly from Joey's info sheet with light polish.
 
-### 2.5 Service area + CTA
-**[REVIEW]**
+1. **Initial consultation.**
+   We connect and dive into your vision. We'll walk you through our comprehensive planning sheet and make sure we capture every nuance of your big day.
 
-> Based in Western New York, available for weddings throughout WNY, the Finger Lakes, and Central NY. Destination travel available on request.
+2. **Planning period.**
+   As your wedding details come together, you'll fill out the planning spreadsheet with music requests, reception events, and general ideas. We're a text away the whole time — ready to assist, recommend, and guide you through the process.
+
+3. **Pre-wedding consultation.**
+   We finalize every detail of the reception together. Your dedicated DJ then crafts a personalized playlist for your review, and we coordinate with your venue and vendors so everyone shows up on the same page.
+
+4. **The big day.**
+   It's finally here. We arrive early with one thing in mind: helping create the greatest night of your lives. We play at peak performance and make sure your reception is talked about for years to come.
+
+### 2.5 Testimonials
+
+Three real reviews from WeddingWire (formatted for the site). Below the three, a prominent button: **See all reviews on WeddingWire →** (links to https://www.weddingwire.com/reviews/radiant-sound/28eae179691bbe53.html).
+
+---
+
+**"Professionalism, flexibility — Joey brings the party!"**
+
+My husband and I were so pleased with Radiant Sound! And our guests absolutely loved the dancing. Joey was excellent to work with — super responsive, understood our vision, and was incredibly flexible given our unique venue limitations. The playlists he curated were spot on, and his mixing kept the party going well into the evening. We were also super impressed by the amount of equipment provided — it really leveled up the space for such an affordable price. If we could do it all over again, Radiant Sound would still be our choice.
+
+— *Teagan & Isaac*
+
+---
+
+**"Even Grandma was on the dance floor!"**
+
+In our wedding experiences, DJs have been good at best — most were fine, but had one or more noticeable flaws. They were either too loud, too talkative, or had weird song choices. Joey was the first fantastic DJ we ever experienced. He played tasteful songs at the perfect volume (a healthy mix of our requests and his choices), didn't play any unusual versions of songs, and maintained a professional presence that everyone respected — without making the wedding about him. And yes, he even got Grandma dancing. Most guests stayed the whole night just to dance to his music. I would highly recommend Radiant Sound to anyone looking for a straightforward, no-nonsense, affordable DJ.
+
+— *Michael & Anna*
+
+---
+
+**"Your #1 wedding DJ"**
+
+Can not recommend Joey from Radiant Sound enough. From the start of the process to the wedding date, he was responsive and helpful. You are making a mistake if you pass up on the opportunity to work with him.
+
+— *Patrick & Tiffany*
+
+---
+
+> **[ See all reviews on WeddingWire → ]**
+
+### 2.6 Service area + CTA
+
+> Based in Western New York. Available for weddings throughout **NY, PA, and OH.**
 
 **CTA:** Start a conversation →
 
@@ -93,180 +135,246 @@ Placeholder structure (swap in real quotes):
 
 ## 3. A Cappella Sub-Site (`/acappella`)
 
-### 3.1 Hero
-**[REVIEW]**
+### 3.1 Hero **[v2: confirm]**
 
-> **Built for the collegiate stage.**
+Rewritten per Joey's direction — dropped the "collegiate stage" framing. Positioned as specialist, not age-bracketed. Style modeled on the Liquid 5th reference (confident, expertise-forward).
+
+> **A cappella is all we think about.**
 >
-> We've been mixing college a cappella long enough to know the difference between a bass line that lands and one that disappears. We bring the rig, the reps, and the respect for what you're doing.
+> Radiant Sound specializes in live sound, lighting, recording, and post-production for a cappella groups. We combine purpose-built equipment with over a decade of a cappella-specific experience to deliver the sound, the show, and the record exactly how you want it to land.
 
 **CTA:** Book your show
 
-### 3.2 What we do
-**[REVIEW]**
+### 3.2 What we do **[v2: confirm — tightened Joey's edits]**
 
 Three pillars:
 
-1. **Live sound**
-   Full PA, monitoring, and wireless headset mics tuned specifically for a cappella — VP clarity, bass body, blend you can hear from the back row. We know how to dial in a soloist without blowing out the block.
+1. **Live sound.**
+   Full PA, custom monitoring, and up to 18 wireless microphones tuned specifically for a cappella. A seasoned a cappella engineer runs every show — someone who knows how to bring out the best in your group's sound, from VP clarity to soloist body to ensemble blend.
 
-2. **Lighting**
-   Show lighting designed around your set — washes, moving heads, specials for soloists, atmospheric haze where the venue allows it. We program with your music director, not against them.
+2. **Lighting.**
+   Show lighting designed around your set — washes, moving heads, and backlighting programmed to your music. Our goal is to accentuate your creative vision, never distract from it.
 
-3. **Video + streaming (on request)**
-   Multi-cam capture and livestream for shows that need to reach home audiences or go on your group's channel.
+3. **Video + streaming** *(on request)*
+   Multi-cam capture, multitrack recording, and full post-production — so your biggest show lives on long after the final chord.
 
-### 3.3 Who we've worked with
-**[REWRITE: need a real client list — groups at Cornell, UB, any others. Leave placeholder structure.]**
+### 3.3 Who we've worked with **[v2: confirm formatting]**
 
-Logo grid or name list of groups we regularly work with. Examples to confirm with Joey:
-- [Cornell group 1]
-- [Cornell group 2]
-- [UB group 1]
-- [Other]
+Grouped by institution for a clean logo/name grid. Confirm I have all spellings right.
 
-### 3.4 Why groups keep booking us
-**[REVIEW]**
+**Cornell University**
+- Absolute A Cappella
+- Class Notes
+- Hearsay Acappella
+- Key Elements
+- Less Than Three
+- Men of Last Call
+- Nothing But Treble
+- Tarana
+- The CallbaXX A Cappella
+- The Touchtones
 
-- **We speak your language.** Soloist, VP, block, choreo, riser cues — you don't need to translate for us.
-- **We show up ready.** Trailer arrives early. The rig is tested before you soundcheck.
+**University at Buffalo**
+- The Buffalo Chips
+- The Enchords
+
+**University of Rochester**
+- Midnight Ramblers
+- Trebellious
+
+**Other**
+- Varsity Vocals (ICCAs)
+
+### 3.4 Why groups keep booking us **[v2: confirm — applied your edits]**
+
+- **We speak your language.** Solo cues, group blend, VP, choreo — we're already thinking in the same terms you are.
 - **We're consistent.** Many of our groups have worked with the same team year after year.
 - **We're flexible.** Whether it's a 150-seat blackbox or a 1,500-seat theater, we scale to the room.
 
 ### 3.5 Service area + CTA
-**[REVIEW]**
 
-> We travel across the Northeast for a cappella shows — Cornell, UB, and beyond. Trailer-based rig means we can bring everything you need to venues that don't have it.
+> We travel across the Northeast and Midwest for a cappella shows — Ohio, New York, Pennsylvania, West Virginia, and Michigan. **[NOTE: willing to go further for the right show? e.g., a cappella festivals?]**
 
 **CTA:** Tell us about your show →
 
+### 3.6 Testimonials **[TODO: info needed]**
+
+A cappella-side testimonials. Leave blank for now — if you can pull 2–3 from MD or group-president emails, we'll slot them in. Otherwise we ship without and add later.
+
 ---
 
-## 4. About Us (`/about`)
+## 4. About Us — split per sub-site
 
-### 4.1 Company story
-**[REWRITE: need Joey's voice here — this is a placeholder paragraph. Confirm or replace.]**
+### 4.W Weddings About (`/weddings/about`) **[v2: confirm]**
 
-> Radiant Sound started with a simple idea: college a cappella groups and wedding couples deserve production that takes their event as seriously as they do. No "good enough." No cutting corners on gear. No DJs reading from the same playlist every weekend.
+Wedding-specific story. Focuses on the experience side, not the technical side.
+
+> **About Radiant Sound — Weddings**
 >
-> Over the years, we've grown into a full-service production company — live sound, lighting, DJ, and video — serving clients across the Northeast from our home base in Western New York. We've stayed small on purpose: enough to handle multiple shows a weekend, small enough that the person you email is the person you'll see on show day.
+> Radiant Sound is a wedding production company built around three things: meticulous organization, genuine musical expertise, and service that shows up around the clock.
+>
+> Joey Cassata founded Radiant Sound in 2021 after more than a decade behind the mixing board at live shows. He started the company because he saw too many weddings run by DJs who were technically fine but missed the moment — the room not quite read, the volume not quite right, the transitions not quite clean. He built Radiant Sound to get those details right every single time.
+>
+> We've stayed small on purpose: enough hands to run multiple events a weekend, small enough that the person you email is the person you'll see on your wedding day.
 
-### 4.2 Founder note
-**[REWRITE: need Joey's own bio + why-I-do-this paragraph. Placeholder below.]**
+### 4.A A Cappella About (`/acappella/about`) **[v2: confirm]**
 
-> I'm Joey Cassata, founder of Radiant Sound. I got into this business because I grew up on the performer's side of the mic — and I know exactly how much a bad mix can ruin a great performance. That's what drives how we set up, how we soundcheck, and how we run every show.
+A cappella-specific story. Focused on depth of experience. No mention of weddings.
 
-### 4.3 The team
-**[REWRITE: confirm which names should be listed publicly vs kept internal. Contract crew from memory: Brandon, Dave, Colin, Bobby, Toast, John — decide per-person.]**
-
-> A rotating team of audio engineers, lighting designers, and production veterans who've been running shows together for years. Specific crew assigned per event based on scope and venue.
-
----
-
-## 5. Services (`/services`)
-
-This page lists offerings for both audiences. It's for visitors who don't immediately self-select into Weddings or A Cappella.
-
-### 5.1 Page intro
-**[REVIEW]**
-
-> We offer a core production toolkit — live sound, lighting, DJ, and video — scaled to the event in front of us. Here's the full menu.
-
-### 5.2 Service list
-**[REVIEW]**
-
-- **Live sound reinforcement** — Full PA, monitoring, wireless mics, mixing engineer.
-- **Lighting design + operation** — Uplighting, washes, moving heads, programming, on-site operator.
-- **DJ + MC** — Music curation, reception flow, microphone work.
-- **Multi-cam video + livestream** — Event capture and broadcast.
-- **Ceremony audio** — Wireless lav and handheld mics, portable PA, musician support.
-- **Custom gobos + cold-spark effects** — Personalized visual moments.
-- **Rentals + dry hires** — Speaker, mic, and lighting rentals without an engineer (limited availability).
+> **About Radiant Sound — A Cappella**
+>
+> We've been mixing a cappella for over a decade. In that time we've run sound and lighting for hundreds of shows across the country and on international tours — from tight competition sets to festival-length concerts to full album productions.
+>
+> Radiant Sound exists because a cappella deserves better than a house-rig afterthought. Every element of what we do — PA selection, microphone choice, monitor mix, show lighting, recording chain — is tuned specifically for the way voices work together on stage. We know the difference between a bass line that lands and one that disappears, and we know what a soloist needs from a monitor the second they step forward.
+>
+> Beyond live sound, we handle recording, mixing, mastering, and post-production for albums and show videos. Same ears. Same standards. Same obsession with getting it right.
 
 ---
 
-## 6. Contact (`/contact`)
+## 5. Contact — separate forms per sub-site **[v2: confirm]**
 
-### 6.1 Page intro
-**[REVIEW]**
+**Backend rule (locked):** Every submission routes to **joey@radiantsoundwny.com** with a subject-line tag identifying the source (`[WEDDINGS]` or `[A CAPPELLA]`) so Joey can filter at a glance. Form also stores the source field server-side for analytics.
 
-> Tell us about your event. We'll come back within one business day with availability and a starting quote.
+**Security:** Zod-validated inputs · rate-limited per IP · honeypot field · server-side sanitization before email send. No plugins — custom Next.js server action.
 
-### 6.2 Form fields
-**[REVIEW]**
+### 5.W Weddings contact form (`/weddings/contact`)
+
+**Page intro:**
+
+> Tell us about your wedding. We'll come back within one business day with availability and a starting quote.
+
+**Fields:**
 
 | Field | Label | Required | Notes |
-|-------|-------|----------|-------|
-| First name | First name | yes | |
-| Last name | Last name | yes | |
-| Email | Email | yes | |
-| Phone | Phone (optional) | no | |
-| Event type | Event type | yes | dropdown: Wedding / A Cappella Show / Other |
-| Event date | Event date | yes | date picker; "TBD" allowed |
-| Event location | Event location | yes | free text — venue + city/state |
-| Message | Tell us about your event | yes | textarea; prompt: "Guest count, venue details, music preferences, or anything else we should know." |
-| Referral | How did you hear about us? | no | |
+|---|---|---|---|
+| firstName | First name | yes | |
+| lastName | Last name | yes | |
+| email | Email | yes | |
+| partnerName | Partner's name | no | |
+| weddingDate | Wedding date | yes | date picker; "TBD" allowed |
+| venue | Venue (name + city/state) | yes | free text |
+| guestCount | Approximate guest count | yes | number |
+| services | Services needed | yes | checkboxes: DJ · Ceremony audio · Reception sound · Uplighting · Cold-spark effects · Other |
+| referral | How did you hear about us? | no | free text |
+| message | Anything else we should know? | no | textarea |
 
-### 6.3 Submit button
-**[REVIEW]**
+**Hidden backend field:** `source = "weddings"`
 
-> Send
+**Submit button:** Send
 
-### 6.4 Success message (shown inline after submit)
-**[REVIEW]**
+**Success:** Got it. We'll be in touch within one business day. Check your inbox (and spam folder just in case).
 
-> Got it. We'll be in touch within one business day. Check your inbox (and spam folder just in case).
+**Error:** Something went wrong sending your message. Email us directly at **joey@radiantsoundwny.com** and we'll sort it out.
 
-### 6.5 Error message
-**[REVIEW]**
+### 5.A A Cappella contact form (`/acappella/contact`)
 
-> Something went wrong sending your message. Email us directly at **[email address — Joey to provide]** and we'll sort it out.
+**Page intro:**
+
+> Tell us about your show. We'll come back within one business day with availability and a quote.
+
+**Fields:**
+
+| Field | Label | Required | Notes |
+|---|---|---|---|
+| firstName | First name | yes | |
+| lastName | Last name | yes | |
+| email | Email | yes | |
+| role | Your role in the group | yes | dropdown: Music Director · Business Manager · President · Other |
+| groupName | Group name | yes | |
+| institution | School / organization | yes | |
+| showDate | Show date | yes | date picker; "TBD" allowed |
+| venue | Venue (name + city/state) | yes | free text |
+| expectedAttendance | Expected attendance | no | number |
+| services | Services needed | yes | checkboxes: Live sound · Lighting · Recording (multitrack) · Video capture · Livestream · Album production · Other |
+| message | Anything else we should know? | no | textarea |
+
+**Hidden backend field:** `source = "acappella"`
+
+**Submit button / success / error:** Same copy as Weddings form.
 
 ---
 
-## 7. Footer
+## 6. Footers — separate per sub-site **[v2: confirm]**
 
-### 7.1 Tagline
-**[REVIEW]**
+Shared footer structure across both, but with audience-specific links.
 
-> Radiant Sound — Live sound. Lighting. DJ. Built around your event.
+### 6.W Weddings footer
 
-### 7.2 Address / contact
-**[REWRITE: need business address (or just region), phone, email from Joey]**
+**Tagline:**
+> Radiant Sound — Live sound. Lighting. DJ. Built around your night.
 
+**Contact:**
 - Western New York, USA
-- [Phone]
-- [Email]
+- joey@radiantsoundwny.com
 
-### 7.3 Social links
-**[REWRITE: confirm which social accounts are active and link them]**
+**Social / reviews:**
+- WeddingWire: **[TODO: info needed]**
+- The Knot: **[TODO: info needed]**
+- Instagram: **[TODO: info needed]**
+- Facebook: **[TODO: info needed]**
 
-- Instagram: [handle]
-- Facebook: [handle]
-- YouTube: [handle]
-- The Knot profile: [link]
-- WeddingWire profile: [link]
+**Legal:** © 2026 Radiant Sound, LLC. All rights reserved.
 
-### 7.4 Legal
-**[REVIEW]**
+### 6.A A Cappella footer
 
-> © 2026 Radiant Sound, LLC. All rights reserved.
+**Tagline:**
+> Radiant Sound — Live sound. Lighting. Recording. A cappella specialists.
 
----
+**Contact:**
+- Western New York, USA
+- joey@radiantsoundwny.com
 
-## Open Questions for Joey (answer inline and we'll fold in)
+**Social / media:**
+- YouTube: **[TODO: info needed]**
+- Instagram: **[TODO: info needed]**
+- SoundCloud / Bandcamp (if used for album work): **[TODO: info needed]**
 
-1. **Company tagline** — is there an existing one you want preserved, or are we free to propose?
-2. **Founding year** — when did Radiant Sound start operating? (Affects "since YYYY" copy we might add.)
-3. **Legal entity** — "Radiant Sound, LLC"? Confirm exact name for footer.
-4. **Email address for contact form** — which inbox should form submissions go to?
-5. **Phone number** — should it be public on the site, or contact-form-only?
-6. **Service area specifics** — is it ok to say "Western New York, Central NY, Finger Lakes, Northeast US for a cappella"? Any destinations you want to explicitly name or exclude?
-7. **Testimonials** — do you have any saved (emails, reviews, Google, The Knot)? If yes, send me ~5–8 and I'll trim to 3.
-8. **A cappella client list** — which groups can we name publicly? Any you'd rather not list?
-9. **Team bios** — which contract crew names should appear publicly? Short bios for any of them?
-10. **Featured photos/videos** — any specific shots you know you want on the hero or homepage split? Otherwise we pick from the asset dump.
+**Legal:** © 2026 Radiant Sound, LLC. All rights reserved.
 
 ---
 
-**When this file has no `[REVIEW]` or `[REWRITE]` tags remaining, design work begins.**
+## 7. Tagline proposals **[v2: pick one or flag for more options]**
+
+You asked for proposed taglines. Three directions — pick one per sub-site, or mix-and-match. Marked `[A]`, `[B]`, `[C]`.
+
+### Weddings
+
+- **[A]** *"The night you'll want to replay forever."* — emotional / keepsake angle
+- **[B]** *"Your day. Your sound. Dialed in."* — echoes the hero, reinforces attention to detail
+- **[C]** *"Meticulous planning. Serious playlists. Unreal nights."* — pulled from your three principles
+
+### A Cappella
+
+- **[A]** *"A cappella is all we think about."* — specialist signal (matches the hero opener)
+- **[B]** *"Built for voices."* — concise, technical
+- **[C]** *"From downbeat to final master."* — covers live + recording scope
+
+### Company-wide / footer
+
+- **[A]** *"Live sound. Lighting. Built around your event."*
+- **[B]** *"Sound the way you hear it in your head."*
+- **[C]** *"Ten years of sound. One night at a time."*
+
+---
+
+## 8. Still-needed info (non-blocking)
+
+I'll use placeholders in design v1 and swap these in before launch. You can drop them in chat whenever.
+
+- Social handles / URLs: Instagram, Facebook, YouTube, The Knot, WeddingWire, (SoundCloud/Bandcamp?)
+- A cappella testimonials (2–3 if available)
+- Final service-area language for a cappella (are festivals / further travel OK?)
+- Hero video: the mp4 in `_assetdump/` (I'll inspect size + codec when I sort assets). YouTube fallback: https://www.youtube.com/watch?v=iK-JwYT6g-s
+- "Highlight reel" you mentioned creating — added to TODO below
+
+---
+
+## 9. TODO list (future / post-launch)
+
+- **Hero highlight reel** — Joey to edit together a highlight reel from a cappella + wedding footage for homepage / hero backgrounds.
+- **WeddingWire badge** — check if WeddingWire offers an official vendor badge/widget; embed if available.
+- **Review refresh cadence** — Joey curates and updates testimonials every 6 months.
+
+---
+
+**When this file has no `[v2: confirm]` or `[TODO: info needed]` tags remaining, design phase begins.**
