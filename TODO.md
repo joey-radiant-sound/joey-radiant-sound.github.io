@@ -42,7 +42,7 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 - [x] **Phase 1B** — Nav + footer + routing shell for all 6 sub-site routes. All routes click through; build + lint clean.
 - [x] **Phase 1C** — Homepage chooser. Dual-path hover/tap panels on full-viewport gradient; Unsplash placeholders (TODO(1H): swap for real assets).
 - [x] **Phase 1D** — Weddings content pages. Hero, 3 pillars, 3 principles, 4-step process, testimonials + WeddingWire link, service area, CTA. About page written as concise draft leaning on principles (flagged for Joey review — info-sheet source needed for final copy).
-- [ ] **Phase 1E** — A Cappella content pages (`/acappella`, `/acappella/about`).
+- [x] **Phase 1E** — A Cappella content pages. Hero, 3 pillars, featured Varsity Vocals + institution-grouped roster, why-book-us, service area, CTA. About page pulls §4.A verbatim. Tagline [B] "Production built for voices." locked in hero + footer.
 - [ ] **Phase 1F** — Contact forms + email (both sub-sites).
 - [ ] **Phase 1G** — Animation layer (Lenis + ScrollReveal + Parallax + nav behavior).
 - [ ] **Phase 1H** — Asset integration (swap placeholders for real photos/videos from `_assetdump/`).

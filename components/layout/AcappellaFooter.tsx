@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { tagline } from "@/lib/content/acappella";
 
 // TODO(1I): replace # hrefs with real social URLs once Joey provides them.
 const socials = [
@@ -18,9 +19,8 @@ export function AcappellaFooter() {
       <Container>
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div>
-            {/* TODO(1E): pull from lib/content/acappella.ts: tagline [B] */}
             <p className="max-w-md text-xl font-medium text-white text-balance">
-              A cappella is all we think about.
+              {tagline}
             </p>
             <p className="mt-4 text-sm text-brand-200/70">
               Radiant Sound · A Cappella
