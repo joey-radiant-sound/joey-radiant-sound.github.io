@@ -1,0 +1,8 @@
+# Raw asset drop zone — never deploy, too large
+_assetdump/
+
+# Local build artifacts
+.next/
+
+# Dependencies (Vercel installs fresh)
+node_modules/
