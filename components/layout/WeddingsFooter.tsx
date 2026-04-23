@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { tagline } from "@/lib/content/weddings";
 
 // TODO(1I): replace # hrefs with real social URLs once Joey provides them.
 const socials = [
@@ -19,9 +20,8 @@ export function WeddingsFooter() {
       <Container>
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div>
-            {/* TODO(1D): pull from lib/content/weddings.ts: tagline */}
             <p className="max-w-md text-xl font-medium text-white text-balance">
-              The night you&rsquo;ll want to replay forever.
+              {tagline}
             </p>
             <p className="mt-4 text-sm text-brand-200/70">
               Radiant Sound · Weddings
