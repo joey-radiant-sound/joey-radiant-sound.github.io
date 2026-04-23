@@ -38,8 +38,8 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 ## Phase milestones (tracked here as they complete)
 
 - [x] **Phase 1A** — Design tokens, Inter font, `ARCHITECTURE.md`, `TODO.md`, root layout wired.
-- [ ] Phase 1A (deferred) — GitHub push, Vercel project, first preview URL.
-- [ ] **Phase 1B** — Nav + footer + routing shell for all 6 sub-site routes.
+- [x] Phase 1A (deferred) — GitHub push, Vercel project, first preview URL live at [radiant-sound-website.vercel.app](https://radiant-sound-website.vercel.app).
+- [x] **Phase 1B** — Nav + footer + routing shell for all 6 sub-site routes. All routes click through; build + lint clean.
 - [ ] **Phase 1C** — Homepage chooser.
 - [ ] **Phase 1D** — Weddings content pages (`/weddings`, `/weddings/about`).
 - [ ] **Phase 1E** — A Cappella content pages (`/acappella`, `/acappella/about`).

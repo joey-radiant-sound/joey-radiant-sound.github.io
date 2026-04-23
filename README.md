@@ -96,8 +96,8 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | Phase | Description | Status |
 |---|---|---|
 | 1A | Design tokens, fonts, ARCHITECTURE.md, TODO.md | ✅ Done |
-| 1B | Nav, footer, routing shell (all 6 routes) | 🔨 In progress |
-| 1C | Homepage chooser | ⏳ Pending |
+| 1B | Nav, footer, routing shell (all 6 routes) | ✅ Done |
+| 1C | Homepage chooser | 🔨 Up next |
 | 1D | Weddings content pages | ⏳ Pending |
 | 1E | A Cappella content pages | ⏳ Pending |
 | 1F | Contact forms + email | ⏳ Pending |
