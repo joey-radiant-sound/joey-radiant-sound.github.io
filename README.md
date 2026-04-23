@@ -100,8 +100,8 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1C | Homepage chooser | ✅ Done |
 | 1D | Weddings content pages | ✅ Done |
 | 1E | A Cappella content pages | ✅ Done |
-| 1F | Contact forms + email | 🔨 Up next |
-| 1G | Animation layer (Lenis, GSAP, scroll reveals) | ⏳ Pending |
+| 1F | Contact forms + email | ✅ Done |
+| 1G | Animation layer (Lenis, GSAP, scroll reveals) | 🔨 Up next |
 | 1H | Asset integration (real photos/videos) | ⏳ Pending |
 | 1I | SEO, polish, DNS flip, launch | ⏳ Pending |
 
