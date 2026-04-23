@@ -102,8 +102,8 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1E | A Cappella content pages | ✅ Done |
 | 1F | Contact forms + email | ✅ Done |
 | 1G | Animation layer (Lenis, GSAP, scroll reveals) | ✅ Done |
-| 1H | Asset integration (real photos/videos) | 🔨 Up next |
-| 1I | SEO, polish, DNS flip, launch | ⏳ Pending |
+| 1H | Asset integration (real photos/videos) | ✅ Done (photos) — videos pending Joey |
+| 1I | SEO, polish, DNS flip, launch | 🔨 Up next |
 
 ## License
 

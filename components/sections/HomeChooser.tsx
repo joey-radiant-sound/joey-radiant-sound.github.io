@@ -16,7 +16,6 @@ type Panel = {
   imageAlt: string;
 };
 
-// TODO(1H): swap placeholder Unsplash URLs for real assets from _assetdump/.
 const panels: readonly Panel[] = [
   {
     audience: "weddings",
@@ -24,19 +23,17 @@ const panels: readonly Panel[] = [
     tagline: "The night you'll want to replay forever.",
     cta: "Plan your wedding",
     href: "/weddings",
-    image:
-      "https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=1600&q=80&auto=format&fit=crop",
-    imageAlt: "Wedding reception with warm uplighting",
+    image: "/images/weddings/first-dance-01.jpg",
+    imageAlt: "First dance on a wedding reception floor",
   },
   {
     audience: "acappella",
     label: "A Cappella",
-    tagline: "All we think about.",
+    tagline: "Production built for voices.",
     cta: "Book your show",
     href: "/acappella",
-    image:
-      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=1600&q=80&auto=format&fit=crop",
-    imageAlt: "Stage with spotlights during a live performance",
+    image: "/images/acappella/stage-01.jpg",
+    imageAlt: "A cappella group performing on a lit stage",
   },
 ] as const;
 

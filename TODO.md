@@ -45,7 +45,7 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 - [x] **Phase 1E** — A Cappella content pages. Hero, 3 pillars, featured Varsity Vocals + institution-grouped roster, why-book-us, service area, CTA. About page pulls §4.A verbatim. Tagline [B] "Production built for voices." locked in hero + footer.
 - [x] **Phase 1F** — Contact forms + email. RHF-free `useActionState` + server actions with Zod validation, honeypot, IP rate limit (3/15min), Nodemailer SMTP. Both forms send tagged emails (`[WEDDINGS]`/`[A CAPPELLA]`) to joey@radiantsoundwny.com. See `.env.example` for SMTP dev/prod setup.
 - [x] **Phase 1G** — Animation layer. Lenis smooth scroll wired at root; `ScrollReveal` IntersectionObserver + CSS transitions applied to all section-level content on `/weddings` and `/acappella`; sub-site nav bars become solid/blurred once scrolled. All honors `prefers-reduced-motion`. GSAP still available for Phase 2 layered-reveal moments.
-- [ ] **Phase 1H** — Asset integration (swap placeholders for real photos/videos from `_assetdump/`).
+- [~] **Phase 1H** — Asset integration (photo pass done). 7 raw photos processed to web sizes; HomeChooser + both hero backdrops now use real imagery; `images.remotePatterns` for Unsplash removed. **Pending Joey:** hero video curation/compression (2 raw `.mp4` files totalling ~4.4GB) and categorization of the remaining JPG originals. See `_assetdump/MANIFEST.md`.
 - [ ] **Phase 1I** — SEO, Lighthouse polish, prod SMTP cutover, DNS flip, merge to `main`.
 
 ---
