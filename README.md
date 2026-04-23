@@ -103,7 +103,31 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1F | Contact forms + email | ✅ Done |
 | 1G | Animation layer (Lenis, GSAP, scroll reveals) | ✅ Done |
 | 1H | Asset integration (real photos/videos) | ✅ Done (photos) — videos pending Joey |
-| 1I | SEO, polish, DNS flip, launch | 🔨 Up next |
+| 1I | SEO, polish, DNS flip, launch | ✅ Done (code) — awaiting Joey's launch signal |
+
+## Launch Runbook (Phase 1I)
+
+When Joey gives the go:
+
+1. **Final SMTP swap** — set production `SMTP_*` + `CONTACT_FORM_TO` env
+   vars in Vercel → Settings → Environment Variables (Production scope).
+   Test with a real submission to the preview URL.
+2. **Verify Lighthouse** on preview URL — target 95+/100/100/100.
+3. **Attach domain** — Vercel → Project → Settings → Domains → add
+   `radiantsoundwny.com` + `www.radiantsoundwny.com`. Vercel gives DNS
+   targets (A for apex, CNAME for www).
+4. **Update DNS** at Joey's registrar: replace GitHub Pages A records
+   with Vercel's, point `www` CNAME at Vercel.
+5. **Wait** for propagation + SSL cert issuance (usually <15 min).
+6. **Verify** `radiantsoundwny.com` serves the Vercel build and SSL is
+   green. Test a real contact form submission end-to-end.
+7. **Merge** `overhaul` → `main` via PR (keeps clean history). Change
+   Vercel's production branch from `overhaul` to `main`.
+8. **Disable GitHub Pages** (Settings → Pages → source: None) — Vercel
+   now owns the domain. The `legacy-jekyll` branch remains as archive.
+
+Guardrail preserved until step 3: `radiantsoundwny.com` keeps serving
+the legacy Jekyll site from GitHub Pages.
 
 ## License
 

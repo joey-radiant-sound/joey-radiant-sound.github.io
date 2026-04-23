@@ -36,7 +36,8 @@ export function ScrollReveal({
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     ) {
-      setShown(true);
+      // Defer past the effect to avoid the cascading-render lint rule.
+      queueMicrotask(() => setShown(true));
       return;
     }
 

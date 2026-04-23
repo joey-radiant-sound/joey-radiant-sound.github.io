@@ -35,6 +35,17 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 
 ---
 
+## Pre-launch checklist (before DNS flip)
+
+- [ ] Production SMTP env vars set in Vercel (see README Launch Runbook).
+- [ ] Real end-to-end contact-form test to joey@radiantsoundwny.com on preview URL.
+- [ ] Lighthouse pass on `/`, `/weddings`, `/acappella` — 95+/100/100/100.
+- [ ] Cross-browser smoke test (Safari iOS, Chrome Android, Safari/Chrome/Firefox desktop).
+- [ ] Final copy sign-off from Joey on `/weddings`, `/weddings/about`, `/acappella`, `/acappella/about`.
+- [ ] Social links filled in (replace `#` placeholders in both footers).
+- [ ] Hero video curated + compressed + dropped into `public/videos/acappella/hero-reel.mp4` (optional — YouTube fallback exists).
+- [ ] Font pick confirmed (or keep Inter-only).
+
 ## Phase milestones (tracked here as they complete)
 
 - [x] **Phase 1A** — Design tokens, Inter font, `ARCHITECTURE.md`, `TODO.md`, root layout wired.
@@ -46,7 +57,7 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 - [x] **Phase 1F** — Contact forms + email. RHF-free `useActionState` + server actions with Zod validation, honeypot, IP rate limit (3/15min), Nodemailer SMTP. Both forms send tagged emails (`[WEDDINGS]`/`[A CAPPELLA]`) to joey@radiantsoundwny.com. See `.env.example` for SMTP dev/prod setup.
 - [x] **Phase 1G** — Animation layer. Lenis smooth scroll wired at root; `ScrollReveal` IntersectionObserver + CSS transitions applied to all section-level content on `/weddings` and `/acappella`; sub-site nav bars become solid/blurred once scrolled. All honors `prefers-reduced-motion`. GSAP still available for Phase 2 layered-reveal moments.
 - [~] **Phase 1H** — Asset integration (photo pass done). 7 raw photos processed to web sizes; HomeChooser + both hero backdrops now use real imagery; `images.remotePatterns` for Unsplash removed. **Pending Joey:** hero video curation/compression (2 raw `.mp4` files totalling ~4.4GB) and categorization of the remaining JPG originals. See `_assetdump/MANIFEST.md`.
-- [ ] **Phase 1I** — SEO, Lighthouse polish, prod SMTP cutover, DNS flip, merge to `main`.
+- [x] **Phase 1I (code)** — Sitemap, robots, per-sub-site OG image generators, JSON-LD LocalBusiness, metadataBase. Launch runbook documented in README. **Pending Joey:** Lighthouse verification, prod SMTP cutover, DNS flip — runbook in README.md.
 
 ---
 
