@@ -44,7 +44,7 @@ From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:
 - [x] **Phase 1D** — Weddings content pages. Hero, 3 pillars, 3 principles, 4-step process, testimonials + WeddingWire link, service area, CTA. About page written as concise draft leaning on principles (flagged for Joey review — info-sheet source needed for final copy).
 - [x] **Phase 1E** — A Cappella content pages. Hero, 3 pillars, featured Varsity Vocals + institution-grouped roster, why-book-us, service area, CTA. About page pulls §4.A verbatim. Tagline [B] "Production built for voices." locked in hero + footer.
 - [x] **Phase 1F** — Contact forms + email. RHF-free `useActionState` + server actions with Zod validation, honeypot, IP rate limit (3/15min), Nodemailer SMTP. Both forms send tagged emails (`[WEDDINGS]`/`[A CAPPELLA]`) to joey@radiantsoundwny.com. See `.env.example` for SMTP dev/prod setup.
-- [ ] **Phase 1G** — Animation layer (Lenis + ScrollReveal + Parallax + nav behavior).
+- [x] **Phase 1G** — Animation layer. Lenis smooth scroll wired at root; `ScrollReveal` IntersectionObserver + CSS transitions applied to all section-level content on `/weddings` and `/acappella`; sub-site nav bars become solid/blurred once scrolled. All honors `prefers-reduced-motion`. GSAP still available for Phase 2 layered-reveal moments.
 - [ ] **Phase 1H** — Asset integration (swap placeholders for real photos/videos from `_assetdump/`).
 - [ ] **Phase 1I** — SEO, Lighthouse polish, prod SMTP cutover, DNS flip, merge to `main`.
 

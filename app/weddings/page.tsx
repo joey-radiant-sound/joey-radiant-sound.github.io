@@ -5,6 +5,7 @@ import { ProcessSteps } from "@/components/sections/ProcessSteps";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { ServiceArea } from "@/components/sections/ServiceArea";
 import { CallToAction } from "@/components/sections/CallToAction";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { pillars, serviceArea } from "@/lib/content/weddings";
 
 export default function WeddingsHome() {
@@ -12,27 +13,39 @@ export default function WeddingsHome() {
     <>
       <WeddingsHero />
 
-      <ServicePillars
-        eyebrow="What we offer"
-        heading="Full-service wedding production."
-        pillars={pillars}
-      />
+      <ScrollReveal>
+        <ServicePillars
+          eyebrow="What we offer"
+          heading="Full-service wedding production."
+          pillars={pillars}
+        />
+      </ScrollReveal>
 
-      <HowWeWork />
+      <ScrollReveal>
+        <HowWeWork />
+      </ScrollReveal>
 
-      <ProcessSteps />
+      <ScrollReveal>
+        <ProcessSteps />
+      </ScrollReveal>
 
-      <Testimonials />
+      <ScrollReveal>
+        <Testimonials />
+      </ScrollReveal>
 
-      <ServiceArea body={serviceArea.body} />
+      <ScrollReveal>
+        <ServiceArea body={serviceArea.body} />
+      </ScrollReveal>
 
-      <CallToAction
-        eyebrow="Ready when you are"
-        heading="Let's plan your wedding."
-        body="Tell us your date, venue, and vibe — we'll take it from there."
-        ctaLabel={serviceArea.ctaLabel}
-        ctaHref={serviceArea.ctaHref}
-      />
+      <ScrollReveal>
+        <CallToAction
+          eyebrow="Ready when you are"
+          heading="Let's plan your wedding."
+          body="Tell us your date, venue, and vibe — we'll take it from there."
+          ctaLabel={serviceArea.ctaLabel}
+          ctaHref={serviceArea.ctaHref}
+        />
+      </ScrollReveal>
     </>
   );
 }

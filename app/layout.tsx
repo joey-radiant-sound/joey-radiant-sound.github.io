@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { LenisProvider } from "@/components/animations/LenisProvider";
 import "./globals.css";
 
 // Body font — wired via CSS variable so Tailwind's `font-sans` token in
@@ -33,7 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="font-sans antialiased">{children}</body>
+      <body className="font-sans antialiased">
+        <LenisProvider>{children}</LenisProvider>
+      </body>
     </html>
   );
 }

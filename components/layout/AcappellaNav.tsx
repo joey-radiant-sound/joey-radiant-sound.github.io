@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
+import { useScrolled } from "@/components/animations/useScrolled";
 
 const links = [
   { href: "/acappella", label: "Home" },
@@ -10,10 +13,20 @@ const links = [
 
 /**
  * A cappella sub-site navigation. Rendered inside app/acappella/layout.tsx.
+ * Scroll-aware: transparent at top, solid-white+backdrop-blur once scrolled.
  */
 export function AcappellaNav() {
+  const scrolled = useScrolled();
+
   return (
-    <header className="sticky top-0 z-40 border-b border-black/5 bg-white/80 backdrop-blur">
+    <header
+      data-scrolled={scrolled ? "true" : "false"}
+      className={`sticky top-0 z-40 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ${
+        scrolled
+          ? "border-b border-black/5 bg-white/80 backdrop-blur"
+          : "border-b border-transparent bg-transparent"
+      }`}
+    >
       <Container>
         <div className="flex h-16 items-center justify-between gap-6">
           <Link
