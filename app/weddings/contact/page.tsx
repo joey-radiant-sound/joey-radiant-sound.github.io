@@ -10,22 +10,23 @@ export const metadata: Metadata = {
 
 export default function WeddingsContact() {
   return (
-    <section className="py-24 md:py-32">
+    <section className="py-20 md:py-28">
       <Container width="narrow">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-brand-600">
-          Contact
-        </p>
-        <h1 className="text-4xl font-semibold tracking-tight text-ink text-balance md:text-5xl">
-          Get a wedding quote
-        </h1>
-        <p className="mt-6 text-lg text-muted">
-          Tell us about your wedding. We&rsquo;ll come back within one business
-          day with availability and a starting quote.
-        </p>
+        {/* Big centered page header above everything */}
+        <header className="mb-12 text-center md:mb-16">
+          <p className="mb-6 text-2xl font-bold uppercase tracking-[0.2em] text-brand-600 md:text-4xl">
+            Contact
+          </p>
+          <h1 className="text-5xl font-semibold tracking-tight text-ink text-balance md:text-7xl">
+            Get a wedding quote
+          </h1>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-muted md:text-xl">
+            Tell us about your wedding. We&rsquo;ll come back within one business
+            day with availability and a starting quote.
+          </p>
+        </header>
 
-        <div className="mt-12">
-          <WeddingsContactForm />
-        </div>
+        <WeddingsContactForm />
       </Container>
     </section>
   );

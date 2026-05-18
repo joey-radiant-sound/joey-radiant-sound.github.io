@@ -4,12 +4,11 @@
  * imported by client components.
  */
 export const WEDDINGS_SERVICES = [
-  { value: "dj", label: "DJ" },
-  { value: "ceremony_audio", label: "Ceremony audio" },
-  { value: "reception_sound", label: "Reception sound" },
+  { value: "reception", label: "Reception" },
+  { value: "ceremony", label: "Ceremony" },
   { value: "uplighting", label: "Uplighting" },
-  { value: "cold_sparks", label: "Cold-spark effects" },
-  { value: "other", label: "Other" },
+  { value: "cold_sparks", label: "Cold Sparks" },
+  { value: "other", label: "Other (Please List Below)" },
 ] as const;
 
 export type WeddingsFormState = {
@@ -19,11 +18,13 @@ export type WeddingsFormState = {
     Record<
       | "firstName"
       | "lastName"
+      | "partnerFirstName"
+      | "partnerLastName"
       | "email"
-      | "partnerName"
       | "weddingDate"
-      | "venue"
       | "guestCount"
+      | "venue"
+      | "venueAddress"
       | "services"
       | "referral"
       | "message",

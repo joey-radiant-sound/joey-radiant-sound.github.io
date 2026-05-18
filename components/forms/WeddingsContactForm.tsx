@@ -21,7 +21,7 @@ export function WeddingsContactForm() {
 
   if (state.ok && state.message) {
     return (
-      <div className="rounded-xl border border-brand-600/30 bg-brand-50 p-6">
+      <div className="rounded-xl border border-brand-600/30 bg-brand-50 p-6 text-center">
         <p className="text-lg font-medium text-ink">Thanks — message received.</p>
         <p className="mt-2 text-base text-ink-soft">{state.message}</p>
       </div>
@@ -40,20 +40,36 @@ export function WeddingsContactForm() {
         </label>
       </div>
 
+      {/* Row 1: your name */}
       <div className="grid gap-5 sm:grid-cols-2">
         <Input label="First name" name="firstName" required error={e.firstName} autoComplete="given-name" />
         <Input label="Last name" name="lastName" required error={e.lastName} autoComplete="family-name" />
       </div>
 
+      {/* Row 2: partner's name */}
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Input label="Partner's first name" name="partnerFirstName" error={e.partnerFirstName} />
+        <Input label="Partner's last name" name="partnerLastName" error={e.partnerLastName} />
+      </div>
+
       <Input label="Email" name="email" type="email" required error={e.email} autoComplete="email" />
-      <Input label="Partner's name" name="partnerName" error={e.partnerName} />
 
       <div className="grid gap-5 sm:grid-cols-2">
-        <Input label="Wedding date" name="weddingDate" type="date" required error={e.weddingDate} hint='Enter "TBD" allowed — type into the field manually if needed.' />
+        <Input label="Wedding date" name="weddingDate" type="date" required error={e.weddingDate} />
         <Input label="Approximate guest count" name="guestCount" type="number" min={1} required error={e.guestCount} />
       </div>
 
-      <Input label="Venue (name + city/state)" name="venue" required error={e.venue} />
+      <Input label="Venue" name="venue" required error={e.venue} placeholder="e.g. The Statler Hotel" />
+
+      {/* Browser-native street-address autofill. Joey can wire Google Places later
+          for a true searchable dropdown — needs an API key. */}
+      <Input
+        label="Venue address"
+        name="venueAddress"
+        error={e.venueAddress}
+        autoComplete="street-address"
+        placeholder="Start typing to autofill"
+      />
 
       <CheckboxGroup
         label="Services needed"
@@ -72,7 +88,7 @@ export function WeddingsContactForm() {
         </p>
       )}
 
-      <div className="mt-2">
+      <div className="mt-4 flex justify-center">
         <Button type="submit" size="lg" disabled={pending}>
           {pending ? "Sending…" : "Send"}
         </Button>
