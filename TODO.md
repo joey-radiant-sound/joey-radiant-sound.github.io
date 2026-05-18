@@ -8,6 +8,8 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the structure and `~/.claude/plans/
 
 ## Needed from Joey (non-blocking during construction)
 
+- [ ] **WeddingsHero slideshow curation** — the hero on `/weddings` auto-cycles through a starter set of 5 photos. Joey to provide the final curated list (filenames from `_assetdump/originals/` or new uploads) — should be photos NOT used elsewhere on the site. Wired in `components/sections/WeddingsHero.tsx` (`heroSlides` array).
+
 - [ ] **GitHub remote** — `gh auth login` then confirm where to push (`joecassata/radiant-sound-website` private?).
 - [ ] **Vercel project** — create, link to GitHub repo, set production branch to `feat/overhaul-phase-1`. **Do NOT attach `radiantsoundwny.com` custom domain yet** — that happens at launch (Phase 1I).
 - [ ] **SMTP credentials** (production) — either Joey's provider or Resend's free tier (3k emails/mo). Dev uses Ethereal/Mailtrap.

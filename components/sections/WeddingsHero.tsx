@@ -1,23 +1,28 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { HeroSlideshow } from "@/components/sections/HeroSlideshow";
 import { hero } from "@/lib/content/weddings";
 
 /**
- * Weddings sub-site hero. Dark-on-photo treatment: real wedding image
- * as backdrop, brand-gradient wash on top for legibility, white type.
+ * Weddings sub-site hero. Auto-cycling photo slideshow as the
+ * backdrop, dark brand wash for legibility, white type on top.
+ *
+ * TODO(joey): the slide list below is a starter set drawn from
+ * _assetdump/originals. Joey to curate the final rotation — see
+ * TODO.md "WeddingsHero slideshow curation".
  */
+const heroSlides = [
+  "/images/weddings/reception-dancefloor-01.jpg",
+  "/images/weddings/hero-slide-01.jpg",
+  "/images/weddings/hero-slide-02.jpg",
+  "/images/weddings/hero-slide-03.jpg",
+  "/images/weddings/hero-slide-04.jpg",
+] as const;
+
 export function WeddingsHero() {
   return (
     <section className="relative overflow-hidden py-28 md:py-40">
-      <Image
-        src="/images/weddings/reception-dancefloor-01.jpg"
-        alt=""
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover"
-      />
+      <HeroSlideshow images={heroSlides} />
       <div
         aria-hidden
         className="absolute inset-0"
