@@ -15,7 +15,7 @@ export default function AcappellaHome() {
       <ScrollReveal>
         <ServicePillars
           eyebrow="What we do"
-          heading="Purpose-built for voices."
+          heading="Purpose-built for voices"
           pillars={pillars}
         />
       </ScrollReveal>
@@ -35,10 +35,16 @@ export default function AcappellaHome() {
       <ScrollReveal>
         <CallToAction
           eyebrow="Bring us your show"
-          heading="Tell us about your next performance."
+          heading="Tell us about your next performance"
           body="Concerts, ICCAs, showcases, studio sessions — we've done them all."
           ctaLabel={serviceArea.ctaLabel}
           ctaHref={serviceArea.ctaHref}
+          decorations={[
+            "/images/acappella/cta-side-01.jpg",
+            "/images/acappella/cta-side-02.jpg",
+            "/images/acappella/cta-side-03.jpg",
+            "/images/acappella/cta-side-04.jpg",
+          ]}
         />
       </ScrollReveal>
     </>

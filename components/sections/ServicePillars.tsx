@@ -26,7 +26,7 @@ export function ServicePillars({
       <Container>
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
           {eyebrow && (
-            <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-600 md:text-lg">
+            <p className="mb-6 text-2xl font-bold uppercase tracking-[0.2em] text-brand-600 md:text-4xl">
               {eyebrow}
             </p>
           )}

@@ -22,17 +22,17 @@ export const hero = {
 // §3.2 What we do — three pillars
 export const pillars = [
   {
-    title: "Live sound.",
+    title: "Live sound",
     body:
       "Full PA, custom monitoring, and up to 18 wireless microphones tuned specifically for a cappella. A seasoned a cappella engineer runs every show — someone who knows how to bring out the best in your group's sound, from VP clarity to soloist body to ensemble blend.",
   },
   {
-    title: "Lighting.",
+    title: "Lighting",
     body:
       "Show lighting designed around your set — washes, moving heads, and backlighting programmed to your music. Our goal is to accentuate your creative vision, never distract from it.",
   },
   {
-    title: "Video + streaming.",
+    title: "Video + streaming",
     body:
       "Multi-cam capture, multitrack recording, and full post-production (on request) — so your biggest show lives on long after the final chord.",
   },
@@ -74,17 +74,17 @@ export const rosterGroups = [
 // §3.4 Why groups keep booking us
 export const whyBookUs = [
   {
-    title: "We speak your language.",
+    title: "We speak your language",
     body:
       "Solo cues, group blend, VP, choreo — we're already thinking in the same terms you are.",
   },
   {
-    title: "We're consistent.",
+    title: "We're consistent",
     body:
       "Many of our groups have worked with the same team year after year.",
   },
   {
-    title: "We're flexible.",
+    title: "We're flexible",
     body:
       "Whether it's a 150-seat blackbox or a 1,500-seat theater, we scale to the room.",
   },

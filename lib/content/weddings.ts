@@ -41,17 +41,17 @@ export const pillars = [
 // §2.3 How we work — three principles
 export const principles = [
   {
-    title: "Meticulous organization.",
+    title: "Meticulous organization",
     body:
       "Your wedding day is a collection of unique moments, and every detail matters. We've refined a comprehensive planning spreadsheet over every wedding we've played. We ask the right questions, nothing gets overlooked, and your day runs the way you pictured it.",
   },
   {
-    title: "Musical expertise.",
+    title: "Musical expertise",
     body:
       "Sharing our love of music is core to who we are. We've developed eclectic tastes across every genre and invest serious hours curating each reception — a tasteful blend of nostalgia and contemporary that keeps every generation of your guests on the floor.",
   },
   {
-    title: "Unparalleled professionalism.",
+    title: "Unparalleled professionalism",
     body:
       "Exceptional service sits at the heart of what we do. We make ourselves available around the clock to answer questions, offer recommendations, and guide you through the process. Your peace of mind is our top priority.",
   },
@@ -60,22 +60,22 @@ export const principles = [
 // §2.4 Our simple four-step process
 export const processSteps = [
   {
-    title: "Initial consultation.",
+    title: "Initial consultation",
     body:
       "We connect and dive into your vision. We'll walk you through our comprehensive planning sheet and make sure we capture every nuance of your big day.",
   },
   {
-    title: "Planning period.",
+    title: "Planning period",
     body:
       "As your wedding details come together, you'll fill out the planning spreadsheet with music requests, reception events, and general ideas. We're a text away the whole time — ready to assist, recommend, and guide you through the process.",
   },
   {
-    title: "Pre-wedding consultation.",
+    title: "Pre-wedding consultation",
     body:
       "We finalize every detail of the reception together. Your dedicated DJ then crafts a personalized playlist for your review, and we coordinate with your venue and vendors so everyone shows up on the same page.",
   },
   {
-    title: "The big day.",
+    title: "The big day",
     body:
       "It's finally here. We arrive early with one thing in mind: helping create the greatest night of your lives. We play at peak performance and make sure your reception is talked about for years to come.",
   },

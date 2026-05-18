@@ -13,11 +13,11 @@ export function ClientRoster() {
     <section className="bg-ink py-24 text-white md:py-32">
       <Container>
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
-          <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-300 md:text-lg">
+          <p className="mb-6 text-2xl font-bold uppercase tracking-[0.2em] text-brand-300 md:text-4xl">
             Who we&rsquo;ve worked with
           </p>
           <h2 className="text-5xl font-semibold tracking-tight text-balance md:text-7xl">
-            A decade of groups on our boards.
+            A decade of groups on our boards
           </h2>
         </div>
 

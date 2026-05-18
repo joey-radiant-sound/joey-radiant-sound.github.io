@@ -12,11 +12,11 @@ export function HowWeWork() {
     <section className="bg-ink py-24 text-white md:py-32">
       <Container>
         <div className="mx-auto mb-16 max-w-3xl text-center md:mb-24">
-          <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-300 md:text-lg">
+          <p className="mb-6 text-2xl font-bold uppercase tracking-[0.2em] text-brand-300 md:text-4xl">
             How we work
           </p>
           <h2 className="text-5xl font-semibold tracking-tight text-balance md:text-7xl">
-            Three things we take seriously.
+            Three things we take seriously
           </h2>
         </div>
 

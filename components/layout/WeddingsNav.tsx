@@ -29,7 +29,7 @@ export function WeddingsNav() {
           aria-label="Back to Radiant Sound home"
         >
           <Image
-            src="/images/shared/logo-white.svg"
+            src="/images/shared/logo-white-no-subtitle.svg"
             alt="Radiant Sound"
             width={320}
             height={64}

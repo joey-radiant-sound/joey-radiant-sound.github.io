@@ -16,7 +16,7 @@ export default function WeddingsHome() {
       <ScrollReveal>
         <ServicePillars
           eyebrow="What we offer"
-          heading="Full-service wedding production."
+          heading="Full-service wedding production"
           pillars={pillars}
         />
       </ScrollReveal>
@@ -40,10 +40,16 @@ export default function WeddingsHome() {
       <ScrollReveal>
         <CallToAction
           eyebrow="Ready when you are"
-          heading="Let's plan your wedding."
+          heading="Let's plan your wedding"
           body="Tell us your date, venue, and vibe — we'll take it from there."
           ctaLabel={serviceArea.ctaLabel}
           ctaHref={serviceArea.ctaHref}
+          decorations={[
+            "/images/weddings/cta-side-01.jpg",
+            "/images/weddings/cta-side-02.jpg",
+            "/images/weddings/cta-side-03.jpg",
+            "/images/weddings/cta-side-04.jpg",
+          ]}
         />
       </ScrollReveal>
     </>
