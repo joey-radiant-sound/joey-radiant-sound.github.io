@@ -1,0 +1,50 @@
+# docker compose stack for the self-hosted Radiant Sound deploy.
+#
+# Two services:
+#   - app:   the Next.js app (built from this repo's Dockerfile)
+#   - caddy: reverse proxy + automatic HTTPS via Let's Encrypt
+#
+# Persistent state lives in two named volumes:
+#   - portal_data:  app/data (SQLite db + future uploaded files)
+#   - caddy_data:   Caddy's TLS certs + ACME account state
+#
+# Bring up:    docker compose up -d --build
+# Tail logs:   docker compose logs -f
+# Migrate db:  docker compose exec app npx prisma db push
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      # Set in .env on the VPS (gitignored). See .env.example.
+      DATABASE_URL: file:./data/radiant.db
+      AUTH_SECRET: ${AUTH_SECRET}
+      AUTH_URL: ${AUTH_URL}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASSWORD: ${SMTP_PASSWORD}
+      CONTACT_FORM_TO: ${CONTACT_FORM_TO:-joey@radiantsoundwny.com}
+      CONTACT_FORM_FROM: ${CONTACT_FORM_FROM}
+      AUTH_EMAIL_FROM: ${AUTH_EMAIL_FROM}
+    volumes:
+      - portal_data:/app/data
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  portal_data:
+  caddy_data:
+  caddy_config:

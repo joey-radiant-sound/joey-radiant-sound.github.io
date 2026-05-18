@@ -52,3 +52,7 @@ next-env.d.ts
 /_assetdump/*
 !/_assetdump/.gitkeep
 !/_assetdump/MANIFEST.md
+
+# Portal data (Phase 2): SQLite db + uploaded files. Folder preserved via .gitkeep.
+/data/*
+!/data/.gitkeep

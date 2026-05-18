@@ -12,7 +12,8 @@ Marketing site and future client portal for [Radiant Sound](https://radiantsound
 - **Auth:** Auth.js v5 (Phase 2)
 - **Database:** Neon Postgres + Prisma (Phase 2)
 - **File storage:** Cloudflare R2 (Phase 2)
-- **Hosting:** Vercel
+- **Hosting:** Self-hosted on a single VPS (Docker Compose + Caddy reverse proxy)
+- **Portal database:** SQLite (`data/radiant.db`)
 
 ## Preview URL
 
@@ -113,23 +114,91 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 
 See [PHASE2.md](./PHASE2.md) for the portal sub-phase breakdown.
 
-## Portal Setup (Phase 2A — required before /portal works)
+## Portal Setup (Phase 2A — self-hosted)
 
-The portal at `/portal/*` is wired up but inert until Joey provisions a database. One-time setup:
+The portal at `/portal/*` is wired but inert until you stand up a Linux box and bring the Docker stack up. **No third-party database service required** — the entire stateful backend is a SQLite file on the VPS disk.
 
-1. **Create Neon project** at https://console.neon.tech → New project. Free tier is fine. Region: pick one close to Vercel's default (us-east-1).
-2. **Copy the pooled connection string** (Connection details → Pooled connection). It looks like `postgresql://user:pass@ep-xxx.us-east-1.aws.neon.tech/neondb?sslmode=require`.
-3. **Generate an Auth.js secret:** `openssl rand -base64 32`
-4. **Add to `.env.local`:**
+### Local dev (no VPS needed)
+
+```bash
+# 1. Set env
+cp .env.example .env.local
+# Edit .env.local: set AUTH_SECRET (openssl rand -base64 32), SMTP_* vars
+
+# 2. Create the SQLite file + tables
+npx prisma db push
+
+# 3. Run dev server
+npm run dev
+# → http://localhost:3000/portal
+```
+
+The DB file lives at `data/radiant.db` (gitignored). Wipe it any time with `rm data/radiant.db && npx prisma db push`.
+
+### Production setup (one-time)
+
+1. **Provision a VPS.** Recommended: Hetzner CX22 (€4.50/mo, EU), DigitalOcean Basic Droplet ($6/mo), or Vultr ($5/mo). 1 vCPU + 2 GB RAM + 20 GB SSD is plenty for this workload. Ubuntu 24.04 LTS or Debian 12.
+2. **DNS:** point `radiantsoundwny.com` (apex A record) and `www.radiantsoundwny.com` (CNAME or A) at the VPS IP. Caddy will auto-provision TLS on first request.
+3. **SSH in and install Docker:**
+   ```bash
+   curl -fsSL https://get.docker.com | sh
+   sudo usermod -aG docker $USER  # log out + back in
    ```
-   DATABASE_URL=postgresql://...
-   AUTH_SECRET=...
+4. **Clone the repo:**
+   ```bash
+   sudo mkdir -p /opt/radiantsound && sudo chown $USER /opt/radiantsound
+   cd /opt/radiantsound
+   git clone https://github.com/joey-radiant-sound/joey-radiant-sound.github.io.git .
+   git checkout overhaul  # until we merge to main at launch
    ```
-5. **Push the schema to Neon:** `npx prisma db push` (creates all tables without migrations — fine for now; switch to `prisma migrate` once schema stabilizes).
-6. **Add the same env vars to Vercel** → Project → Settings → Environment Variables → both Production and Preview scopes.
-7. **Re-deploy** so Vercel picks up the new env: `npx vercel --prod --yes`.
+5. **Create `.env`** (gitignored) at the repo root:
+   ```bash
+   cat > .env <<'EOF'
+   AUTH_SECRET=$(openssl rand -base64 32)
+   AUTH_URL=https://radiantsoundwny.com
+   SMTP_HOST=smtp.example.com
+   SMTP_PORT=587
+   SMTP_USER=joey@radiantsoundwny.com
+   SMTP_PASSWORD=...
+   CONTACT_FORM_TO=joey@radiantsoundwny.com
+   CONTACT_FORM_FROM=joey@radiantsoundwny.com
+   AUTH_EMAIL_FROM=joey@radiantsoundwny.com
+   EOF
+   ```
+6. **Bring the stack up:**
+   ```bash
+   docker compose up -d --build
+   ```
+7. **Initialize the database** (one-time, inside the running container):
+   ```bash
+   docker compose exec app npx prisma db push
+   ```
+8. **Verify:** visit `https://radiantsoundwny.com` (marketing site) and `https://radiantsoundwny.com/portal` (redirects to sign-in). First TLS cert issuance takes ~30s.
+9. **Schedule nightly backups:**
+   ```bash
+   sudo cp scripts/backup.sh /usr/local/bin/radiantsound-backup
+   sudo chmod +x /usr/local/bin/radiantsound-backup
+   echo "0 3 * * * /usr/local/bin/radiantsound-backup >> /var/log/radiantsound-backup.log 2>&1" | sudo tee -a /etc/crontab
+   ```
 
-After that, visiting `/portal` redirects to `/portal/sign-in`, where any email submission sends a magic link via the existing SMTP transport. (Allowlist + admin invite UI lands in Phase 2B.)
+### Updates (after first deploy)
+
+On the VPS:
+```bash
+cd /opt/radiantsound
+git pull
+docker compose up -d --build
+# If schema changed:
+docker compose exec app npx prisma db push
+```
+
+### Vercel — what to do
+
+Vercel continues to host preview builds at https://radiant-sound-website.vercel.app for the **marketing-site routes only**. The portal will error there (no SQLite filesystem persistence on Vercel serverless). Production traffic goes to the VPS once DNS is cut over.
+
+After the VPS is verified working at the production domain:
+- Delete the Vercel project (or keep for previews; it's free)
+- The `radiantsoundwny.com` DNS A record now points at the VPS, not Vercel
 
 ## Launch Runbook (Phase 1I)
 

@@ -1,9 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Phase 1H: real assets now live in public/images/. No remote
-  // sources needed. Re-add remotePatterns here if we ever pull
-  // externally-hosted media (e.g. YouTube thumbs).
+  // Phase 2: Docker self-hosted deploy. "standalone" emits a minimal
+  // runtime bundle (.next/standalone/server.js) that the Dockerfile
+  // copies into the runtime image.
+  output: "standalone",
 };
 
 export default nextConfig;

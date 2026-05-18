@@ -1,7 +1,12 @@
 // Prisma schema for Radiant Sound client portal (Phase 2).
 //
-// Datasource: Neon Postgres (free tier). DATABASE_URL must be set in
-// .env.local for `prisma migrate dev` / `prisma db push` to work.
+// Datasource: SQLite. The database is a single file on disk
+// (data/radiant.db), persisted across deploys via the docker volume
+// declared in docker-compose.yml.
+//
+// Why SQLite: zero ops, file-based, trivial backups (cp the file),
+// no separate database process, no network connection, no managed
+// service. Handles our scale (dozens of couples) trivially.
 //
 // Auth.js v5 requires the User/Account/Session/VerificationToken
 // tables. Everything else is Radiant Sound domain.
@@ -11,7 +16,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -27,7 +32,7 @@ model User {
   // Radiant Sound additions
   firstName String?
   lastName  String?
-  role      Role   @default(COUPLE)
+  role      String  @default("COUPLE") // "COUPLE" | "ADMIN"
 
   accounts        Account[]
   sessions        Session[]
@@ -38,23 +43,18 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-enum Role {
-  COUPLE
-  ADMIN // Joey
-}
-
 model Account {
   id                String  @id @default(cuid())
   userId            String
   type              String
   provider          String
   providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
+  refresh_token     String?
+  access_token      String?
   expires_at        Int?
   token_type        String?
   scope             String?
-  id_token          String? @db.Text
+  id_token          String?
   session_state     String?
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -83,13 +83,13 @@ model VerificationToken {
 
 /// One wedding. Members (couple) get scoped access via ProjectMember.
 model Project {
-  id          String   @id @default(cuid())
-  title       String // e.g. "Teagan & Isaac"
-  eventDate   DateTime?
-  venueName   String?
-  venueCity   String?
-  guestCount  Int?
-  status      ProjectStatus @default(LEAD)
+  id         String    @id @default(cuid())
+  title      String // e.g. "Teagan & Isaac"
+  eventDate  DateTime?
+  venueName  String?
+  venueCity  String?
+  guestCount Int?
+  status     String    @default("LEAD") // "LEAD" | "BOOKED" | "PLANNING" | "COMPLETED" | "CANCELED"
 
   invitedById String?
   invitedBy   User?   @relation("ProjectInvitedBy", fields: [invitedById], references: [id])
@@ -100,22 +100,14 @@ model Project {
   updatedAt DateTime @updatedAt
 }
 
-enum ProjectStatus {
-  LEAD
-  BOOKED
-  PLANNING
-  COMPLETED
-  CANCELED
-}
-
 /// Many-to-many between Users and Projects. A wedding can have
 /// multiple logins (bride, groom, planner) — every member sees the
 /// same Project.
 model ProjectMember {
-  id        String          @id @default(cuid())
+  id        String @id @default(cuid())
   projectId String
   userId    String
-  role      ProjectRoleType @default(OWNER)
+  role      String @default("OWNER") // "OWNER" | "COLLABORATOR"
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -123,9 +115,4 @@ model ProjectMember {
   createdAt DateTime @default(now())
 
   @@unique([projectId, userId])
-}
-
-enum ProjectRoleType {
-  OWNER
-  COLLABORATOR
 }

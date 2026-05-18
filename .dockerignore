@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+_assetdump
+data
+.env*
+*.md
+!PHASE2.md
+.vercel
+.DS_Store

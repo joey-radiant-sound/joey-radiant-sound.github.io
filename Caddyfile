@@ -1,0 +1,10 @@
+# Caddy v2 config. Caddy auto-provisions Let's Encrypt certs for any
+# domain listed here on first request — no manual cert dance.
+#
+# To point a domain at this server, just add it as a block here and
+# update your registrar's DNS (A record → VPS IP).
+
+radiantsoundwny.com, www.radiantsoundwny.com {
+	encode zstd gzip
+	reverse_proxy app:3000
+}
