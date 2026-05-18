@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 
 const links = [
@@ -24,10 +25,17 @@ export function AcappellaNav() {
       <div className="flex h-16 items-center justify-between gap-6 px-6 md:px-10">
         <Link
           href="/"
-          className="text-base font-semibold tracking-tight text-white transition-opacity hover:opacity-80"
+          className="flex items-center transition-opacity hover:opacity-80"
           aria-label="Back to Radiant Sound home"
         >
-          Radiant Sound
+          <Image
+            src="/images/shared/logo-white.svg"
+            alt="Radiant Sound"
+            width={180}
+            height={40}
+            priority
+            className="h-8 w-auto md:h-9"
+          />
         </Link>
 
         <nav className="flex items-center gap-1">

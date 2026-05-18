@@ -6,10 +6,10 @@ import { whyBookUs } from "@/lib/content/acappella";
  */
 export function WhyBookUs() {
   return (
-    <section className="bg-surface py-24 md:py-32">
+    <section className="bg-surface-alt py-24 md:py-32">
       <Container>
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-brand-600">
+          <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-600 md:text-lg">
             Why groups keep booking us
           </p>
           <h2 className="text-5xl font-semibold tracking-tight text-ink text-balance md:text-7xl">

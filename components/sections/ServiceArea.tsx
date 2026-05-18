@@ -14,7 +14,7 @@ export function ServiceArea({ eyebrow = "Service area", body }: ServiceAreaProps
   return (
     <section className="bg-surface py-20 md:py-24">
       <Container width="narrow" className="text-center">
-        <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-brand-600">
+        <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-600 md:text-lg">
           {eyebrow}
         </p>
         <p className="text-2xl font-medium text-ink text-balance md:text-3xl">

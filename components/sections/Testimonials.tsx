@@ -8,13 +8,13 @@ import { testimonials, weddingWireUrl } from "@/lib/content/weddings";
  */
 export function Testimonials() {
   return (
-    <section className="bg-surface-alt py-24 md:py-32">
+    <section className="bg-ink py-24 text-white md:py-32">
       <Container>
         <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-brand-600">
+          <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-300 md:text-lg">
             What couples say
           </p>
-          <h2 className="text-5xl font-semibold tracking-tight text-ink text-balance md:text-7xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-balance md:text-7xl">
             Straight from the dance floor.
           </h2>
         </div>
@@ -23,15 +23,15 @@ export function Testimonials() {
           {testimonials.map((t) => (
             <li
               key={t.attribution}
-              className="flex flex-col rounded-2xl bg-surface p-8 shadow-sm ring-1 ring-black/5"
+              className="flex flex-col rounded-2xl bg-white/5 p-8 ring-1 ring-white/10 backdrop-blur"
             >
-              <p className="text-lg font-semibold text-ink text-balance md:text-xl">
+              <p className="text-lg font-semibold text-white text-balance md:text-xl">
                 &ldquo;{t.headline}&rdquo;
               </p>
-              <p className="mt-4 flex-1 text-sm leading-relaxed text-muted">
+              <p className="mt-4 flex-1 text-sm leading-relaxed text-white/70">
                 {t.body}
               </p>
-              <p className="mt-6 text-sm font-medium text-ink-soft">
+              <p className="mt-6 text-sm font-medium text-brand-200">
                 — {t.attribution}
               </p>
             </li>

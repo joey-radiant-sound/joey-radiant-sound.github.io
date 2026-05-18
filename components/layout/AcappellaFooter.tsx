@@ -16,20 +16,27 @@ const socials = [
  */
 export function AcappellaFooter() {
   return (
-    <footer className="bg-ink py-16 text-brand-100">
+    <footer
+      className="py-16 text-white"
+      style={{
+        backgroundImage: "url('/images/shared/brand-gradient.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
       <Container>
         <div className="grid gap-10 md:grid-cols-[2fr_1fr_1fr]">
           <div>
             <p className="max-w-md text-xl font-medium text-white text-balance">
               {tagline}
             </p>
-            <p className="mt-4 text-sm text-brand-200/70">
+            <p className="mt-4 text-sm text-white/75">
               Radiant Sound · A Cappella
             </p>
           </div>
 
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand-300">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/85">
               Contact
             </p>
             <Button href="/acappella/contact" variant="secondary" size="md">
@@ -38,7 +45,7 @@ export function AcappellaFooter() {
           </div>
 
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand-300">
+            <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-white/85">
               Follow
             </p>
             <ul className="space-y-2 text-sm">
@@ -58,7 +65,7 @@ export function AcappellaFooter() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 text-xs text-brand-200/50 md:flex-row md:items-center">
+        <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/20 pt-6 text-xs text-white/70 md:flex-row md:items-center">
           <p>© {new Date().getFullYear()} Radiant Sound, LLC. All rights reserved.</p>
           <div className="flex gap-6">
             <Link href="/weddings" className="transition-colors hover:text-white">

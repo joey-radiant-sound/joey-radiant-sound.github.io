@@ -24,11 +24,11 @@ export function CallToAction({
     <section className="bg-brand-900 py-20 text-white md:py-28">
       <Container width="narrow" className="text-center">
         {eyebrow && (
-          <p className="mb-3 text-sm font-medium uppercase tracking-[0.2em] text-brand-300">
+          <p className="mb-5 text-base font-semibold uppercase tracking-[0.25em] text-brand-300 md:text-lg">
             {eyebrow}
           </p>
         )}
-        <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-5xl">
+        <h2 className="text-5xl font-semibold tracking-tight text-balance md:text-7xl">
           {heading}
         </h2>
         {body && (
