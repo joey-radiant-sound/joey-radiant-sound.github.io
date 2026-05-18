@@ -104,6 +104,32 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1G | Animation layer (Lenis, GSAP, scroll reveals) | ✅ Done |
 | 1H | Asset integration (real photos/videos) | ✅ Done (photos) — videos pending Joey |
 | 1I | SEO, polish, DNS flip, launch | ✅ Done (code) — awaiting Joey's launch signal |
+| 2A | Portal foundation (Prisma, Auth.js magic-link, /portal shell) | ✅ Done (code) — awaiting Joey's Neon DB |
+| 2B | Couples + projects admin | ⏳ Pending |
+| 2C | Planning sheet | ⏳ Pending |
+| 2D | File sharing (R2) | ⏳ Pending |
+| 2E | Invoicing (react-pdf) | ⏳ Pending |
+| 2F | Calendar + messaging | ⏳ Pending |
+
+See [PHASE2.md](./PHASE2.md) for the portal sub-phase breakdown.
+
+## Portal Setup (Phase 2A — required before /portal works)
+
+The portal at `/portal/*` is wired up but inert until Joey provisions a database. One-time setup:
+
+1. **Create Neon project** at https://console.neon.tech → New project. Free tier is fine. Region: pick one close to Vercel's default (us-east-1).
+2. **Copy the pooled connection string** (Connection details → Pooled connection). It looks like `postgresql://user:pass@ep-xxx.us-east-1.aws.neon.tech/neondb?sslmode=require`.
+3. **Generate an Auth.js secret:** `openssl rand -base64 32`
+4. **Add to `.env.local`:**
+   ```
+   DATABASE_URL=postgresql://...
+   AUTH_SECRET=...
+   ```
+5. **Push the schema to Neon:** `npx prisma db push` (creates all tables without migrations — fine for now; switch to `prisma migrate` once schema stabilizes).
+6. **Add the same env vars to Vercel** → Project → Settings → Environment Variables → both Production and Preview scopes.
+7. **Re-deploy** so Vercel picks up the new env: `npx vercel --prod --yes`.
+
+After that, visiting `/portal` redirects to `/portal/sign-in`, where any email submission sends a magic link via the existing SMTP transport. (Allowlist + admin invite UI lands in Phase 2B.)
 
 ## Launch Runbook (Phase 1I)
 

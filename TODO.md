@@ -8,6 +8,8 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the structure and `~/.claude/plans/
 
 ## Needed from Joey (non-blocking during construction)
 
+- [ ] **Portal — provision Neon Postgres** + set `DATABASE_URL` and `AUTH_SECRET` in `.env.local` and Vercel env. See README "Portal Setup" section for the step-by-step. Blocks all sign-in testing.
+
 - [ ] **WeddingsHero slideshow curation** — the hero on `/weddings` auto-cycles through a starter set of 5 photos. Joey to provide the final curated list (filenames from `_assetdump/originals/` or new uploads) — should be photos NOT used elsewhere on the site. Wired in `components/sections/WeddingsHero.tsx` (`heroSlides` array).
 
 - [ ] **GitHub remote** — `gh auth login` then confirm where to push (`joecassata/radiant-sound-website` private?).

@@ -1,0 +1,131 @@
+// Prisma schema for Radiant Sound client portal (Phase 2).
+//
+// Datasource: Neon Postgres (free tier). DATABASE_URL must be set in
+// .env.local for `prisma migrate dev` / `prisma db push` to work.
+//
+// Auth.js v5 requires the User/Account/Session/VerificationToken
+// tables. Everything else is Radiant Sound domain.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -------- Auth.js v5 tables (do not rename fields) --------
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+
+  // Radiant Sound additions
+  firstName String?
+  lastName  String?
+  role      Role   @default(COUPLE)
+
+  accounts        Account[]
+  sessions        Session[]
+  projectMembers  ProjectMember[]
+  invitedProjects Project[]       @relation("ProjectInvitedBy")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Role {
+  COUPLE
+  ADMIN // Joey
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// -------- Radiant Sound domain --------
+
+/// One wedding. Members (couple) get scoped access via ProjectMember.
+model Project {
+  id          String   @id @default(cuid())
+  title       String // e.g. "Teagan & Isaac"
+  eventDate   DateTime?
+  venueName   String?
+  venueCity   String?
+  guestCount  Int?
+  status      ProjectStatus @default(LEAD)
+
+  invitedById String?
+  invitedBy   User?   @relation("ProjectInvitedBy", fields: [invitedById], references: [id])
+
+  members ProjectMember[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ProjectStatus {
+  LEAD
+  BOOKED
+  PLANNING
+  COMPLETED
+  CANCELED
+}
+
+/// Many-to-many between Users and Projects. A wedding can have
+/// multiple logins (bride, groom, planner) — every member sees the
+/// same Project.
+model ProjectMember {
+  id        String          @id @default(cuid())
+  projectId String
+  userId    String
+  role      ProjectRoleType @default(OWNER)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([projectId, userId])
+}
+
+enum ProjectRoleType {
+  OWNER
+  COLLABORATOR
+}
