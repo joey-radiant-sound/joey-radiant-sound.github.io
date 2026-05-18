@@ -62,11 +62,16 @@ export function HomeChooser() {
           "linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-mid) 55%, var(--color-gradient-end) 100%)",
       }}
     >
-      {/* Center brand wordmark */}
+      {/* Center brand logo */}
       <div className="pointer-events-none absolute inset-x-0 top-8 z-20 flex justify-center md:top-10">
-        <p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/90">
-          Radiant Sound
-        </p>
+        <Image
+          src="/images/shared/logo-white.svg"
+          alt="Radiant Sound"
+          width={220}
+          height={56}
+          priority
+          className="h-12 w-auto md:h-14"
+        />
       </div>
 
       {/* Panels */}

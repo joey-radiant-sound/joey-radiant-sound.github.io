@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
+import { Button } from "@/components/ui/Button";
 import { tagline } from "@/lib/content/weddings";
 
 // TODO(1I): replace # hrefs with real social URLs once Joey provides them.
@@ -32,24 +33,9 @@ export function WeddingsFooter() {
             <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-brand-300">
               Contact
             </p>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <a
-                  href="mailto:joey@radiantsoundwny.com"
-                  className="transition-colors hover:text-white"
-                >
-                  joey@radiantsoundwny.com
-                </a>
-              </li>
-              <li>
-                <Link
-                  href="/weddings/contact"
-                  className="transition-colors hover:text-white"
-                >
-                  Get a quote →
-                </Link>
-              </li>
-            </ul>
+            <Button href="/weddings/contact" variant="secondary" size="md">
+              Contact
+            </Button>
           </div>
 
           <div>

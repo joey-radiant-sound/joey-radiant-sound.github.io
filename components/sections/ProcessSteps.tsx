@@ -9,11 +9,11 @@ export function ProcessSteps() {
   return (
     <section className="bg-surface py-24 md:py-32">
       <Container>
-        <div className="mx-auto mb-14 max-w-2xl text-center md:mb-20">
+        <div className="mx-auto mb-14 max-w-3xl text-center md:mb-20">
           <p className="mb-3 text-xs font-semibold uppercase tracking-[0.3em] text-brand-600">
             The process
           </p>
-          <h2 className="text-3xl font-semibold tracking-tight text-ink text-balance md:text-5xl">
+          <h2 className="text-5xl font-semibold tracking-tight text-ink text-balance md:text-7xl">
             Our simple four-step process.
           </h2>
         </div>

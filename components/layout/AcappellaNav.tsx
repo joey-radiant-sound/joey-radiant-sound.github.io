@@ -1,10 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import Image from "next/image";
-import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
-import { useScrolled } from "@/components/animations/useScrolled";
 
 const links = [
   { href: "/acappella", label: "Home" },
@@ -12,55 +7,49 @@ const links = [
 ];
 
 /**
- * A cappella sub-site navigation. Rendered inside app/acappella/layout.tsx.
- * Scroll-aware: transparent at top, solid-white+backdrop-blur once scrolled.
+ * A cappella sub-site navigation. Mirrors WeddingsNav — full-width
+ * gradient-backed bar with edge-flush brand on the left and nav + CTA
+ * on the right.
  */
 export function AcappellaNav() {
-  const scrolled = useScrolled();
-
   return (
     <header
-      data-scrolled={scrolled ? "true" : "false"}
-      className={`sticky top-0 z-40 transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 ${
-        scrolled
-          ? "border-b border-black/5 bg-white/80 backdrop-blur"
-          : "border-b border-transparent bg-transparent"
-      }`}
+      className="sticky top-0 z-40 border-b border-white/10"
+      style={{
+        backgroundImage: "url('/images/shared/brand-gradient.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
-      <Container>
-        <div className="flex h-16 items-center justify-between gap-6">
-          <Link
-            href="/"
-            className="flex items-center gap-3 text-sm font-medium text-muted transition-colors hover:text-ink"
-            aria-label="Back to Radiant Sound home"
-          >
-            <Image
-              src="/images/shared/logo-white.svg"
-              alt=""
-              width={28}
-              height={28}
-              className="invert brightness-0"
-              priority
-            />
-            <span className="hidden sm:inline">Radiant Sound</span>
-          </Link>
+      <div className="flex h-16 items-center justify-between gap-6 px-6 md:px-10">
+        <Link
+          href="/"
+          className="text-base font-semibold tracking-tight text-white transition-opacity hover:opacity-80"
+          aria-label="Back to Radiant Sound home"
+        >
+          Radiant Sound
+        </Link>
 
-          <nav className="flex items-center gap-1">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="rounded-full px-4 py-2 text-sm font-medium text-ink-soft transition-colors hover:text-ink"
-              >
-                {link.label}
-              </Link>
-            ))}
-            <Button href="/acappella/contact" size="md" className="ml-2">
-              Book your show
-            </Button>
-          </nav>
-        </div>
-      </Container>
+        <nav className="flex items-center gap-1">
+          {links.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="rounded-full px-4 py-2 text-sm font-medium text-white/85 transition-colors hover:text-white"
+            >
+              {link.label}
+            </Link>
+          ))}
+          <Button
+            href="/acappella/contact"
+            variant="secondary"
+            size="md"
+            className="ml-2"
+          >
+            Contact
+          </Button>
+        </nav>
+      </div>
     </header>
   );
 }
