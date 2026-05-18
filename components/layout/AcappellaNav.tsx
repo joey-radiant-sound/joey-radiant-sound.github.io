@@ -22,7 +22,7 @@ export function AcappellaNav() {
         backgroundPosition: "center",
       }}
     >
-      <div className="flex h-16 items-center justify-between gap-6 px-6 md:px-10">
+      <div className="flex h-20 items-center justify-between gap-6 px-6 md:h-24 md:px-10">
         <Link
           href="/"
           className="flex items-center transition-opacity hover:opacity-80"
@@ -31,10 +31,10 @@ export function AcappellaNav() {
           <Image
             src="/images/shared/logo-white.svg"
             alt="Radiant Sound"
-            width={180}
-            height={40}
+            width={320}
+            height={64}
             priority
-            className="h-8 w-auto md:h-9"
+            className="h-14 w-auto scale-x-110 origin-left md:h-16"
           />
         </Link>
 

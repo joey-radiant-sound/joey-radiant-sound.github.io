@@ -62,15 +62,15 @@ export function HomeChooser() {
           "linear-gradient(135deg, var(--color-gradient-start) 0%, var(--color-gradient-mid) 55%, var(--color-gradient-end) 100%)",
       }}
     >
-      {/* Center brand logo — full-color, prominent. */}
+      {/* Center brand logo — white, prominent against the gradient. */}
       <div className="pointer-events-none absolute inset-x-0 top-10 z-20 flex justify-center md:top-14">
         <Image
-          src="/images/shared/logo-color.svg"
+          src="/images/shared/logo-white.svg"
           alt="Radiant Sound"
           width={520}
           height={140}
           priority
-          className="h-28 w-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.25)] md:h-44 lg:h-52"
+          className="h-28 w-auto drop-shadow-[0_4px_20px_rgba(0,0,0,0.35)] md:h-44 lg:h-52"
         />
       </div>
 

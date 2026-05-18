@@ -41,9 +41,10 @@ export function ServicePillars({
               key={p.title}
               className="overflow-hidden rounded-2xl ring-1 ring-black/5 shadow-sm"
             >
-              {/* Gradient header band — darker brand at top, fades into the lighter body */}
+              {/* Gradient header band — darker brand at top, fades into the lighter body.
+                  Title centered both horizontally AND vertically inside the band. */}
               <div
-                className="flex h-32 items-end justify-center px-6 pb-5 md:h-36"
+                className="flex h-32 items-center justify-center px-6 md:h-36"
                 style={{
                   backgroundImage:
                     "linear-gradient(180deg, var(--color-brand-500) 0%, var(--color-brand-200) 100%)",

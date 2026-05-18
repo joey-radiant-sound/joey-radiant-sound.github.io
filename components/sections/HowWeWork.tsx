@@ -2,10 +2,10 @@ import { Container } from "@/components/ui/Container";
 import { principles } from "@/lib/content/weddings";
 
 /**
- * Weddings "how we work" — §2.3. Dark section. Each principle gets a
- * staggered, alternating layout: the title is huge, the body is split
- * into sentence fragments stacked vertically with subtle brand-color
- * leading marks. A thin gradient divider separates each principle.
+ * Weddings "how we work" — §2.3. Dark section. Two-column layout per
+ * principle (no left/right alternation — everything stays anchored on
+ * the same side): big title on the left, sentence-broken body on the
+ * right with proper bullet points aligned to the text baseline.
  */
 export function HowWeWork() {
   return (
@@ -23,7 +23,6 @@ export function HowWeWork() {
         <ul className="mx-auto max-w-5xl">
           {principles.map((p, i) => {
             const sentences = splitSentences(p.body);
-            const flipped = i % 2 === 1;
             return (
               <li key={p.title}>
                 {/* Gradient divider between principles (skip before first) */}
@@ -37,36 +36,28 @@ export function HowWeWork() {
                     }}
                   />
                 )}
-                <div
-                  className={`grid items-start gap-8 md:gap-14 md:grid-cols-12 ${
-                    flipped ? "md:[&>*:first-child]:order-2" : ""
-                  }`}
-                >
-                  {/* Title side — half width on desktop, full on mobile */}
+                <div className="grid items-start gap-8 md:gap-14 md:grid-cols-12">
                   <div className="md:col-span-5">
-                    <p className="mb-3 text-sm font-semibold uppercase tracking-[0.3em] text-brand-300">
-                      Principle {String(i + 1).padStart(2, "0")}
-                    </p>
                     <h3 className="text-4xl font-semibold tracking-tight text-balance md:text-6xl">
                       {p.title}
                     </h3>
                   </div>
-                  {/* Sentence-broken body — vertical rhythm + small brand marks */}
-                  <div className="md:col-span-7 md:pt-4">
-                    <ul className="space-y-5">
-                      {sentences.map((sentence, idx) => (
-                        <li key={idx} className="flex gap-4">
-                          <span
-                            aria-hidden
-                            className="mt-2 h-1.5 w-6 flex-shrink-0 rounded-full bg-brand-500"
-                          />
-                          <p className="text-lg leading-relaxed text-white/80 md:text-xl">
-                            {sentence}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+                  <ul className="space-y-4 md:col-span-7 md:pt-4">
+                    {sentences.map((sentence, idx) => (
+                      <li
+                        key={idx}
+                        className="flex gap-3 text-lg leading-relaxed text-white/85 md:text-xl"
+                      >
+                        <span
+                          aria-hidden
+                          className="select-none text-brand-400"
+                        >
+                          •
+                        </span>
+                        <span className="flex-1">{sentence}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </li>
             );
