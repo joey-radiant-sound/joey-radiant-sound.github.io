@@ -125,8 +125,11 @@ The portal at `/portal/*` is wired but inert until you stand up a Linux box and 
 cp .env.example .env.local
 # Edit .env.local: set AUTH_SECRET (openssl rand -base64 32), SMTP_* vars
 
-# 2. Create the SQLite file + tables
-npx prisma db push
+# 2. Create the SQLite file + tables. Use `npm run db push`, NOT
+#    bare `npx prisma db push` — the npm script loads .env.local
+#    first so DATABASE_URL reaches Prisma. (Bare prisma only reads
+#    .env, which won't have what you need.)
+npm run db push
 
 # 3. Run dev server
 npm run dev
