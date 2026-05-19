@@ -55,10 +55,14 @@ export default async function PortalDashboard() {
               {membership.project.venueName &&
                 ` · ${membership.project.venueName}`}
             </p>
-            <p className="mt-6 text-sm text-muted">
-              Planning sheet, file sharing, and timeline are coming online in
-              the next releases. Hang tight.
-            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a
+                href="/portal/planning"
+                className="inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
+              >
+                Open planning sheet →
+              </a>
+            </div>
           </div>
         ) : (
           <p className="mt-8 max-w-xl text-lg text-muted">
@@ -68,7 +72,7 @@ export default async function PortalDashboard() {
         )}
 
         <p className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700 ring-1 ring-brand-100">
-          Phase 2B · Admin + invites
+          Phase 2C · Planning sheet
         </p>
       </Container>
     </section>

@@ -107,6 +107,7 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1I | SEO, polish, DNS flip, launch | ✅ Done (code) — awaiting Joey's launch signal |
 | 2A | Portal foundation (Prisma, Auth.js magic-link, /portal shell) | ✅ Done — self-hosted SQLite + Docker |
 | 2B | Couples + projects admin | ✅ Done — set ADMIN_EMAILS in .env.local to use |
+| 2C | Planning sheet (timeline + music + vendors + logistics) | ✅ Done |
 | 2C | Planning sheet | ⏳ Pending |
 | 2D | File sharing (R2) | ⏳ Pending |
 | 2E | Invoicing (react-pdf) | ⏳ Pending |

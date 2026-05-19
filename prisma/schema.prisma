@@ -94,7 +94,82 @@ model Project {
   invitedById String?
   invitedBy   User?   @relation("ProjectInvitedBy", fields: [invitedById], references: [id])
 
-  members ProjectMember[]
+  members         ProjectMember[]
+  timeline        TimelineEvent[]
+  music           MusicSelection[]
+  vendors         VendorContact[]
+  equipmentNotes  EquipmentNote[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// A single line on the day-of timeline (Phase 2C).
+/// E.g. { time: "5:30 PM", title: "First dance", notes: "Song: …" }.
+model TimelineEvent {
+  id        String  @id @default(cuid())
+  projectId String
+  time      String? // free-text — "5:30 PM", "TBD", a window, etc.
+  title     String
+  notes     String?
+  sortOrder Int     @default(0)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// A song request or do-not-play (Phase 2C).
+model MusicSelection {
+  id        String  @id @default(cuid())
+  projectId String
+  /// Bucket — string-enum: "PROCESSIONAL" | "RECESSIONAL" | "FIRST_DANCE"
+  /// | "PARENT_DANCE" | "MUST_PLAY" | "DO_NOT_PLAY" | "OTHER"
+  category  String  @default("OTHER")
+  title     String
+  artist    String?
+  notes     String?
+  sortOrder Int     @default(0)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// One vendor working the wedding alongside us (Phase 2C).
+model VendorContact {
+  id        String  @id @default(cuid())
+  projectId String
+  /// Role — string-enum: "PHOTOGRAPHER" | "VIDEOGRAPHER" | "PLANNER"
+  /// | "VENUE_COORDINATOR" | "OFFICIANT" | "CATERER" | "FLORIST" | "OTHER"
+  role      String  @default("OTHER")
+  name      String
+  company   String?
+  phone     String?
+  email     String?
+  notes     String?
+  sortOrder Int     @default(0)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Free-form logistics note (Phase 2C). Used for power, load-in,
+/// ceremony-vs-reception, weather plan, etc.
+model EquipmentNote {
+  id        String  @id @default(cuid())
+  projectId String
+  /// Category — string-enum: "POWER" | "LOAD_IN" | "CEREMONY_LOCATION"
+  /// | "RECEPTION_LOCATION" | "WEATHER_PLAN" | "OTHER"
+  category  String  @default("OTHER")
+  body      String
+  sortOrder Int     @default(0)
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
