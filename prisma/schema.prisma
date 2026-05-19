@@ -95,81 +95,180 @@ model Project {
   invitedBy   User?   @relation("ProjectInvitedBy", fields: [invitedById], references: [id])
 
   members         ProjectMember[]
-  timeline        TimelineEvent[]
-  music           MusicSelection[]
-  vendors         VendorContact[]
-  equipmentNotes  EquipmentNote[]
+  details         WeddingDetails?
+  partyMembers    WeddingPartyMember[]
+  announcements   EventAnnouncement[]
+  playlistSongs   PlaylistSong[]
+  ceremonyMusic   CeremonyMusicEntry[]
+  lineDances      LineDance[]
+  itineraryItems  ItineraryItem[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-/// A single line on the day-of timeline (Phase 2C).
-/// E.g. { time: "5:30 PM", title: "First dance", notes: "Song: …" }.
-model TimelineEvent {
-  id        String  @id @default(cuid())
-  projectId String
-  time      String? // free-text — "5:30 PM", "TBD", a window, etc.
-  title     String
-  notes     String?
-  sortOrder Int     @default(0)
+// -------- Planning sheet (Phase 2C) — modeled on Joey's --------
+// _assetdump/MASTER Wedding Planner Form .xlsx, six tabs:
+//   General Info, Wedding Party Info, Events and Music Requests,
+//   Ceremony, Line Dances, Itinerary.
 
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+/// 1:1 with Project — every field across the spreadsheet that's a
+/// single value (not a repeating row). Includes the question
+/// answers from the Wedding Party + Events + Ceremony tabs.
+model WeddingDetails {
+  id        String  @id @default(cuid())
+  projectId String  @unique
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  // General Info tab
+  weddingDate           DateTime?
+  contactPhone          String?
+  contactEmail          String?
+  brideFirstName        String?
+  brideLastName         String?
+  groomFirstName        String?
+  groomLastName         String?
+  receptionVenueName    String?
+  receptionVenueAddress String?
+  ceremonyVenueName     String?
+  ceremonyVenueAddress  String?
+  venueManagerName      String?
+  venueManagerPhone     String?
+  venueManagerEmail     String?
+  photographerName      String?
+  photographerEmail     String?
+  videographerName      String?
+  videographerEmail     String?
+  guestCount            Int?
+  earliestArrival       String? // free-text time, e.g. "4:00 PM"
+  djArrival             String?
+  linenColor            String? // "BLACK" | "WHITE"
+  generalNotes          String?
+
+  // Wedding Party question
+  announceWeddingParty Boolean?
+
+  // Events & Music Requests questions
+  takeAudienceRequests Boolean?
+  cocktailGenre        String?
+  receptionGenres      String?
+  announceLastCall     Boolean?
+  announceShuttle      Boolean?
+  coupleAnnouncement   String?
+  miscDetails          String?
+
+  // Ceremony questions
+  ceremonyWalkOutOrder String?
+  ceremonyWirelessMic  Boolean?
+  ceremonyOutdoors     Boolean?
+  ceremonyOtherDetails String?
+
+  updatedAt DateTime @updatedAt
+}
+
+/// Wedding Party tab — one row per bridesmaid/groomsman pair.
+model WeddingPartyMember {
+  id             String  @id @default(cuid())
+  projectId      String
+  project        Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  bridesmaidName String?
+  groomsmanName  String?
+  title          String? // "Maid of Honor", "Ring Bearer", etc.
+  songName       String?
+  songArtist     String?
+  notes          String?
+  sortOrder      Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-/// A song request or do-not-play (Phase 2C).
-model MusicSelection {
-  id        String  @id @default(cuid())
-  projectId String
-  /// Bucket — string-enum: "PROCESSIONAL" | "RECESSIONAL" | "FIRST_DANCE"
-  /// | "PARENT_DANCE" | "MUST_PLAY" | "DO_NOT_PLAY" | "OTHER"
-  category  String  @default("OTHER")
-  title     String
-  artist    String?
-  notes     String?
-  sortOrder Int     @default(0)
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+/// Events tab — DJ-announced moments with scripted intro + song.
+/// Default events seeded on first visit: First Dance, Mother/Son,
+/// Father/Daughter, Cake Cutting, Bouquet Toss, Garter Toss. Couples
+/// can also add custom events.
+model EventAnnouncement {
+  id           String  @id @default(cuid())
+  projectId    String
+  project      Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  /// Stable key for the default events ("FIRST_DANCE", "MOTHER_SON",
+  /// "FATHER_DAUGHTER", "CAKE", "BOUQUET", "GARTER") or "CUSTOM".
+  eventKey     String  @default("CUSTOM")
+  /// Used when eventKey === "CUSTOM" (overrides the default label).
+  customTitle  String?
+  announcement String? // the DJ's spoken intro
+  songName     String?
+  songArtist   String?
+  notes        String?
+  sortOrder    Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-/// One vendor working the wedding alongside us (Phase 2C).
-model VendorContact {
+/// One song in one of the user-maintained playlists from the
+/// Events & Music Requests tab.
+model PlaylistSong {
+  id         String  @id @default(cuid())
+  projectId  String
+  project    Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  /// Which list: "COCKTAIL_DINNER" | "RECEPTION_PLAYLIST" | "DO_NOT_PLAY"
+  listType   String
+  songName   String
+  songArtist String?
+  notes      String?
+  sortOrder  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Ceremony tab music segments. Default segments: PRE_CEREMONY,
+/// PROCESSIONAL, BRIDAL_ENTRY, RECESSIONAL.
+model CeremonyMusicEntry {
+  id          String  @id @default(cuid())
+  projectId   String
+  project     Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  /// "PRE_CEREMONY" | "PROCESSIONAL" | "BRIDAL_ENTRY" | "RECESSIONAL" | "CUSTOM"
+  segment     String  @default("CUSTOM")
+  customLabel String?
+  songName    String?
+  songArtist  String?
+  notes       String?
+  sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Line Dances tab. Seeded with the 14 standard line dances from the
+/// spreadsheet on first visit; couples can toggle `wanted` and add
+/// custom entries.
+model LineDance {
   id        String  @id @default(cuid())
   projectId String
-  /// Role — string-enum: "PHOTOGRAPHER" | "VIDEOGRAPHER" | "PLANNER"
-  /// | "VENUE_COORDINATOR" | "OFFICIANT" | "CATERER" | "FLORIST" | "OTHER"
-  role      String  @default("OTHER")
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   name      String
-  company   String?
-  phone     String?
-  email     String?
-  notes     String?
+  wanted    Boolean @default(false)
+  /// Distinguish the pre-seeded defaults from couple-added ones.
+  isDefault Boolean @default(false)
   sortOrder Int     @default(0)
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-/// Free-form logistics note (Phase 2C). Used for power, load-in,
-/// ceremony-vs-reception, weather plan, etc.
-model EquipmentNote {
+/// Itinerary tab. Seeded with 30 half-hour slots from 9 AM to 12 AM
+/// on first visit; couples fill in `event` and `notes`. Time string
+/// is free-text so couples can add custom slots between defaults.
+model ItineraryItem {
   id        String  @id @default(cuid())
   projectId String
-  /// Category — string-enum: "POWER" | "LOAD_IN" | "CEREMONY_LOCATION"
-  /// | "RECEPTION_LOCATION" | "WEATHER_PLAN" | "OTHER"
-  category  String  @default("OTHER")
-  body      String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  time      String
+  event     String?
+  notes     String?
   sortOrder Int     @default(0)
-
-  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
