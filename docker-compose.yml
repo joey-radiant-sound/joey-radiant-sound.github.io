@@ -18,7 +18,7 @@ services:
     restart: unless-stopped
     environment:
       # Set in .env on the VPS (gitignored). See .env.example.
-      DATABASE_URL: file:./data/radiant.db
+      DATABASE_URL: file:../data/radiant.db
       AUTH_SECRET: ${AUTH_SECRET}
       AUTH_URL: ${AUTH_URL}
       SMTP_HOST: ${SMTP_HOST}

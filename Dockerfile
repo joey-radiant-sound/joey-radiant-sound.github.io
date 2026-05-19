@@ -20,7 +20,7 @@ COPY . .
 # DATABASE_URL doesn't need to be reachable at build time, but
 # `prisma generate` (re-run by `build` script) reads the env. Use a
 # placeholder; the real value comes from docker-compose at runtime.
-ENV DATABASE_URL="file:./data/radiant.db"
+ENV DATABASE_URL="file:../data/radiant.db"
 ENV NEXT_TELEMETRY_DISABLED=1
 RUN npm run build
 
