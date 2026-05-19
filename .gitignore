@@ -57,3 +57,4 @@ next-env.d.ts
 # Portal data (Phase 2): SQLite db + uploaded files. Folder preserved via .gitkeep.
 /data/*
 !/data/.gitkeep
+.logs/
