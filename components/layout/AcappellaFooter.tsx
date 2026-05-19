@@ -66,7 +66,13 @@ export function AcappellaFooter() {
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-white/20 pt-6 text-xs text-white/70 md:flex-row md:items-center">
-          <p>© {new Date().getFullYear()} Radiant Sound, LLC. All rights reserved.</p>
+          <p>
+            ©{" "}
+            <span suppressHydrationWarning>
+              {new Date().getFullYear()}
+            </span>{" "}
+            Radiant Sound, LLC. All rights reserved.
+          </p>
           <div className="flex gap-6">
             <Link href="/weddings" className="transition-colors hover:text-white">
               Weddings site →
