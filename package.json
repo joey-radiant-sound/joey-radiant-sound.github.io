@@ -8,7 +8,10 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "prisma generate",
-    "db": "bash scripts/db.sh"
+    "db": "bash scripts/db.sh",
+    "db:push": "bash scripts/db.sh db push",
+    "db:studio": "bash scripts/db.sh studio",
+    "db:generate": "bash scripts/db.sh generate"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",

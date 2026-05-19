@@ -6,11 +6,14 @@
 # .env.local won't reach `prisma db push` and you'll silently push
 # to the wrong file (or fail).
 #
-# Usage:
-#   npm run db push
-#   npm run db migrate dev
-#   npm run db studio
-#   npm run db generate
+# Usage (note the `--` is REQUIRED for npm to forward extra args):
+#   npm run db -- push
+#   npm run db -- migrate dev
+#   npm run db -- studio
+#   npm run db -- generate
+#
+# Or call the script directly without npm:
+#   bash scripts/db.sh push
 
 set -euo pipefail
 
@@ -20,5 +23,11 @@ set -a
 [ -f .env.local ] && source .env.local
 [ -f .env ] && source .env
 set +a
+
+if [ "$#" -eq 0 ]; then
+  echo "Usage: bash scripts/db.sh <prisma-subcommand> [args...]"
+  echo "Example: bash scripts/db.sh db push"
+  exit 1
+fi
 
 exec npx prisma "$@"
