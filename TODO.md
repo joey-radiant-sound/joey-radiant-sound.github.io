@@ -9,6 +9,13 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the structure and `~/.claude/plans/
 ## Needed from Joey (non-blocking during construction)
 
 - [ ] **Portal — provision VPS + bring up Docker stack.** Self-hosted stack (Next.js + Caddy + SQLite) on a $5/mo Linux box. See README "Portal Setup (Phase 2A — self-hosted)" for the runbook. Blocks portal go-live but local dev works today via `npx prisma db push && npm run dev`.
+- [ ] **SMTP setup — to discuss in depth.** Phase 1F contact forms + Phase 2A portal magic-link sign-in both need outbound email. Options to compare:
+  - **Gmail SMTP** with app password (free, fastest if Joey uses Workspace; lower deliverability for cold outbound)
+  - **Resend** free tier (3k emails/mo, modern API, good deliverability)
+  - **Postmark** free tier (100 emails/mo trial, paid after; best transactional deliverability)
+  - **SendGrid** free tier (100 emails/day forever)
+  - **Joey's domain mail provider** (whoever runs `joey@radiantsoundwny.com` already)
+  Until configured, local dev uses the **console-log fallback** in `lib/auth.ts` — magic links print to the terminal running `npm run dev` instead of being emailed. Contact forms will throw at runtime if SMTP unset.
 
 - [ ] **WeddingsHero slideshow curation** — the hero on `/weddings` auto-cycles through a starter set of 5 photos. Joey to provide the final curated list (filenames from `_assetdump/originals/` or new uploads) — should be photos NOT used elsewhere on the site. Wired in `components/sections/WeddingsHero.tsx` (`heroSlides` array).
 

@@ -7,16 +7,59 @@ import { prisma } from "@/lib/db";
  * Auth.js v5 configuration. Magic-link email sign-in only — no
  * passwords, no public OAuth.
  *
- * Reuses the SMTP env vars from Phase 1F's contact-form transport
- * (SMTP_HOST/PORT/USER/PASSWORD). Sender uses CONTACT_FORM_FROM as
- * fallback to keep one env surface.
+ * Normally reuses the SMTP env vars from Phase 1F's contact-form
+ * transport (SMTP_HOST/PORT/USER/PASSWORD). Sender uses
+ * CONTACT_FORM_FROM as fallback to keep one env surface.
  *
- * Invite-only model: handlers.GET creates a session for users that
- * already exist in the database. Sign-in attempts from emails NOT in
- * the User table will still send a magic link (Auth.js will create
- * the user) — Phase 2B adds an allowlist check to reject unknown
- * emails so only Joey-invited couples can sign in.
+ * Dev fallback: when SMTP_HOST is unset, we install a fake nodemailer
+ * `jsonTransport` and override sendVerificationRequest to log the
+ * magic link straight to the server console. This lets you test the
+ * full sign-in round-trip locally before configuring real SMTP.
+ *
+ * Invite-only model: Phase 2B adds an allowlist check to reject
+ * unknown emails so only Joey-invited couples can sign in.
  */
+
+const useDevMailFallback = !process.env.SMTP_HOST;
+
+const emailProvider = Nodemailer({
+  server: useDevMailFallback
+    ? // jsonTransport is a real nodemailer mode that stringifies the
+      // message instead of opening a socket — we override the send
+      // path below so this transport is never actually invoked,
+      // but Auth.js needs *something* it can hand to nodemailer.
+      ({ jsonTransport: true } as unknown as string)
+    : {
+        host: process.env.SMTP_HOST!,
+        port: Number(process.env.SMTP_PORT ?? 587),
+        auth: {
+          user: process.env.SMTP_USER!,
+          pass: process.env.SMTP_PASSWORD!,
+        },
+      },
+  from:
+    process.env.AUTH_EMAIL_FROM ??
+    process.env.CONTACT_FORM_FROM ??
+    process.env.SMTP_USER ??
+    "dev@localhost",
+  ...(useDevMailFallback
+    ? {
+        sendVerificationRequest: async ({
+          identifier,
+          url,
+        }: {
+          identifier: string;
+          url: string;
+        }) => {
+          const bar = "═".repeat(70);
+          console.log(
+            `\n${bar}\n🔗 DEV MAGIC LINK  (SMTP_HOST not set — email not actually sent)\n   to:  ${identifier}\n   url: ${url}\n${bar}\n`,
+          );
+        },
+      }
+    : {}),
+});
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "database" },
@@ -25,22 +68,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     verifyRequest: "/portal/check-email",
     error: "/portal/sign-in",
   },
-  providers: [
-    Nodemailer({
-      server: {
-        host: process.env.SMTP_HOST!,
-        port: Number(process.env.SMTP_PORT ?? 587),
-        auth: {
-          user: process.env.SMTP_USER!,
-          pass: process.env.SMTP_PASSWORD!,
-        },
-      },
-      from:
-        process.env.AUTH_EMAIL_FROM ??
-        process.env.CONTACT_FORM_FROM ??
-        process.env.SMTP_USER!,
-    }),
-  ],
+  providers: [emailProvider],
   callbacks: {
     async session({ session, user }) {
       // Surface our extended fields to the client session.
