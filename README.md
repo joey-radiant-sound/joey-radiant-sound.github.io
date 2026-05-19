@@ -105,8 +105,8 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 1G | Animation layer (Lenis, GSAP, scroll reveals) | ✅ Done |
 | 1H | Asset integration (real photos/videos) | ✅ Done (photos) — videos pending Joey |
 | 1I | SEO, polish, DNS flip, launch | ✅ Done (code) — awaiting Joey's launch signal |
-| 2A | Portal foundation (Prisma, Auth.js magic-link, /portal shell) | ✅ Done (code) — awaiting Joey's Neon DB |
-| 2B | Couples + projects admin | ⏳ Pending |
+| 2A | Portal foundation (Prisma, Auth.js magic-link, /portal shell) | ✅ Done — self-hosted SQLite + Docker |
+| 2B | Couples + projects admin | ✅ Done — set ADMIN_EMAILS in .env.local to use |
 | 2C | Planning sheet | ⏳ Pending |
 | 2D | File sharing (R2) | ⏳ Pending |
 | 2E | Invoicing (react-pdf) | ⏳ Pending |

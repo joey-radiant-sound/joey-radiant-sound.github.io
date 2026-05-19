@@ -26,13 +26,27 @@ export default async function AppLayout({
     redirect("/portal/sign-in");
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const role = (session.user as any)?.role;
+  const isAdmin = role === "ADMIN";
+
   return (
     <div className="flex min-h-screen flex-col bg-surface">
       <header className="border-b border-black/5 bg-white">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:px-10">
-          <Link href="/portal" className="text-base font-semibold text-ink">
-            Radiant Sound · Portal
-          </Link>
+          <div className="flex items-center gap-6">
+            <Link href="/portal" className="text-base font-semibold text-ink">
+              Radiant Sound · Portal
+            </Link>
+            {isAdmin && (
+              <Link
+                href="/portal/admin"
+                className="text-sm font-medium text-muted transition-colors hover:text-ink"
+              >
+                Admin
+              </Link>
+            )}
+          </div>
           <form
             action={async () => {
               "use server";

@@ -60,6 +60,23 @@ const emailProvider = Nodemailer({
     : {}),
 });
 
+/**
+ * Comma-separated list of email addresses auto-promoted to ADMIN role
+ * on first sign-in. Always allowed through the allowlist even if no
+ * User row exists yet (so admins can bootstrap themselves).
+ */
+function parseAdminEmails(): string[] {
+  return (process.env.ADMIN_EMAILS ?? "")
+    .split(",")
+    .map((e) => e.trim().toLowerCase())
+    .filter(Boolean);
+}
+
+function isAdminEmail(email?: string | null): boolean {
+  if (!email) return false;
+  return parseAdminEmails().includes(email.toLowerCase().trim());
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: { strategy: "database" },
@@ -70,6 +87,31 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers: [emailProvider],
   callbacks: {
+    /**
+     * Invite-only allowlist. Two paths allowed:
+     *  1. Email is in ADMIN_EMAILS env (admins can self-provision)
+     *  2. A User row already exists for this email (couple was invited
+     *     by an admin via /portal/admin/projects/[id])
+     * Everyone else is rejected → Auth.js routes them to
+     * /portal/sign-in?error=AccessDenied with a friendly message.
+     */
+    async signIn({ user }) {
+      const emailAddr = user?.email?.toLowerCase().trim();
+      if (!emailAddr) return false;
+
+      if (isAdminEmail(emailAddr)) return true;
+
+      const existing = await prisma.user.findUnique({
+        where: { email: emailAddr },
+      });
+      if (!existing) {
+        console.log(
+          `[auth] Rejected sign-in attempt — email not invited: ${emailAddr}`,
+        );
+        return false;
+      }
+      return true;
+    },
     async session({ session, user }) {
       // Surface our extended fields to the client session.
       if (session.user) {
@@ -80,6 +122,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         (session.user as any).firstName = (user as any).firstName;
       }
       return session;
+    },
+  },
+  events: {
+    /**
+     * Auto-promote admins on user creation. The user row is created
+     * by Auth.js's Prisma adapter before the session is established,
+     * so we just need to patch its role.
+     */
+    async createUser({ user }) {
+      if (isAdminEmail(user.email)) {
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { role: "ADMIN" },
+        });
+        console.log(`[auth] Promoted ${user.email} → ADMIN on first sign-in`);
+      }
     },
   },
 });
