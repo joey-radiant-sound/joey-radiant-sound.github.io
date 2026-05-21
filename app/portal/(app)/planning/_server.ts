@@ -59,7 +59,6 @@ export async function seedEventAnnouncements(projectId: string): Promise<void> {
     data: DEFAULT_EVENT_ANNOUNCEMENTS.map((e, idx) => ({
       projectId,
       eventKey: e.eventKey,
-      announcement: e.announcement || null,
       sortOrder: idx * 10,
     })),
   });

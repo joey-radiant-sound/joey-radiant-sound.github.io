@@ -31,6 +31,48 @@ See [ARCHITECTURE.md](./ARCHITECTURE.md) for the structure and `~/.claude/plans/
 
 ---
 
+## Security — review + harden before launch
+
+Items accumulated during Phase 2 portal construction. None are
+exploitable in local dev, but all must be resolved before the portal
+is internet-facing.
+
+- [ ] **Regenerate the Google Workspace app password.** The current
+  one was pasted through chat during SMTP setup. Generate a fresh one
+  at https://myaccount.google.com/apppasswords, swap it into
+  `.env.local` (dev) and the VPS `.env` (prod), and revoke the old one.
+- [ ] **Regenerate `AUTH_SECRET` for production.** The dev value was
+  visible in chat when `.env.local` was shared. Generate a separate,
+  never-shared secret for the VPS `.env` (`openssl rand -base64 32`).
+  Dev and prod should not share a secret anyway.
+- [ ] **Rate-limit portal magic-link requests.** `/portal/sign-in` and
+  the admin invite action call `signIn("nodemailer", …)` with no
+  throttle — someone could spam magic-link emails to an address.
+  Reuse `lib/rate-limit.ts` (IP-keyed) on the `requestMagicLink`
+  server action, same as the contact forms.
+- [ ] **VPS hardening at provision time** (README portal-setup runbook
+  should call these out): SSH key auth only (disable password login),
+  `ufw` firewall allowing only 22/80/443, `fail2ban`, run the Docker
+  stack as a non-root user, keep the OS patched.
+- [ ] **Confirm `.env` / `.env.local` never get committed.** Both are
+  gitignored (`.env*` with `!.env.example`). Double-check before the
+  first VPS deploy that no real secret file is tracked.
+- [ ] **SQLite file + backups.** Restrict `data/radiant.db` perms on
+  the VPS (the Docker volume should not be world-readable). Backups
+  from `scripts/backup.sh` currently land on the same box — move to
+  off-site (rsync to another host, or encrypted upload) before
+  carrying real client data.
+- [ ] **Enforce HTTPS in prod.** Caddy handles TLS termination; set
+  `AUTH_URL=https://radiantsoundwny.com` in the VPS `.env` so magic
+  links are never minted with an `http://` origin.
+- [ ] **Browser-extension hydration warning (informational).** The
+  React "tree hydrated but attributes didn't match" warning seen in
+  dev is caused by browser extensions (Bitwarden, Ember Inspector)
+  injecting attributes into `<html>` — NOT our code. Confirmed: gone
+  in a private window. No fix needed; noted so it isn't re-chased.
+
+---
+
 ## CONTENT.md — v2 items to resolve during construction
 
 From `CONTENT.md` §8 "TODO items" + Joey's inline v2 comments:

@@ -5,26 +5,12 @@
  */
 
 export const DEFAULT_EVENT_ANNOUNCEMENTS = [
-  {
-    eventKey: "FIRST_DANCE",
-    label: "Bride and Groom First Dance",
-    announcement:
-      "Ladies and gentlemen, it is my honor to introduce to you, ______________, for their first dance together tonight.",
-  },
-  {
-    eventKey: "MOTHER_SON",
-    label: "Mother/Son First Dance",
-    announcement:
-      "And now, let's welcome ________ for her first dance with her newly married son.",
-  },
-  {
-    eventKey: "FATHER_DAUGHTER",
-    label: "Father/Daughter First Dance",
-    announcement: "Let's welcome out ______ for a dance with his daughter.",
-  },
-  { eventKey: "CAKE", label: "Cake Cutting", announcement: "" },
-  { eventKey: "BOUQUET", label: "Bouquet Toss", announcement: "" },
-  { eventKey: "GARTER", label: "Garter Toss", announcement: "" },
+  { eventKey: "FIRST_DANCE", label: "Bride and Groom First Dance" },
+  { eventKey: "MOTHER_SON", label: "Mother/Son First Dance" },
+  { eventKey: "FATHER_DAUGHTER", label: "Father/Daughter First Dance" },
+  { eventKey: "CAKE", label: "Cake Cutting" },
+  { eventKey: "BOUQUET", label: "Bouquet Toss" },
+  { eventKey: "GARTER", label: "Garter Toss" },
 ] as const;
 
 export const EVENT_LABEL_BY_KEY: Record<string, string> = Object.fromEntries(

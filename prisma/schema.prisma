@@ -154,6 +154,7 @@ model WeddingDetails {
   receptionGenres      String?
   announceLastCall     Boolean?
   announceShuttle      Boolean?
+  shuttleTimes         String? // free-text — shown when announceShuttle is yes
   coupleAnnouncement   String?
   miscDetails          String?
 
@@ -183,24 +184,25 @@ model WeddingPartyMember {
   updatedAt DateTime @updatedAt
 }
 
-/// Events tab — DJ-announced moments with scripted intro + song.
+/// Events tab — DJ-announced moments with the people involved + song.
 /// Default events seeded on first visit: First Dance, Mother/Son,
 /// Father/Daughter, Cake Cutting, Bouquet Toss, Garter Toss. Couples
 /// can also add custom events.
 model EventAnnouncement {
-  id           String  @id @default(cuid())
-  projectId    String
-  project      Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  id             String  @id @default(cuid())
+  projectId      String
+  project        Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
   /// Stable key for the default events ("FIRST_DANCE", "MOTHER_SON",
   /// "FATHER_DAUGHTER", "CAKE", "BOUQUET", "GARTER") or "CUSTOM".
-  eventKey     String  @default("CUSTOM")
+  eventKey       String  @default("CUSTOM")
   /// Used when eventKey === "CUSTOM" (overrides the default label).
-  customTitle  String?
-  announcement String? // the DJ's spoken intro
-  songName     String?
-  songArtist   String?
-  notes        String?
-  sortOrder    Int     @default(0)
+  customTitle    String?
+  /// Names of the people in this moment (e.g. mother + son's names).
+  peopleInvolved String?
+  songName       String?
+  songArtist     String?
+  notes          String?
+  sortOrder      Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

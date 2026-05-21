@@ -200,7 +200,7 @@ export default async function ProjectDetailPage({
                     : EVENT_LABEL_BY_KEY[a.eventKey] ?? a.eventKey,
                 right: `${a.songName ?? "—"}${
                   a.songArtist ? ` — ${a.songArtist}` : ""
-                }${a.announcement ? ` · "${a.announcement}"` : ""}${
+                }${a.peopleInvolved ? ` · ${a.peopleInvolved}` : ""}${
                   a.notes ? ` · ${a.notes}` : ""
                 }`,
               }))}

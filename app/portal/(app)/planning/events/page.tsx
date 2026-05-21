@@ -31,7 +31,8 @@ export default async function EventsAndMusicPage() {
           Events & Music Requests
         </h2>
         <p className="mt-2 text-sm text-muted">
-          DJ questions, scripted event announcements, and your playlists.
+          DJ questions, the key moments and who&rsquo;s involved, and your
+          playlists.
         </p>
       </header>
 
@@ -42,6 +43,7 @@ export default async function EventsAndMusicPage() {
           receptionGenres: details.receptionGenres,
           announceLastCall: details.announceLastCall,
           announceShuttle: details.announceShuttle,
+          shuttleTimes: details.shuttleTimes,
           coupleAnnouncement: details.coupleAnnouncement,
           miscDetails: details.miscDetails,
         }}
@@ -49,7 +51,7 @@ export default async function EventsAndMusicPage() {
           id: a.id,
           eventKey: a.eventKey,
           customTitle: a.customTitle,
-          announcement: a.announcement,
+          peopleInvolved: a.peopleInvolved,
           songName: a.songName,
           songArtist: a.songArtist,
           notes: a.notes,

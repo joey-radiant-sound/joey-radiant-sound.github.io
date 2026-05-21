@@ -73,11 +73,77 @@ export async function addPartyMember(
   return { ok: true };
 }
 
+export async function updatePartyMember(
+  id: string,
+  formData: FormData,
+): Promise<PartyState> {
+  const ctx = await getAuthedProject();
+  if (!ctx) return { ok: false, message: "Not authorized." };
+
+  const parsed = memberSchema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid" };
+  }
+  const d = parsed.data;
+
+  await prisma.weddingPartyMember.updateMany({
+    where: { id, projectId: ctx.projectId },
+    data: {
+      bridesmaidName: d.bridesmaidName || null,
+      groomsmanName: d.groomsmanName || null,
+      title: d.title || null,
+      songName: d.songName || null,
+      songArtist: d.songArtist || null,
+      notes: d.notes || null,
+    },
+  });
+
+  revalidate();
+  return { ok: true };
+}
+
 export async function deletePartyMember(id: string): Promise<void> {
   const ctx = await getAuthedProject();
   if (!ctx) return;
   await prisma.weddingPartyMember.deleteMany({
     where: { id, projectId: ctx.projectId },
   });
+  revalidate();
+}
+
+/**
+ * Move a member up or down by swapping its sortOrder with the
+ * adjacent row. Scoped to the caller's project.
+ */
+export async function movePartyMember(
+  id: string,
+  direction: "up" | "down",
+): Promise<void> {
+  const ctx = await getAuthedProject();
+  if (!ctx) return;
+
+  const members = await prisma.weddingPartyMember.findMany({
+    where: { projectId: ctx.projectId },
+    orderBy: { sortOrder: "asc" },
+  });
+  const idx = members.findIndex((m) => m.id === id);
+  if (idx === -1) return;
+  const swapWith = direction === "up" ? idx - 1 : idx + 1;
+  if (swapWith < 0 || swapWith >= members.length) return;
+
+  const a = members[idx];
+  const b = members[swapWith];
+  // Swap sortOrder values in a transaction.
+  await prisma.$transaction([
+    prisma.weddingPartyMember.update({
+      where: { id: a.id },
+      data: { sortOrder: b.sortOrder },
+    }),
+    prisma.weddingPartyMember.update({
+      where: { id: b.id },
+      data: { sortOrder: a.sortOrder },
+    }),
+  ]);
+
   revalidate();
 }

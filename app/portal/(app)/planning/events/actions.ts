@@ -22,6 +22,7 @@ const questionsSchema = z.object({
   receptionGenres: optStr,
   announceLastCall: z.string().optional(),
   announceShuttle: z.string().optional(),
+  shuttleTimes: optStr,
   coupleAnnouncement: longStr,
   miscDetails: longStr,
 });
@@ -47,6 +48,8 @@ export async function saveQuestions(
   }
   const d = parsed.data;
 
+  const shuttleOn = toBoolNull(d.announceShuttle);
+
   await ensureWeddingDetails(ctx.projectId);
   await prisma.weddingDetails.update({
     where: { projectId: ctx.projectId },
@@ -55,7 +58,9 @@ export async function saveQuestions(
       cocktailGenre: d.cocktailGenre || null,
       receptionGenres: d.receptionGenres || null,
       announceLastCall: toBoolNull(d.announceLastCall),
-      announceShuttle: toBoolNull(d.announceShuttle),
+      announceShuttle: shuttleOn,
+      // Only persist the time when shuttle announcements are on.
+      shuttleTimes: shuttleOn === true ? d.shuttleTimes || null : null,
       coupleAnnouncement: d.coupleAnnouncement || null,
       miscDetails: d.miscDetails || null,
     },
@@ -69,7 +74,7 @@ export async function saveQuestions(
 
 const announcementUpdateSchema = z.object({
   customTitle: optStr,
-  announcement: longStr,
+  peopleInvolved: optStr,
   songName: optStr,
   songArtist: optStr,
   notes: longStr,
@@ -94,7 +99,7 @@ export async function updateAnnouncement(
     where: { id, projectId: ctx.projectId },
     data: {
       customTitle: d.customTitle || null,
-      announcement: d.announcement || null,
+      peopleInvolved: d.peopleInvolved || null,
       songName: d.songName || null,
       songArtist: d.songArtist || null,
       notes: d.notes || null,
@@ -107,7 +112,7 @@ export async function updateAnnouncement(
 
 const customAddSchema = z.object({
   customTitle: z.string().trim().min(1, "Title required").max(200),
-  announcement: longStr,
+  peopleInvolved: optStr,
   songName: optStr,
   songArtist: optStr,
   notes: longStr,
@@ -138,7 +143,7 @@ export async function addCustomAnnouncement(
       projectId: ctx.projectId,
       eventKey: "CUSTOM",
       customTitle: d.customTitle,
-      announcement: d.announcement || null,
+      peopleInvolved: d.peopleInvolved || null,
       songName: d.songName || null,
       songArtist: d.songArtist || null,
       notes: d.notes || null,
@@ -194,6 +199,40 @@ export async function addPlaylistSong(
       songArtist: d.songArtist || null,
       notes: d.notes || null,
       sortOrder: (last?.sortOrder ?? 0) + 10,
+    },
+  });
+
+  revalidate();
+  return { ok: true };
+}
+
+const songUpdateSchema = z.object({
+  songName: z.string().trim().min(1, "Song name required").max(200),
+  songArtist: optStr,
+  notes: longStr,
+});
+
+export async function updatePlaylistSong(
+  id: string,
+  formData: FormData,
+): Promise<EventsState> {
+  const ctx = await getAuthedProject();
+  if (!ctx) return { ok: false, message: "Not authorized." };
+
+  const parsed = songUpdateSchema.safeParse(
+    Object.fromEntries(formData.entries()),
+  );
+  if (!parsed.success) {
+    return { ok: false, message: parsed.error.issues[0]?.message ?? "Invalid" };
+  }
+  const d = parsed.data;
+
+  await prisma.playlistSong.updateMany({
+    where: { id, projectId: ctx.projectId },
+    data: {
+      songName: d.songName,
+      songArtist: d.songArtist || null,
+      notes: d.notes || null,
     },
   });
 

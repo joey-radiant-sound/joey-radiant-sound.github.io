@@ -41,11 +41,11 @@ export function LineDancesClient({ items }: { items: Item[] }) {
 
   return (
     <div className="flex flex-col gap-8">
-      <ul className="grid gap-2 rounded-xl bg-white p-4 ring-1 ring-black/5 sm:grid-cols-2 md:p-6">
+      <ul className="grid gap-2 rounded-xl bg-brand-50 p-4 ring-1 ring-brand-200/60 sm:grid-cols-2 md:p-6">
         {optimistic.map((it) => (
           <li
             key={it.id}
-            className="flex items-center justify-between gap-3 rounded-md px-3 py-2 hover:bg-surface"
+            className="flex items-center justify-between gap-3 rounded-md bg-white px-3 py-2 ring-1 ring-black/5"
           >
             <label className="flex flex-1 cursor-pointer items-center gap-3">
               <input
@@ -78,7 +78,7 @@ export function LineDancesClient({ items }: { items: Item[] }) {
 
       <form
         action={formAction}
-        className="grid gap-3 rounded-xl border border-dashed border-black/15 p-6 sm:grid-cols-[1fr_auto] sm:items-end"
+        className="grid gap-3 rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6 sm:grid-cols-[1fr_auto] sm:items-end"
       >
         <Input label="Add a custom line dance" name="name" required />
         <Button type="submit" size="md" disabled={pending}>
