@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
 import { useAutoSave, AutoSaveStatus } from "../_autosave";
+import { s } from "../_utils";
 import {
   addPartyMember,
   updatePartyMember,
@@ -25,10 +26,6 @@ type Member = {
 };
 
 const initial: PartyState = { ok: false };
-
-function s(v: string | null | undefined): string {
-  return v ?? "";
-}
 
 export function PartyClient({
   announce,

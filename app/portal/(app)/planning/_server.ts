@@ -1,5 +1,6 @@
 import "server-only";
 
+import type { z } from "zod";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import {
@@ -84,4 +85,47 @@ export async function ensureWeddingDetails(projectId: string) {
     create: { projectId },
     update: {},
   });
+}
+
+/* ───────── server-action boilerplate consolidator ───────── */
+
+export type ActionResult = { ok: boolean; message?: string };
+
+/**
+ * Standard "auth + validate" prelude for a server action that takes
+ * FormData. Returns a discriminated union the action can branch on:
+ *
+ *   const r = await parseAndAuth(schema, formData);
+ *   if (!r.ok) return r.result;
+ *   const { data, ctx } = r;
+ *   // ... mutate using data + ctx.projectId ...
+ *
+ * Replaces ~6 lines of boilerplate at the top of every action.
+ */
+export async function parseAndAuth<T extends z.ZodTypeAny>(
+  schema: T,
+  formData: FormData,
+): Promise<
+  | { ok: false; result: ActionResult }
+  | {
+      ok: true;
+      data: z.infer<T>;
+      ctx: { userId: string; projectId: string };
+    }
+> {
+  const ctx = await getAuthedProject();
+  if (!ctx) {
+    return { ok: false, result: { ok: false, message: "Not authorized." } };
+  }
+  const parsed = schema.safeParse(Object.fromEntries(formData.entries()));
+  if (!parsed.success) {
+    return {
+      ok: false,
+      result: {
+        ok: false,
+        message: parsed.error.issues[0]?.message ?? "Invalid",
+      },
+    };
+  }
+  return { ok: true, data: parsed.data, ctx };
 }

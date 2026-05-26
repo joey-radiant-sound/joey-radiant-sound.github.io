@@ -7,6 +7,7 @@ import { Select } from "@/components/ui/Select";
 import { Button } from "@/components/ui/Button";
 import { useAutoSave, AutoSaveStatus } from "../_autosave";
 import { CEREMONY_SEGMENT_LABEL } from "../_constants";
+import { s, boolToStr } from "../_utils";
 import {
   saveCeremonyQuestions,
   updateCeremonySegment,
@@ -21,15 +22,6 @@ const YES_NO = [
   { value: "true", label: "Yes" },
   { value: "false", label: "No" },
 ] as const;
-
-function boolToStr(v: boolean | null | undefined): string {
-  if (v === true) return "true";
-  if (v === false) return "false";
-  return "";
-}
-function s(v: string | null | undefined): string {
-  return v ?? "";
-}
 
 type Questions = {
   ceremonyWalkOutOrder: string | null;

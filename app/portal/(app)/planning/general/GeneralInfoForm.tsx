@@ -12,6 +12,8 @@ type Props = {
   initial: Record<string, unknown>;
 };
 
+// General Info data comes through as `Record<string, unknown>` (Prisma
+// row serialized). Coerce any value to a string for use as defaultValue.
 function s(v: unknown): string {
   return v == null ? "" : String(v);
 }
