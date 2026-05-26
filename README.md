@@ -108,6 +108,7 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 2A | Portal foundation (Prisma, Auth.js magic-link, /portal shell) | ✅ Done — self-hosted SQLite + Docker |
 | 2B | Couples + projects admin | ✅ Done — set ADMIN_EMAILS in .env.local to use |
 | 2C | Planning sheet (timeline + music + vendors + logistics) | ✅ Done |
+| 2D | File sharing (local disk, contracts/invoices/vendor docs) | ✅ Done |
 | 2C | Planning sheet | ⏳ Pending |
 | 2D | File sharing (R2) | ⏳ Pending |
 | 2E | Invoicing (react-pdf) | ⏳ Pending |
@@ -249,16 +250,16 @@ _Updated: 2026-05-20 by Claude — Phase 1 marketing site shipped; Phase 2 porta
 - [ ] **VPS provisioning** — Joey runs the README "Portal Setup (self-hosted)" runbook ($5/mo Hetzner or DO box) so the portal can go live
 
 ### ▶ Ready to Work
-- [ ] **Phase 2D: file sharing** — local disk storage under `data/uploads/<projectId>/`, presigned download routes, backups include uploads
 - [ ] **Phase 2E: invoicing** — `@react-pdf/renderer` invoice template + `Invoice` model with `draft / sent / paid` status (Stripe deferred to Phase 3)
 - [ ] **Phase 2F: calendar + messaging** — couple-facing milestone timeline + lightweight in-portal message thread per project
 - [ ] **Rate-limit portal magic-link requests** — reuse `lib/rate-limit.ts` (IP-keyed) on `requestMagicLink` + admin invite action (in `TODO.md` security section)
-- [ ] **Refresh `README.md` Phase Status table** to reflect 2B/2C completion (currently shows 2C as up-next when it's done)
 
 ### 🚧 In Progress
 _None mid-stream. Last push (`feat(2C): planning sheet polish — auto-save, edit mode, restyle`) is on `overhaul` cleanly; dev server running locally on :3000 for Joey's eyeball test._
 
 ### ✅ Recently Completed
+- **Phase 2D** — file sharing: `ProjectFile` model + `/api/files/upload` route handler + `/api/files/[id]` download + `/portal/files` couple view + Files panel embedded on admin project detail. PDF / image / audio / MP4 / MOV allowlist, 50 MB cap (`MAX_FILE_BYTES`), per-IP upload rate limit, auth scoped by `canAccessProject`. Backup script now archives `data/uploads/` alongside the SQLite db.
+- **Modularity sweep** — split `EventsClient` (441 → 46 lines) into 4 focused files; extracted `<PlanningReadOnly>` from admin project page (351 → ~110 lines); shared client `_utils.ts`; new `parseAndAuth()` helper in `_server.ts`.
 - **Phase 2C polish** — auto-save hook, display+Edit row pattern, light blue card styling, wedding-party Description + reorder, shuttle conditional field, events `peopleInvolved` replacing scripted announcement
 - **Phase 2C** — spreadsheet-aligned planning sheet (6 sub-routes matching the MASTER xlsx tabs: General / Party / Events / Ceremony / Line Dances / Itinerary), with idempotent seeders for default events / ceremony segments / line dances / itinerary slots
 - **Phase 2B** — admin invite flow + email allowlist + admin route group with role gating

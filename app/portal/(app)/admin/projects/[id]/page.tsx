@@ -1,8 +1,10 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { auth } from "@/lib/auth";
 import { InviteCoupleForm } from "./InviteCoupleForm";
 import { PlanningReadOnly } from "../../_PlanningReadOnly";
+import { FilesPanel, type FileRow } from "../../../files/FilesPanel";
 
 export default async function ProjectDetailPage({
   params,
@@ -10,6 +12,8 @@ export default async function ProjectDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
+  const session = await auth();
+  const adminUserId = session?.user?.id;
   const project = await prisma.project.findUnique({
     where: { id },
     include: {
@@ -26,10 +30,43 @@ export default async function ProjectDetailPage({
       ceremonyMusic: { orderBy: { sortOrder: "asc" } },
       lineDances: { orderBy: { sortOrder: "asc" } },
       itineraryItems: { orderBy: { sortOrder: "asc" } },
+      files: {
+        orderBy: { createdAt: "desc" },
+        include: {
+          uploadedBy: {
+            select: {
+              firstName: true,
+              lastName: true,
+              email: true,
+              role: true,
+            },
+          },
+        },
+      },
     },
   });
 
   if (!project) notFound();
+
+  const fileRows: FileRow[] = project.files.map((f) => {
+    const name = f.uploadedBy
+      ? [f.uploadedBy.firstName, f.uploadedBy.lastName]
+          .filter(Boolean)
+          .join(" ") ||
+        (f.uploadedBy.role === "ADMIN" ? "Radiant Sound" : f.uploadedBy.email)
+      : null;
+    return {
+      id: f.id,
+      name: f.name,
+      mimeType: f.mimeType,
+      sizeBytes: f.sizeBytes,
+      createdAt: f.createdAt.toISOString(),
+      uploadedByName: name,
+      // Admins can delete any file on the project; we pass true so the
+      // Remove button shows on every row in the admin view.
+      isMine: adminUserId ? true : false,
+    };
+  });
 
   return (
     <section>
@@ -100,6 +137,15 @@ export default async function ProjectDetailPage({
       </div>
 
       <PlanningReadOnly project={project} />
+
+      <div className="mt-14">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">
+          Files
+        </h2>
+        <div className="mt-4">
+          <FilesPanel projectId={project.id} files={fileRows} />
+        </div>
+      </div>
     </section>
   );
 }

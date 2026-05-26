@@ -15,6 +15,7 @@ set -euo pipefail
 # Verify with: docker volume inspect radiantsound_portal_data
 VOLUME_PATH="/var/lib/docker/volumes/radiantsound_portal_data/_data"
 DB_FILE="$VOLUME_PATH/radiant.db"
+UPLOADS_DIR="$VOLUME_PATH/uploads"
 
 # Backup target — pick somewhere off the main disk if possible
 # (separate volume, S3 sync, rsync to a NAS, etc.). Keep 30 days.
@@ -38,7 +39,15 @@ else
   cp "$DB_FILE" "$TARGET"
 fi
 
-echo "Backed up to $TARGET"
+echo "Backed up DB to $TARGET"
+
+# Uploaded files (Phase 2D) — only if the directory exists and has
+# anything in it. Skip silently if empty.
+if [ -d "$UPLOADS_DIR" ] && [ -n "$(ls -A "$UPLOADS_DIR" 2>/dev/null || true)" ]; then
+  UPLOADS_TARGET="$BACKUP_DIR/radiant-uploads-$TS.tgz"
+  tar -czf "$UPLOADS_TARGET" -C "$VOLUME_PATH" uploads
+  echo "Backed up uploads to $UPLOADS_TARGET"
+fi
 
 # Prune backups older than RETAIN_DAYS.
-find "$BACKUP_DIR" -name "radiant-*.db" -type f -mtime +$RETAIN_DAYS -delete
+find "$BACKUP_DIR" \( -name "radiant-*.db" -o -name "radiant-uploads-*.tgz" \) -type f -mtime +$RETAIN_DAYS -delete

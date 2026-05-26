@@ -38,6 +38,7 @@ model User {
   sessions        Session[]
   projectMembers  ProjectMember[]
   invitedProjects Project[]       @relation("ProjectInvitedBy")
+  uploadedFiles   ProjectFile[]   @relation("ProjectFileUploadedBy")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -102,6 +103,7 @@ model Project {
   ceremonyMusic   CeremonyMusicEntry[]
   lineDances      LineDance[]
   itineraryItems  ItineraryItem[]
+  files           ProjectFile[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -274,6 +276,29 @@ model ItineraryItem {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// Per-project uploaded files (Phase 2D). Contracts, vendor docs,
+/// invoices, photos, song lists. Bytes live on the VPS disk under
+/// `data/uploads/<projectId>/<storageKey>`; this row holds the
+/// metadata + access control.
+model ProjectFile {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  uploadedById String?
+  uploadedBy   User?   @relation("ProjectFileUploadedBy", fields: [uploadedById], references: [id])
+
+  /// Filename on disk — cuid + extension. Never exposes the original
+  /// name in the URL; the user-facing name lives in `name`.
+  storageKey String @unique
+  /// Original filename for display + Content-Disposition.
+  name       String
+  mimeType   String
+  sizeBytes  Int
+
+  createdAt DateTime @default(now())
 }
 
 /// Many-to-many between Users and Projects. A wedding can have
