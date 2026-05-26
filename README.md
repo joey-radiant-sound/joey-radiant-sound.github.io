@@ -233,3 +233,39 @@ the legacy Jekyll site from GitHub Pages.
 ## License
 
 Copyright © Radiant Sound, LLC. All rights reserved.
+## Work Queue
+
+_Updated: 2026-05-20 by Claude — Phase 1 marketing site shipped; Phase 2 portal at end of 2C polish. See `TODO.md` for the full launch-blocking checklist and `PHASE2.md` for the portal sub-phase map._
+
+### ⏸ Awaiting Review
+- [ ] **In-browser test of 2C planning-sheet polish** — exercise auto-save, Edit/Done flow, shuttle conditional, wedding-party reorder, `peopleInvolved` field
+  - _Checkpoint:_ confirm 6-item batch lands as intended before 2D begins
+- [ ] **WeddingsHero slideshow curation** — final 5-photo list (not used elsewhere on the site)
+  - _Checkpoint:_ filenames from `_assetdump/originals/` or new uploads
+- [ ] **Display font pick** — propose 2-3 display-font options (Phase 1D follow-up)
+- [ ] **Hero highlight reel** — Joey editing; swap in when ready
+- [ ] **`legacy.radiantsoundwny.com` subdomain** — keep accessible after launch or retire?
+- [ ] **Social handles / URLs** for both footers (Weddings: IG/FB/Knot/WeddingWire; A Cappella: YT/IG/SoundCloud/Bandcamp)
+- [ ] **VPS provisioning** — Joey runs the README "Portal Setup (self-hosted)" runbook ($5/mo Hetzner or DO box) so the portal can go live
+
+### ▶ Ready to Work
+- [ ] **Phase 2D: file sharing** — local disk storage under `data/uploads/<projectId>/`, presigned download routes, backups include uploads
+- [ ] **Phase 2E: invoicing** — `@react-pdf/renderer` invoice template + `Invoice` model with `draft / sent / paid` status (Stripe deferred to Phase 3)
+- [ ] **Phase 2F: calendar + messaging** — couple-facing milestone timeline + lightweight in-portal message thread per project
+- [ ] **Rate-limit portal magic-link requests** — reuse `lib/rate-limit.ts` (IP-keyed) on `requestMagicLink` + admin invite action (in `TODO.md` security section)
+- [ ] **Refresh `README.md` Phase Status table** to reflect 2B/2C completion (currently shows 2C as up-next when it's done)
+
+### 🚧 In Progress
+_None mid-stream. Last push (`feat(2C): planning sheet polish — auto-save, edit mode, restyle`) is on `overhaul` cleanly; dev server running locally on :3000 for Joey's eyeball test._
+
+### ✅ Recently Completed
+- **Phase 2C polish** — auto-save hook, display+Edit row pattern, light blue card styling, wedding-party Description + reorder, shuttle conditional field, events `peopleInvolved` replacing scripted announcement
+- **Phase 2C** — spreadsheet-aligned planning sheet (6 sub-routes matching the MASTER xlsx tabs: General / Party / Events / Ceremony / Line Dances / Itinerary), with idempotent seeders for default events / ceremony segments / line dances / itinerary slots
+- **Phase 2B** — admin invite flow + email allowlist + admin route group with role gating
+- **Phase 2A** — portal foundation: Prisma + SQLite, Auth.js v5 magic-link via Nodemailer, `/portal/sign-in` + `/portal/check-email` + `/portal` gated dashboard, route-group layout split to kill the redirect loop
+- **Portal infra** — self-hosted Docker + Caddy stack (replaces Vercel + Neon plan), `data/radiant.db` on disk, nightly `sqlite3 .backup` cron, dev SMTP fallback prints magic links to terminal
+- **SMTP wired** — Google Workspace via `smtp.gmail.com` with app password; magic-link + contact-form emails sending from `joey@radiantsoundwny.com`
+- **scripts/db.sh hardened** — no longer breaks on spaces / `<addr>` shell metacharacters in env values
+- **npm db:push / db:studio / db:generate** — convenience scripts that load `.env.local` (Prisma CLI only reads `.env` by default)
+- **Phase 1A–1I** — full marketing-site overhaul (homepage chooser, weddings + a cappella content, contact forms, animations, SEO, launch runbook)
+
