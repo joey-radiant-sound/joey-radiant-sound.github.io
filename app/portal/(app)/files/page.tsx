@@ -19,7 +19,7 @@ export default async function FilesPage() {
   if (role === "ADMIN") redirect("/portal/admin");
 
   const membership = await prisma.projectMember.findFirst({
-    where: { userId: session.user.id },
+    where: { userId: session.user.id, project: { archivedAt: null } },
     include: { project: { select: { id: true, title: true } } },
     orderBy: { createdAt: "desc" },
   });

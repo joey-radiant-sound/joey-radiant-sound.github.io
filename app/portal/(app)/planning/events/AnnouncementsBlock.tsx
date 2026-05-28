@@ -23,8 +23,10 @@ const initial: EventsState = { ok: false };
  * and edit mode (auto-saving inline form + Done).
  */
 export function AnnouncementsBlock({
+  projectId,
   announcements,
 }: {
+  projectId: string;
   announcements: AnnouncementRow[];
 }) {
   return (
@@ -38,15 +40,21 @@ export function AnnouncementsBlock({
       </p>
       <ul className="flex flex-col gap-3">
         {announcements.map((a) => (
-          <AnnouncementRowItem key={a.id} row={a} />
+          <AnnouncementRowItem key={a.id} projectId={projectId} row={a} />
         ))}
       </ul>
-      <CustomAnnouncementForm />
+      <CustomAnnouncementForm projectId={projectId} />
     </div>
   );
 }
 
-function AnnouncementRowItem({ row }: { row: AnnouncementRow }) {
+function AnnouncementRowItem({
+  projectId,
+  row,
+}: {
+  projectId: string;
+  row: AnnouncementRow;
+}) {
   const [editing, setEditing] = useState(false);
   const isCustom = row.eventKey === "CUSTOM";
   const label = isCustom
@@ -57,7 +65,11 @@ function AnnouncementRowItem({ row }: { row: AnnouncementRow }) {
     return (
       <li className="rounded-xl bg-brand-50 p-5 ring-1 ring-brand-300">
         <p className="mb-3 text-sm font-semibold text-ink">{label}</p>
-        <AnnouncementEditForm row={row} onDone={() => setEditing(false)} />
+        <AnnouncementEditForm
+          projectId={projectId}
+          row={row}
+          onDone={() => setEditing(false)}
+        />
       </li>
     );
   }
@@ -96,7 +108,7 @@ function AnnouncementRowItem({ row }: { row: AnnouncementRow }) {
         {isCustom && (
           <button
             type="button"
-            onClick={() => deleteAnnouncement(row.id)}
+            onClick={() => deleteAnnouncement(projectId, row.id)}
             className="text-xs font-medium text-muted hover:text-red-600"
           >
             Remove
@@ -108,9 +120,11 @@ function AnnouncementRowItem({ row }: { row: AnnouncementRow }) {
 }
 
 function AnnouncementEditForm({
+  projectId,
   row,
   onDone,
 }: {
+  projectId: string;
   row: AnnouncementRow;
   onDone: () => void;
 }) {
@@ -123,6 +137,7 @@ function AnnouncementEditForm({
 
   return (
     <form ref={formRef} onChange={trigger} onBlur={flush} className="grid gap-3">
+      <input type="hidden" name="projectId" value={projectId} />
       {isCustom && (
         <Input label="Title" name="customTitle" defaultValue={s(row.customTitle)} required />
       )}
@@ -155,7 +170,7 @@ function AnnouncementEditForm({
   );
 }
 
-function CustomAnnouncementForm() {
+function CustomAnnouncementForm({ projectId }: { projectId: string }) {
   const [state, formAction, pending] = useActionState(
     addCustomAnnouncement,
     initial,
@@ -165,6 +180,7 @@ function CustomAnnouncementForm() {
       action={formAction}
       className="mt-6 rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6"
     >
+      <input type="hidden" name="projectId" value={projectId} />
       <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-brand-600">
         Add a custom event
       </p>

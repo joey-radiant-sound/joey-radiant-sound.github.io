@@ -40,21 +40,29 @@ type Segment = {
 };
 
 export function CeremonyClient({
+  projectId,
   questions,
   segments,
 }: {
+  projectId: string;
   questions: Questions;
   segments: Segment[];
 }) {
   return (
     <div className="flex flex-col gap-8">
-      <MusicBlock segments={segments} />
-      <QuestionsBlock initial={questions} />
+      <MusicBlock projectId={projectId} segments={segments} />
+      <QuestionsBlock projectId={projectId} initial={questions} />
     </div>
   );
 }
 
-function MusicBlock({ segments }: { segments: Segment[] }) {
+function MusicBlock({
+  projectId,
+  segments,
+}: {
+  projectId: string;
+  segments: Segment[];
+}) {
   return (
     <div>
       <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-brand-600">
@@ -62,15 +70,21 @@ function MusicBlock({ segments }: { segments: Segment[] }) {
       </p>
       <ul className="flex flex-col gap-3">
         {segments.map((seg) => (
-          <SegmentRowItem key={seg.id} segment={seg} />
+          <SegmentRowItem key={seg.id} projectId={projectId} segment={seg} />
         ))}
       </ul>
-      <CustomSegmentForm />
+      <CustomSegmentForm projectId={projectId} />
     </div>
   );
 }
 
-function SegmentRowItem({ segment }: { segment: Segment }) {
+function SegmentRowItem({
+  projectId,
+  segment,
+}: {
+  projectId: string;
+  segment: Segment;
+}) {
   const [editing, setEditing] = useState(false);
   const isCustom = segment.segment === "CUSTOM";
   const label = isCustom
@@ -81,7 +95,11 @@ function SegmentRowItem({ segment }: { segment: Segment }) {
     return (
       <li className="rounded-xl bg-brand-50 p-5 ring-1 ring-brand-300">
         <p className="mb-3 text-sm font-semibold text-ink">{label}</p>
-        <SegmentEditForm segment={segment} onDone={() => setEditing(false)} />
+        <SegmentEditForm
+          projectId={projectId}
+          segment={segment}
+          onDone={() => setEditing(false)}
+        />
       </li>
     );
   }
@@ -117,7 +135,7 @@ function SegmentRowItem({ segment }: { segment: Segment }) {
         {isCustom && (
           <button
             type="button"
-            onClick={() => deleteCeremonySegment(segment.id)}
+            onClick={() => deleteCeremonySegment(projectId, segment.id)}
             className="text-xs font-medium text-muted hover:text-red-600"
           >
             Remove
@@ -129,9 +147,11 @@ function SegmentRowItem({ segment }: { segment: Segment }) {
 }
 
 function SegmentEditForm({
+  projectId,
   segment,
   onDone,
 }: {
+  projectId: string;
   segment: Segment;
   onDone: () => void;
 }) {
@@ -144,6 +164,7 @@ function SegmentEditForm({
 
   return (
     <form ref={formRef} onChange={trigger} onBlur={flush} className="grid gap-3">
+      <input type="hidden" name="projectId" value={projectId} />
       {isCustom && (
         <Input label="Label" name="customLabel" defaultValue={s(segment.customLabel)} required />
       )}
@@ -170,7 +191,7 @@ function SegmentEditForm({
   );
 }
 
-function CustomSegmentForm() {
+function CustomSegmentForm({ projectId }: { projectId: string }) {
   const [state, formAction, pending] = useActionState(
     addCustomCeremonySegment,
     initial,
@@ -180,6 +201,7 @@ function CustomSegmentForm() {
       action={formAction}
       className="mt-6 rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6"
     >
+      <input type="hidden" name="projectId" value={projectId} />
       <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-brand-600">
         Add a custom segment
       </p>
@@ -203,7 +225,13 @@ function CustomSegmentForm() {
   );
 }
 
-function QuestionsBlock({ initial: q }: { initial: Questions }) {
+function QuestionsBlock({
+  projectId,
+  initial: q,
+}: {
+  projectId: string;
+  initial: Questions;
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const { status, trigger, flush } = useAutoSave(async () => {
     if (!formRef.current) return;
@@ -217,6 +245,7 @@ function QuestionsBlock({ initial: q }: { initial: Questions }) {
       onBlur={flush}
       className="rounded-xl bg-brand-50 p-6 ring-1 ring-brand-200/60 md:p-8"
     >
+      <input type="hidden" name="projectId" value={projectId} />
       <div className="mb-5 flex items-center justify-between gap-4">
         <p className="text-sm font-semibold uppercase tracking-widest text-brand-600">
           Ceremony Questions

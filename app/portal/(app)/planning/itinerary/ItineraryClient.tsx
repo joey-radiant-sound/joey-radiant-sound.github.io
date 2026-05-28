@@ -20,7 +20,13 @@ type Item = {
 
 const initial: ItineraryState = { ok: false };
 
-export function ItineraryClient({ items }: { items: Item[] }) {
+export function ItineraryClient({
+  projectId,
+  items,
+}: {
+  projectId: string;
+  items: Item[];
+}) {
   const [state, formAction, pending] = useActionState(
     addItineraryItem,
     initial,
@@ -36,7 +42,7 @@ export function ItineraryClient({ items }: { items: Item[] }) {
           <span aria-hidden></span>
         </li>
         {items.map((it) => (
-          <ItineraryRow key={it.id} item={it} />
+          <ItineraryRow key={it.id} projectId={projectId} item={it} />
         ))}
       </ul>
 
@@ -44,6 +50,7 @@ export function ItineraryClient({ items }: { items: Item[] }) {
         action={formAction}
         className="grid gap-3 rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6 sm:grid-cols-[110px_1fr_1fr_auto] sm:items-end"
       >
+        <input type="hidden" name="projectId" value={projectId} />
         <Input label="Time" name="time" required placeholder="e.g. 1:15 AM" />
         <Input label="Event" name="event" />
         <Input label="Notes" name="notes" />
@@ -60,7 +67,13 @@ export function ItineraryClient({ items }: { items: Item[] }) {
   );
 }
 
-function ItineraryRow({ item }: { item: Item }) {
+function ItineraryRow({
+  projectId,
+  item,
+}: {
+  projectId: string;
+  item: Item;
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const { trigger, flush } = useAutoSave(async () => {
     if (!formRef.current) return;
@@ -75,6 +88,7 @@ function ItineraryRow({ item }: { item: Item }) {
         onBlur={flush}
         className="grid grid-cols-[110px_1fr_1fr_auto] items-center gap-3 px-4 py-2"
       >
+        <input type="hidden" name="projectId" value={projectId} />
         <input
           name="time"
           defaultValue={item.time}
@@ -94,7 +108,7 @@ function ItineraryRow({ item }: { item: Item }) {
         />
         <button
           type="button"
-          onClick={() => deleteItineraryItem(item.id)}
+          onClick={() => deleteItineraryItem(projectId, item.id)}
           className="text-xs font-medium text-muted hover:text-red-600"
         >
           Remove

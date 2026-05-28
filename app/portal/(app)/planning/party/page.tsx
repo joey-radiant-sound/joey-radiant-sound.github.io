@@ -1,11 +1,15 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { getAuthedProject, ensureWeddingDetails } from "../_server";
+import { resolveTabCtx, ensureWeddingDetails } from "../_server";
 import { PartyClient } from "./PartyClient";
 
-export default async function WeddingPartyPage() {
-  const ctx = await getAuthedProject();
-  if (!ctx) redirect("/portal/sign-in");
+export default async function WeddingPartyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
+  const ctx = await resolveTabCtx(searchParams);
+  if (!ctx) redirect("/portal");
 
   const details = await ensureWeddingDetails(ctx.projectId);
   const members = await prisma.weddingPartyMember.findMany({
@@ -27,6 +31,7 @@ export default async function WeddingPartyPage() {
       </header>
 
       <PartyClient
+        projectId={ctx.projectId}
         announce={details.announceWeddingParty ?? null}
         members={members.map((m) => ({
           id: m.id,

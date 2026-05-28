@@ -14,9 +14,10 @@ function revalidate() {
 /* ───── announceWeddingParty toggle (lives on WeddingDetails) ───── */
 
 export async function setAnnounceWeddingParty(
+  projectId: string,
   value: boolean,
 ): Promise<PartyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return { ok: false, message: "Not authorized." };
   await ensureWeddingDetails(ctx.projectId);
   await prisma.weddingDetails.update({
@@ -42,7 +43,9 @@ export async function addPartyMember(
   _prev: PartyState,
   formData: FormData,
 ): Promise<PartyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = memberSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -77,7 +80,9 @@ export async function updatePartyMember(
   id: string,
   formData: FormData,
 ): Promise<PartyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = memberSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -102,8 +107,11 @@ export async function updatePartyMember(
   return { ok: true };
 }
 
-export async function deletePartyMember(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deletePartyMember(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.weddingPartyMember.deleteMany({
     where: { id, projectId: ctx.projectId },
@@ -116,10 +124,11 @@ export async function deletePartyMember(id: string): Promise<void> {
  * adjacent row. Scoped to the caller's project.
  */
 export async function movePartyMember(
+  projectId: string,
   id: string,
   direction: "up" | "down",
 ): Promise<void> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
 
   const members = await prisma.weddingPartyMember.findMany({

@@ -3,10 +3,14 @@ import { prisma } from "@/lib/db";
 import { Button } from "@/components/ui/Button";
 
 export default async function AdminProjectsList() {
-  const projects = await prisma.project.findMany({
-    orderBy: [{ eventDate: "asc" }, { createdAt: "desc" }],
-    include: { _count: { select: { members: true } } },
-  });
+  const [projects, archivedCount] = await Promise.all([
+    prisma.project.findMany({
+      where: { archivedAt: null },
+      orderBy: [{ eventDate: "asc" }, { createdAt: "desc" }],
+      include: { _count: { select: { members: true } } },
+    }),
+    prisma.project.count({ where: { archivedAt: { not: null } } }),
+  ]);
 
   return (
     <section>
@@ -16,7 +20,15 @@ export default async function AdminProjectsList() {
             Projects
           </h1>
           <p className="mt-2 text-base text-muted">
-            Every wedding in the portal.
+            Active weddings.{" "}
+            {archivedCount > 0 && (
+              <Link
+                href="/portal/admin/archive"
+                className="font-medium text-brand-600 hover:text-brand-700"
+              >
+                Archived ({archivedCount}) →
+              </Link>
+            )}
           </p>
         </div>
         <Button href="/portal/admin/projects/new" size="md">

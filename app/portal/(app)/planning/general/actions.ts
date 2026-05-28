@@ -51,7 +51,9 @@ export async function saveGeneralInfo(
   _prev: GeneralState,
   formData: FormData,
 ): Promise<GeneralState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = schema.safeParse(Object.fromEntries(formData.entries()));

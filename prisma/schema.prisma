@@ -91,6 +91,10 @@ model Project {
   venueCity  String?
   guestCount Int?
   status     String    @default("LEAD") // "LEAD" | "BOOKED" | "PLANNING" | "COMPLETED" | "CANCELED"
+  /// When set, the wedding is archived: hidden from the active admin
+  /// list and its couple members lose portal access. Admins still
+  /// reach it via /portal/admin/archive. Null = active.
+  archivedAt DateTime?
 
   invitedById String?
   invitedBy   User?   @relation("ProjectInvitedBy", fields: [invitedById], references: [id])

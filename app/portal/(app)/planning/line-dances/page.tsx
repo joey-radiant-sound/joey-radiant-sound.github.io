@@ -1,11 +1,15 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
-import { getAuthedProject, seedLineDances } from "../_server";
+import { resolveTabCtx, seedLineDances } from "../_server";
 import { LineDancesClient } from "./LineDancesClient";
 
-export default async function LineDancesPage() {
-  const ctx = await getAuthedProject();
-  if (!ctx) redirect("/portal/sign-in");
+export default async function LineDancesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
+  const ctx = await resolveTabCtx(searchParams);
+  if (!ctx) redirect("/portal");
 
   await seedLineDances(ctx.projectId);
   const items = await prisma.lineDance.findMany({
@@ -26,6 +30,7 @@ export default async function LineDancesPage() {
       </header>
 
       <LineDancesClient
+        projectId={ctx.projectId}
         items={items.map((i) => ({
           id: i.id,
           name: i.name,

@@ -22,11 +22,13 @@ const initial: EventsState = { ok: false };
  * mode (Done).
  */
 export function PlaylistBlock({
+  projectId,
   listType,
   title,
   description,
   songs,
 }: {
+  projectId: string;
   listType: string;
   title: string;
   description: string;
@@ -48,7 +50,7 @@ export function PlaylistBlock({
       ) : (
         <ul className="mt-4 flex flex-col gap-2">
           {songs.map((song) => (
-            <SongRowItem key={song.id} song={song} />
+            <SongRowItem key={song.id} projectId={projectId} song={song} />
           ))}
         </ul>
       )}
@@ -57,6 +59,7 @@ export function PlaylistBlock({
         action={formAction}
         className="mt-5 grid gap-3 rounded-lg border border-dashed border-brand-300 bg-white/60 p-4 sm:grid-cols-[2fr_2fr_2fr_auto] sm:items-end"
       >
+        <input type="hidden" name="projectId" value={projectId} />
         <input type="hidden" name="listType" value={listType} />
         <Input label="Song name" name="songName" required />
         <Input label="Artist" name="songArtist" />
@@ -72,7 +75,13 @@ export function PlaylistBlock({
   );
 }
 
-function SongRowItem({ song }: { song: SongRow }) {
+function SongRowItem({
+  projectId,
+  song,
+}: {
+  projectId: string;
+  song: SongRow;
+}) {
   const [editing, setEditing] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const { status, trigger, flush } = useAutoSave(async () => {
@@ -102,7 +111,7 @@ function SongRowItem({ song }: { song: SongRow }) {
           </button>
           <button
             type="button"
-            onClick={() => deletePlaylistSong(song.id)}
+            onClick={() => deletePlaylistSong(projectId, song.id)}
             className="text-xs font-medium text-muted hover:text-red-600"
           >
             Remove
@@ -115,6 +124,7 @@ function SongRowItem({ song }: { song: SongRow }) {
   return (
     <li className="rounded-lg bg-brand-50 p-4 ring-1 ring-brand-300">
       <form ref={formRef} onChange={trigger} onBlur={flush} className="grid gap-3 sm:grid-cols-3">
+        <input type="hidden" name="projectId" value={projectId} />
         <Input label="Song name" name="songName" defaultValue={song.songName} required />
         <Input label="Artist" name="songArtist" defaultValue={s(song.songArtist)} />
         <Input label="Notes" name="notes" defaultValue={s(song.notes)} />

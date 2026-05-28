@@ -28,9 +28,11 @@ type Member = {
 const initial: PartyState = { ok: false };
 
 export function PartyClient({
+  projectId,
   announce,
   members,
 }: {
+  projectId: string;
   announce: boolean | null;
   members: Member[];
 }) {
@@ -41,7 +43,7 @@ export function PartyClient({
   const toggleAnnounce = (val: boolean) => {
     setAnnounceValue(val);
     startTransition(async () => {
-      await setAnnounceWeddingParty(val);
+      await setAnnounceWeddingParty(projectId, val);
     });
   };
 
@@ -78,6 +80,7 @@ export function PartyClient({
             {members.map((m, i) => (
               <MemberRow
                 key={m.id}
+                projectId={projectId}
                 member={m}
                 index={i}
                 isFirst={i === 0}
@@ -93,6 +96,7 @@ export function PartyClient({
         action={formAction}
         className="rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6 md:p-8"
       >
+        <input type="hidden" name="projectId" value={projectId} />
         <p className="mb-4 text-sm font-semibold uppercase tracking-widest text-brand-600">
           Add to wedding party
         </p>
@@ -129,11 +133,13 @@ export function PartyClient({
 /* ───── one member: display mode ↔ edit mode ───── */
 
 function MemberRow({
+  projectId,
   member,
   index,
   isFirst,
   isLast,
 }: {
+  projectId: string;
   member: Member;
   index: number;
   isFirst: boolean;
@@ -144,14 +150,18 @@ function MemberRow({
 
   const move = (dir: "up" | "down") => {
     startTransition(async () => {
-      await movePartyMember(member.id, dir);
+      await movePartyMember(projectId, member.id, dir);
     });
   };
 
   if (editing) {
     return (
       <li className="rounded-xl bg-brand-50 p-5 ring-1 ring-brand-300">
-        <MemberEditForm member={member} onDone={() => setEditing(false)} />
+        <MemberEditForm
+          projectId={projectId}
+          member={member}
+          onDone={() => setEditing(false)}
+        />
       </li>
     );
   }
@@ -229,7 +239,7 @@ function MemberRow({
         </button>
         <button
           type="button"
-          onClick={() => deletePartyMember(member.id)}
+          onClick={() => deletePartyMember(projectId, member.id)}
           className="text-xs font-medium text-muted hover:text-red-600"
         >
           Remove
@@ -240,9 +250,11 @@ function MemberRow({
 }
 
 function MemberEditForm({
+  projectId,
   member,
   onDone,
 }: {
+  projectId: string;
   member: Member;
   onDone: () => void;
 }) {
@@ -254,6 +266,7 @@ function MemberEditForm({
 
   return (
     <form ref={formRef} onChange={trigger} onBlur={flush} className="flex flex-col gap-4">
+      <input type="hidden" name="projectId" value={projectId} />
       <div className="grid gap-4 sm:grid-cols-2">
         <Input label="Bridesmaid name" name="bridesmaidName" defaultValue={s(member.bridesmaidName)} />
         <Input label="Groomsman name" name="groomsmanName" defaultValue={s(member.groomsmanName)} />

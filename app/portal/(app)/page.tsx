@@ -18,7 +18,8 @@ export default async function PortalDashboard() {
   const userId = session?.user?.id;
   const membership = userId
     ? await prisma.projectMember.findFirst({
-        where: { userId },
+        // Archived weddings drop off the couple's dashboard.
+        where: { userId, project: { archivedAt: null } },
         include: { project: true },
         orderBy: { createdAt: "desc" },
       })

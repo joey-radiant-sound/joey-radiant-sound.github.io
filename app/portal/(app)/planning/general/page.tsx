@@ -1,10 +1,14 @@
 import { redirect } from "next/navigation";
-import { getAuthedProject, ensureWeddingDetails } from "../_server";
+import { resolveTabCtx, ensureWeddingDetails } from "../_server";
 import { GeneralInfoForm } from "./GeneralInfoForm";
 
-export default async function GeneralInfoPage() {
-  const ctx = await getAuthedProject();
-  if (!ctx) redirect("/portal/sign-in");
+export default async function GeneralInfoPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
+  const ctx = await resolveTabCtx(searchParams);
+  if (!ctx) redirect("/portal");
 
   const details = await ensureWeddingDetails(ctx.projectId);
 
@@ -19,7 +23,7 @@ export default async function GeneralInfoPage() {
           blank and come back.
         </p>
       </header>
-      <GeneralInfoForm initial={serializable(details)} />
+      <GeneralInfoForm projectId={ctx.projectId} initial={serializable(details)} />
     </section>
   );
 }

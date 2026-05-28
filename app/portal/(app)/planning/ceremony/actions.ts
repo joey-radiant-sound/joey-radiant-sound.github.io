@@ -33,7 +33,9 @@ export async function saveCeremonyQuestions(
   _prev: CeremonyState,
   formData: FormData,
 ): Promise<CeremonyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = ceremonyQuestionsSchema.safeParse(
@@ -72,7 +74,9 @@ export async function updateCeremonySegment(
   id: string,
   formData: FormData,
 ): Promise<CeremonyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = segmentUpdateSchema.safeParse(
@@ -108,7 +112,9 @@ export async function addCustomCeremonySegment(
   _prev: CeremonyState,
   formData: FormData,
 ): Promise<CeremonyState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = customAddSchema.safeParse(
@@ -140,8 +146,11 @@ export async function addCustomCeremonySegment(
   return { ok: true };
 }
 
-export async function deleteCeremonySegment(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deleteCeremonySegment(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.ceremonyMusicEntry.deleteMany({
     where: { id, projectId: ctx.projectId, segment: "CUSTOM" },

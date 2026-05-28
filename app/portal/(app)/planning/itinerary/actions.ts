@@ -23,7 +23,9 @@ export async function updateItineraryItem(
   id: string,
   formData: FormData,
 ): Promise<ItineraryState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = updateSchema.safeParse(
@@ -56,7 +58,9 @@ export async function addItineraryItem(
   _prev: ItineraryState,
   formData: FormData,
 ): Promise<ItineraryState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = addSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -83,8 +87,11 @@ export async function addItineraryItem(
   return { ok: true };
 }
 
-export async function deleteItineraryItem(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deleteItineraryItem(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.itineraryItem.deleteMany({
     where: { id, projectId: ctx.projectId },

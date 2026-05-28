@@ -9,6 +9,7 @@ import { LINEN_COLORS } from "../_constants";
 import { useAutoSave, AutoSaveStatus } from "../_autosave";
 
 type Props = {
+  projectId: string;
   initial: Record<string, unknown>;
 };
 
@@ -35,7 +36,7 @@ function FieldGroup({
   );
 }
 
-export function GeneralInfoForm({ initial: data }: Props) {
+export function GeneralInfoForm({ projectId, initial: data }: Props) {
   const formRef = useRef<HTMLFormElement>(null);
   const { status, trigger, flush } = useAutoSave(async () => {
     if (!formRef.current) return;
@@ -50,6 +51,7 @@ export function GeneralInfoForm({ initial: data }: Props) {
       className="flex flex-col gap-8"
       noValidate
     >
+      <input type="hidden" name="projectId" value={projectId} />
       <FieldGroup title="Event">
         <Input label="Wedding date" name="weddingDate" type="date" defaultValue={s(data.weddingDate)} />
         <Input label="Contact phone" name="contactPhone" type="tel" defaultValue={s(data.contactPhone)} />

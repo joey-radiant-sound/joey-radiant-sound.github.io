@@ -19,7 +19,13 @@ type Item = {
 
 const initial: LineDanceState = { ok: false };
 
-export function LineDancesClient({ items }: { items: Item[] }) {
+export function LineDancesClient({
+  projectId,
+  items,
+}: {
+  projectId: string;
+  items: Item[];
+}) {
   const [, startTransition] = useTransition();
   const [optimistic, applyOptimistic] = useOptimistic<
     Item[],
@@ -35,7 +41,7 @@ export function LineDancesClient({ items }: { items: Item[] }) {
   const onToggle = (id: string, wanted: boolean) => {
     startTransition(async () => {
       applyOptimistic({ id, wanted });
-      await toggleLineDance(id, wanted);
+      await toggleLineDance(projectId, id, wanted);
     });
   };
 
@@ -66,7 +72,7 @@ export function LineDancesClient({ items }: { items: Item[] }) {
             {!it.isDefault && (
               <button
                 type="button"
-                onClick={() => deleteLineDance(it.id)}
+                onClick={() => deleteLineDance(projectId, it.id)}
                 className="text-xs font-medium text-muted hover:text-red-600"
               >
                 Remove
@@ -80,6 +86,7 @@ export function LineDancesClient({ items }: { items: Item[] }) {
         action={formAction}
         className="grid gap-3 rounded-xl border border-dashed border-brand-300 bg-brand-50/40 p-6 sm:grid-cols-[1fr_auto] sm:items-end"
       >
+        <input type="hidden" name="projectId" value={projectId} />
         <Input label="Add a custom line dance" name="name" required />
         <Button type="submit" size="md" disabled={pending}>
           {pending ? "Adding…" : "Add"}

@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db";
 import { auth } from "@/lib/auth";
 import { InviteCoupleForm } from "./InviteCoupleForm";
+import { ProjectHeaderActions } from "./ProjectHeaderActions";
 import { PlanningReadOnly } from "../../_PlanningReadOnly";
 import { FilesPanel, type FileRow } from "../../../files/FilesPanel";
 
@@ -91,8 +92,15 @@ export default async function ProjectDetailPage({
           </p>
         </div>
         <span className="inline-flex rounded-full bg-brand-50 px-3 py-1 text-xs font-medium text-brand-700 ring-1 ring-brand-100">
-          {project.status}
+          {project.archivedAt ? "ARCHIVED" : project.status}
         </span>
+      </div>
+
+      <div className="mt-6">
+        <ProjectHeaderActions
+          id={project.id}
+          archived={Boolean(project.archivedAt)}
+        />
       </div>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[2fr_3fr]">

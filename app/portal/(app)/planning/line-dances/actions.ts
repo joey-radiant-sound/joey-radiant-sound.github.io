@@ -12,10 +12,11 @@ function revalidate() {
 }
 
 export async function toggleLineDance(
+  projectId: string,
   id: string,
   wanted: boolean,
 ): Promise<void> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.lineDance.updateMany({
     where: { id, projectId: ctx.projectId },
@@ -32,7 +33,9 @@ export async function addLineDance(
   _prev: LineDanceState,
   formData: FormData,
 ): Promise<LineDanceState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = addSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -59,8 +62,11 @@ export async function addLineDance(
   return { ok: true };
 }
 
-export async function deleteLineDance(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deleteLineDance(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.lineDance.deleteMany({
     where: { id, projectId: ctx.projectId, isDefault: false },

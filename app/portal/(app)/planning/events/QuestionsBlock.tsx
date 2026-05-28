@@ -18,7 +18,13 @@ const YES_NO = [
  * DJ questions form. Auto-saves the whole form on input change.
  * Reveals a "What time(s)?" field when `announceShuttle` flips to Yes.
  */
-export function QuestionsBlock({ initial: q }: { initial: Questions }) {
+export function QuestionsBlock({
+  projectId,
+  initial: q,
+}: {
+  projectId: string;
+  initial: Questions;
+}) {
   const formRef = useRef<HTMLFormElement>(null);
   const [shuttle, setShuttle] = useState<string>(boolToStr(q.announceShuttle));
   const { status, trigger, flush } = useAutoSave(async () => {
@@ -33,6 +39,7 @@ export function QuestionsBlock({ initial: q }: { initial: Questions }) {
       onBlur={flush}
       className="rounded-xl bg-brand-50 p-6 ring-1 ring-brand-200/60 md:p-8"
     >
+      <input type="hidden" name="projectId" value={projectId} />
       <div className="mb-5 flex items-center justify-between gap-4">
         <p className="text-sm font-semibold uppercase tracking-widest text-brand-600">
           DJ Questions

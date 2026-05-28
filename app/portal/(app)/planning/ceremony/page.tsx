@@ -1,15 +1,19 @@
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
 import {
-  getAuthedProject,
+  resolveTabCtx,
   ensureWeddingDetails,
   seedCeremonyMusic,
 } from "../_server";
 import { CeremonyClient } from "./CeremonyClient";
 
-export default async function CeremonyPage() {
-  const ctx = await getAuthedProject();
-  if (!ctx) redirect("/portal/sign-in");
+export default async function CeremonyPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
+  const ctx = await resolveTabCtx(searchParams);
+  if (!ctx) redirect("/portal");
 
   await seedCeremonyMusic(ctx.projectId);
   const details = await ensureWeddingDetails(ctx.projectId);
@@ -31,6 +35,7 @@ export default async function CeremonyPage() {
       </header>
 
       <CeremonyClient
+        projectId={ctx.projectId}
         questions={{
           ceremonyWalkOutOrder: details.ceremonyWalkOutOrder,
           ceremonyWirelessMic: details.ceremonyWirelessMic,

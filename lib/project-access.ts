@@ -17,6 +17,13 @@ export async function canAccessProject(
   if (!userId) return false;
   if (role === "ADMIN") return true;
 
+  // Couples lose access to a wedding once it's archived.
+  const project = await prisma.project.findUnique({
+    where: { id: projectId },
+    select: { archivedAt: true },
+  });
+  if (!project || project.archivedAt) return false;
+
   const member = await prisma.projectMember.findUnique({
     where: { projectId_userId: { projectId, userId } },
     select: { id: true },

@@ -12,15 +12,75 @@ import {
 
 /* ───────── auth + project helpers ───────── */
 
-export async function getAuthedProject() {
+export type PlanningCtx = {
+  userId: string;
+  projectId: string;
+  isAdmin: boolean;
+};
+
+/**
+ * Resolve which project the current user may edit the planning sheet
+ * for, and authorize them.
+ *
+ * - Admins: must pass `explicitProjectId` (the `?project=` URL param,
+ *   or the hidden `projectId` form field). Any existing project,
+ *   archived or not — admins keep access to old weddings.
+ * - Couples: their own (non-archived) membership project. If an
+ *   `explicitProjectId` is supplied it MUST match their membership and
+ *   the project must not be archived — otherwise rejected. This makes
+ *   the hidden form field safe: a couple can't point it at another
+ *   project, and an archived wedding locks them out.
+ *
+ * Returns null when access can't be granted; callers redirect.
+ */
+export async function getAuthedProject(
+  explicitProjectId?: string,
+): Promise<PlanningCtx | null> {
   const session = await auth();
   if (!session?.user?.id) return null;
+  const userId = session.user.id;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const isAdmin = (session.user as any).role === "ADMIN";
+
+  if (isAdmin) {
+    if (!explicitProjectId) return null;
+    const project = await prisma.project.findUnique({
+      where: { id: explicitProjectId },
+      select: { id: true },
+    });
+    if (!project) return null;
+    return { userId, projectId: project.id, isAdmin: true };
+  }
+
+  // Couple path — resolve their (single) membership.
   const membership = await prisma.projectMember.findFirst({
-    where: { userId: session.user.id },
+    where: { userId },
     orderBy: { createdAt: "desc" },
+    include: { project: { select: { id: true, archivedAt: true } } },
   });
   if (!membership) return null;
-  return { userId: session.user.id, projectId: membership.projectId };
+  // Archived weddings lock the couple out.
+  if (membership.project.archivedAt) return null;
+  // If an explicit id was supplied it must be their own project.
+  if (explicitProjectId && explicitProjectId !== membership.projectId) {
+    return null;
+  }
+  return { userId, projectId: membership.projectId, isAdmin: false };
+}
+
+/**
+ * Page-level helper: resolve the planning context from a tab page's
+ * `searchParams` (which carries `?project=` for admins). Returns the
+ * ctx, or null when the caller should redirect. Tab pages do:
+ *
+ *   const ctx = await resolveTabCtx(searchParams);
+ *   if (!ctx) redirect("/portal");
+ */
+export async function resolveTabCtx(
+  searchParams: Promise<{ project?: string }> | undefined,
+): Promise<PlanningCtx | null> {
+  const params = searchParams ? await searchParams : {};
+  return getAuthedProject(params.project);
 }
 
 /* ───────── idempotent seeders ───────── */

@@ -37,7 +37,9 @@ export async function saveQuestions(
   _prev: EventsState,
   formData: FormData,
 ): Promise<EventsState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = questionsSchema.safeParse(
@@ -84,7 +86,9 @@ export async function updateAnnouncement(
   id: string,
   formData: FormData,
 ): Promise<EventsState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = announcementUpdateSchema.safeParse(
@@ -122,7 +126,9 @@ export async function addCustomAnnouncement(
   _prev: EventsState,
   formData: FormData,
 ): Promise<EventsState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = customAddSchema.safeParse(
@@ -155,8 +161,11 @@ export async function addCustomAnnouncement(
   return { ok: true };
 }
 
-export async function deleteAnnouncement(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deleteAnnouncement(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.eventAnnouncement.deleteMany({
     where: { id, projectId: ctx.projectId, eventKey: "CUSTOM" },
@@ -177,7 +186,9 @@ export async function addPlaylistSong(
   _prev: EventsState,
   formData: FormData,
 ): Promise<EventsState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = songSchema.safeParse(Object.fromEntries(formData.entries()));
@@ -216,7 +227,9 @@ export async function updatePlaylistSong(
   id: string,
   formData: FormData,
 ): Promise<EventsState> {
-  const ctx = await getAuthedProject();
+  const ctx = await getAuthedProject(
+    formData.get("projectId")?.toString() || undefined,
+  );
   if (!ctx) return { ok: false, message: "Not authorized." };
 
   const parsed = songUpdateSchema.safeParse(
@@ -240,8 +253,11 @@ export async function updatePlaylistSong(
   return { ok: true };
 }
 
-export async function deletePlaylistSong(id: string): Promise<void> {
-  const ctx = await getAuthedProject();
+export async function deletePlaylistSong(
+  projectId: string,
+  id: string,
+): Promise<void> {
+  const ctx = await getAuthedProject(projectId);
   if (!ctx) return;
   await prisma.playlistSong.deleteMany({
     where: { id, projectId: ctx.projectId },
