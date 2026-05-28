@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { SignInForm } from "./SignInForm";
+import { isDevLoginEnabled } from "@/lib/dev-login";
 
 export const metadata: Metadata = {
   title: "Sign in",
@@ -29,6 +31,17 @@ export default function SignInPage({
           <div className="mt-10 text-left">
             <SignInFormWrapper searchParams={searchParams} />
           </div>
+
+          {isDevLoginEnabled() && (
+            <p className="mt-8 text-sm">
+              <Link
+                href="/portal/dev"
+                className="font-medium text-amber-600 hover:text-amber-700"
+              >
+                Dev login (skip the magic link) →
+              </Link>
+            </p>
+          )}
         </div>
       </Container>
     </section>

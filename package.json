@@ -12,7 +12,8 @@
     "db": "bash scripts/db.sh",
     "db:push": "bash scripts/db.sh db push",
     "db:studio": "bash scripts/db.sh studio",
-    "db:generate": "bash scripts/db.sh generate"
+    "db:generate": "bash scripts/db.sh generate",
+    "db:seed": "bash scripts/seed.sh"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.2",
