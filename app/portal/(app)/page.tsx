@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { prisma } from "@/lib/db";
@@ -57,18 +58,24 @@ export default async function PortalDashboard() {
                 ` · ${membership.project.venueName}`}
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
+              <Link
                 href="/portal/planning"
                 className="inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-brand-600"
               >
                 Open planning sheet →
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/portal/files"
                 className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink ring-1 ring-inset ring-brand-500/20 transition-colors hover:ring-brand-500/40"
               >
                 Files →
-              </a>
+              </Link>
+              <Link
+                href="/portal/invoices"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink ring-1 ring-inset ring-brand-500/20 transition-colors hover:ring-brand-500/40"
+              >
+                Invoices →
+              </Link>
             </div>
           </div>
         ) : (

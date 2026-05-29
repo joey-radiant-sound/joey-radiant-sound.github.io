@@ -6,6 +6,7 @@ import { InviteCoupleForm } from "./InviteCoupleForm";
 import { ProjectHeaderActions } from "./ProjectHeaderActions";
 import { PlanningReadOnly } from "../../_PlanningReadOnly";
 import { FilesPanel, type FileRow } from "../../../files/FilesPanel";
+import { InvoicesPanel, type InvoiceRow } from "../../../invoices/InvoicesPanel";
 
 export default async function ProjectDetailPage({
   params,
@@ -43,6 +44,10 @@ export default async function ProjectDetailPage({
             },
           },
         },
+      },
+      invoices: {
+        orderBy: { number: "desc" },
+        include: { lineItems: { orderBy: { sortOrder: "asc" } } },
       },
     },
   });
@@ -152,6 +157,30 @@ export default async function ProjectDetailPage({
         </h2>
         <div className="mt-4">
           <FilesPanel projectId={project.id} files={fileRows} />
+        </div>
+      </div>
+
+      <div className="mt-14">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">
+          Invoices
+        </h2>
+        <div className="mt-4">
+          <InvoicesPanel
+            projectId={project.id}
+            invoices={project.invoices.map(
+              (inv): InvoiceRow => ({
+                id: inv.id,
+                number: inv.number,
+                status: inv.status,
+                lineItems: inv.lineItems.map((li) => ({
+                  id: li.id,
+                  description: li.description,
+                  quantity: li.quantity,
+                  unitCents: li.unitCents,
+                })),
+              }),
+            )}
+          />
         </div>
       </div>
     </section>

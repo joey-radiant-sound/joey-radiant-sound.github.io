@@ -32,7 +32,7 @@ export default async function AppLayout({
 
   return (
     <div className="flex min-h-screen flex-col bg-surface">
-      <header className="border-b border-black/5 bg-white">
+      <header className="border-b border-black/5 bg-white print:hidden">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6 md:px-10">
           <div className="flex items-center gap-6">
             <Link href="/portal" className="text-base font-semibold text-ink">
