@@ -1,9 +1,11 @@
 "use server";
 
+import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { auth, signIn } from "@/lib/auth";
 import { prisma } from "@/lib/db";
+import { checkRateLimit } from "@/lib/rate-limit";
 
 export type InviteCoupleState = {
   ok: boolean;
@@ -27,6 +29,21 @@ export async function inviteCouple(
   const role = (session?.user as any)?.role;
   if (role !== "ADMIN") {
     return { ok: false, message: "Not authorized." };
+  }
+
+  // Light throttle even though this is admin-gated — keeps a stuck
+  // form or fat finger from blasting invite emails. 10 / 15 min per IP.
+  const h = await headers();
+  const ip =
+    h.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    h.get("x-real-ip") ||
+    "unknown";
+  const rl = checkRateLimit(`invite:${ip}`, 10, 15 * 60 * 1000);
+  if (!rl.ok) {
+    return {
+      ok: false,
+      message: "Too many invites just now. Try again in a few minutes.",
+    };
   }
 
   const parsed = schema.safeParse({

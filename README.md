@@ -252,7 +252,7 @@ _Updated: 2026-05-20 by Claude — Phase 1 marketing site shipped; Phase 2 porta
 ### ▶ Ready to Work
 - [ ] **Phase 2E: invoicing** — `@react-pdf/renderer` invoice template + `Invoice` model with `draft / sent / paid` status (Stripe deferred to Phase 3)
 - [ ] **Phase 2F: calendar + messaging** — couple-facing milestone timeline + lightweight in-portal message thread per project
-- [ ] **Rate-limit portal magic-link requests** — reuse `lib/rate-limit.ts` (IP-keyed) on `requestMagicLink` + admin invite action (in `TODO.md` security section)
+- [x] **Rate-limit portal magic-link requests** — `requestMagicLink` (5/15min per IP) + admin invite (10/15min per IP) now use `lib/rate-limit.ts`. ✅ Done.
 
 ### 🚧 In Progress
 _None mid-stream. Last push (`feat(2C): planning sheet polish — auto-save, edit mode, restyle`) is on `overhaul` cleanly; dev server running locally on :3000 for Joey's eyeball test._
