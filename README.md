@@ -110,6 +110,7 @@ Dev email: use [Ethereal](https://ethereal.email) or [Mailtrap](https://mailtrap
 | 2C | Planning sheet (timeline + music + vendors + logistics) | ✅ Done |
 | 2D | File sharing (local disk, contracts/invoices/vendor docs) | ✅ Done |
 | 2E | Invoicing (HTML + print-to-PDF, no dependency) | ✅ Done |
+| 2F | Milestone timeline + in-portal messaging | ✅ Done |
 | 2C | Planning sheet | ⏳ Pending |
 | 2D | File sharing (R2) | ⏳ Pending |
 | 2E | Invoicing (react-pdf) | ⏳ Pending |
@@ -251,13 +252,17 @@ _Updated: 2026-05-20 by Claude — Phase 1 marketing site shipped; Phase 2 porta
 - [ ] **VPS provisioning** — Joey runs the README "Portal Setup (self-hosted)" runbook ($5/mo Hetzner or DO box) so the portal can go live
 
 ### ▶ Ready to Work
-- [ ] **Phase 2F: calendar + messaging** — couple-facing milestone timeline + lightweight in-portal message thread per project
+- [ ] **Phase 2 is feature-complete (2A–2F).** Remaining work is launch + ops, not features:
+  - Provision the VPS + run the README "Portal Setup (self-hosted)" runbook to take the portal live
+  - Regenerate the Google app password + `AUTH_SECRET` for production (the dev values passed through chat)
+  - Optional Phase 3: Stripe payments on invoices, email notifications on new messages, off-site backups
 - [x] **Rate-limit portal magic-link requests** — `requestMagicLink` (5/15min per IP) + admin invite (10/15min per IP) now use `lib/rate-limit.ts`. ✅ Done.
 
 ### 🚧 In Progress
 _None mid-stream. Last push (`feat(2C): planning sheet polish — auto-save, edit mode, restyle`) is on `overhaul` cleanly; dev server running locally on :3000 for Joey's eyeball test._
 
 ### ✅ Recently Completed
+- **Phase 2F** — milestone timeline + in-portal messaging: `Milestone` (admin-managed, couple read-only timeline at `/portal/timeline`) + `Message` (per-project thread, both parties post, shared `MessageThread` on `/portal/messages` + admin project panel). In-portal only — no email notifications in v1.
 - **Phase 2E** — invoicing: `Invoice` + `InvoiceLineItem` (integer cents), admin InvoicesPanel on the project page (create / line items / status DRAFT→SENT→PAID / delete), couple invoice list (DRAFT hidden), shared print-styled invoice view with browser print-to-PDF (`print:hidden` chrome). Zero new dependencies per Joey's minimize-third-party call.
 - **Admin planning + archive** — admins edit any project's planning sheet via `?project=` (collision-safe); `Project.archivedAt` archives old weddings (couple loses access) with a separate `/portal/admin/archive` page.
 - **Security** — magic-link sign-in + admin invite are IP rate-limited.

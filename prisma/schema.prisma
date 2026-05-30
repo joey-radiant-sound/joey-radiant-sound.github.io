@@ -39,6 +39,7 @@ model User {
   projectMembers  ProjectMember[]
   invitedProjects Project[]       @relation("ProjectInvitedBy")
   uploadedFiles   ProjectFile[]   @relation("ProjectFileUploadedBy")
+  messages        Message[]       @relation("MessageAuthor")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -109,6 +110,8 @@ model Project {
   itineraryItems  ItineraryItem[]
   files           ProjectFile[]
   invoices        Invoice[]
+  milestones      Milestone[]
+  messages        Message[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -335,6 +338,36 @@ model InvoiceLineItem {
   /// Unit price in integer cents to avoid float rounding.
   unitCents   Int     @default(0)
   sortOrder   Int     @default(0)
+
+  createdAt DateTime @default(now())
+}
+
+/// Couple-facing milestone on the wedding timeline (Phase 2F).
+/// Admin-managed (deposit due, final payment, planning sheet due,
+/// day-of, etc.); couple views read-only.
+model Milestone {
+  id        String    @id @default(cuid())
+  projectId String
+  project   Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  dueAt     DateTime?
+  done      Boolean   @default(false)
+  sortOrder Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// One message in a project's thread (Phase 2F). Both the couple and
+/// admin post; everyone on the project sees the whole thread. In-portal
+/// only — no email notifications in v1.
+model Message {
+  id        String  @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  authorId  String?
+  author    User?   @relation("MessageAuthor", fields: [authorId], references: [id])
+  body      String
 
   createdAt DateTime @default(now())
 }

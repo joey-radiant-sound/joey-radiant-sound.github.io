@@ -76,6 +76,18 @@ export default async function PortalDashboard() {
               >
                 Invoices →
               </Link>
+              <Link
+                href="/portal/timeline"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink ring-1 ring-inset ring-brand-500/20 transition-colors hover:ring-brand-500/40"
+              >
+                Timeline →
+              </Link>
+              <Link
+                href="/portal/messages"
+                className="inline-flex items-center justify-center rounded-full bg-white px-5 py-2.5 text-sm font-medium text-ink ring-1 ring-inset ring-brand-500/20 transition-colors hover:ring-brand-500/40"
+              >
+                Messages →
+              </Link>
             </div>
           </div>
         ) : (

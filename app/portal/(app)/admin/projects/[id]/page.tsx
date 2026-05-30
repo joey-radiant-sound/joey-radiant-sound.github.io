@@ -7,6 +7,9 @@ import { ProjectHeaderActions } from "./ProjectHeaderActions";
 import { PlanningReadOnly } from "../../_PlanningReadOnly";
 import { FilesPanel, type FileRow } from "../../../files/FilesPanel";
 import { InvoicesPanel, type InvoiceRow } from "../../../invoices/InvoicesPanel";
+import { MilestonesPanel, type MilestoneRow } from "../../../timeline/MilestonesPanel";
+import { MessageThread } from "../../../messages/MessageThread";
+import { messageAuthorInclude, toMessageRows } from "../../../messages/_rows";
 
 export default async function ProjectDetailPage({
   params,
@@ -49,6 +52,8 @@ export default async function ProjectDetailPage({
         orderBy: { number: "desc" },
         include: { lineItems: { orderBy: { sortOrder: "asc" } } },
       },
+      milestones: { orderBy: [{ dueAt: "asc" }, { sortOrder: "asc" }] },
+      messages: { orderBy: { createdAt: "asc" }, include: messageAuthorInclude },
     },
   });
 
@@ -180,6 +185,37 @@ export default async function ProjectDetailPage({
                 })),
               }),
             )}
+          />
+        </div>
+      </div>
+
+      <div className="mt-14">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">
+          Timeline
+        </h2>
+        <div className="mt-4">
+          <MilestonesPanel
+            projectId={project.id}
+            milestones={project.milestones.map(
+              (m): MilestoneRow => ({
+                id: m.id,
+                title: m.title,
+                dueAt: m.dueAt ? m.dueAt.toISOString().slice(0, 10) : null,
+                done: m.done,
+              }),
+            )}
+          />
+        </div>
+      </div>
+
+      <div className="mt-14 max-w-2xl">
+        <h2 className="text-sm font-semibold uppercase tracking-widest text-muted">
+          Messages
+        </h2>
+        <div className="mt-4">
+          <MessageThread
+            projectId={project.id}
+            messages={toMessageRows(project.messages, adminUserId ?? "")}
           />
         </div>
       </div>
